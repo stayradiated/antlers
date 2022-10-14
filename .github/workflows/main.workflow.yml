@@ -52,7 +52,7 @@ jobs:
       - 
         name: Compile Typescript Packages
         run: |
-          pnpm run build
+          pnpm run package
 
       -
         # https://github.com/docker/metadata-action
