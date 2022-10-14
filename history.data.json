@@ -1,0 +1,385 @@
+[{
+  "arrivedAt": "2022-10-14",
+  "location": "Firenze, Italia"
+}, {
+  "arrivedAt": "2022-10-06",
+  "location": "Pitelli, Italia"
+}, {
+  "arrivedAt": "2022-10-01",
+  "location": "Lido di Ostia, Italia"
+}, {
+  "arrivedAt": "2022-09-28",
+  "location": "Roma, Italia"
+}, {
+  "arrivedAt": "2022-09-19",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-09-13",
+  "location": "Morocco"
+}, {
+  "arrivedAt": "2022-09-12",
+  "location": "London, England"
+}, {
+  "arrivedAt": "2022-09-11",
+  "location": "Edinburgh, Scotland"
+}, {
+  "arrivedAt": "2022-09-05",
+  "location": "Lochranza, Scotland"
+}, {
+  "arrivedAt": "2022-08-30",
+  "location": "Oban, Scotland"
+}, {
+  "arrivedAt": "2022-08-26",
+  "location": "Glasgow, Scotland"
+}, {
+  "arrivedAt": "2022-08-24",
+  "location": "Edinburgh, Scotland"
+}, {
+  "arrivedAt": "2022-08-22",
+  "location": "London, England"
+}, {
+  "arrivedAt": "2022-08-18",
+  "location": "Portsmouth, England"
+}, {
+  "arrivedAt": "2022-08-12",
+  "location": "Isle of Wight, England"
+}, {
+  "arrivedAt": "2022-08-08",
+  "location": "Southampton, England"
+}, {
+  "arrivedAt": "2022-08-04",
+  "location": "Plymouth, England"
+}, {
+  "arrivedAt": "2022-08-03",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-07-19",
+  "location": "Berlin, Deutschland"
+}, {
+  "arrivedAt": "2022-07-18",
+  "location": "Köln, Deutschland"
+}, {
+  "arrivedAt": "2022-07-15",
+  "location": "Liège, Belgium"
+}, {
+  "arrivedAt": "2022-07-13",
+  "location": "Gent, Belgium"
+}, {
+  "arrivedAt": "2022-07-07",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-07-02",
+  "location": "Sainte-Terre, France"
+}, {
+  "arrivedAt": "2022-06-28",
+  "location": "Arcachon, France"
+}, {
+  "arrivedAt": "2022-06-24",
+  "location": "Bordeaux, France"
+}, {
+  "arrivedAt": "2022-06-13",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-06-10",
+  "location": "Annecy, France"
+}, {
+  "arrivedAt": "2022-06-08",
+  "location": "Neunkirchen, Deutschland"
+}, {
+  "arrivedAt": "2022-06-06",
+  "location": "Wittlich, Deutschland"
+}, {
+  "arrivedAt": "2022-05-30",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-05-27",
+  "location": "Golfe du Morbihan, France"
+}, {
+  "arrivedAt": "2022-05-17",
+  "location": "Paris, France"
+}, {
+  "arrivedAt": "2022-05-13",
+  "location": "Zagreb, Croatia"
+}, {
+  "arrivedAt": "2022-05-07",
+  "location": "Sailing, Croatia"
+}, {
+  "arrivedAt": "2022-05-02",
+  "location": "Trogir, Croatia"
+}, {
+  "arrivedAt": "2022-04-23",
+  "location": "Vis, Croatia"
+}, {
+  "arrivedAt": "2022-04-16",
+  "location": "Murter, Croatia"
+}, {
+  "arrivedAt": "2022-04-14",
+  "location": "Primoŝten, Croatia"
+}, {
+  "arrivedAt": "2022-04-13",
+  "location": "Krapanj, Croatia"
+}, {
+  "arrivedAt": "2022-03-21",
+  "location": "Ŝibenik, Croatia"
+}, {
+  "arrivedAt": "2022-03-14",
+  "location": "Sali, Croatia"
+}, {
+  "arrivedAt": "2022-03-07",
+  "location": "Zadar, Croatia"
+}, {
+  "arrivedAt": "2022-02-09",
+  "location": "Zagreb, Croatia"
+}, {
+  "arrivedAt": "2022-02-08",
+  "location": "Barcelona, España"
+}, {
+  "arrivedAt": "2022-02-02",
+  "location": "San Sebastián, España"
+}, {
+  "arrivedAt": "2022-01-27",
+  "location": "Bilbao, España"
+}, {
+  "arrivedAt": "2022-01-26",
+  "location": "Barcelona, España"
+}, {
+  "arrivedAt": "2022-01-19",
+  "location": "Madrid, España"
+}, {
+  "arrivedAt": "2022-01-12",
+  "location": "Valencia, España"
+}, {
+  "arrivedAt": "2021-12-29",
+  "location": "Barcelona, España"
+}, {
+  "arrivedAt": "2021-12-22",
+  "location": "Berlin, Deutschland"
+}, {
+  "arrivedAt": "2021-12-15",
+  "location": "Wittenberg, Deutschland"
+}, {
+  "arrivedAt": "2021-12-08",
+  "location": "Leipzig, Deutschland"
+}, {
+  "arrivedAt": "2021-11-30",
+  "location": "Frankfurt, Deutschland"
+}, {
+  "arrivedAt": "2021-11-11",
+  "location": "Berlin, Deutschland"
+}, {
+  "arrivedAt": "2021-11-08",
+  "location": "Bristol, England"
+}, {
+  "arrivedAt": "2021-11-05",
+  "location": "Cheddar, England"
+}, {
+  "arrivedAt": "2021-10-30",
+  "location": "Charmouth, England"
+}, {
+  "arrivedAt": "2021-10-25",
+  "location": "Totnes, England"
+}, {
+  "arrivedAt": "2021-10-23",
+  "location": "Plymouth, England"
+}, {
+  "arrivedAt": "2021-10-22",
+  "location": "Dartmoor, England"
+}, {
+  "arrivedAt": "2021-10-17",
+  "location": "Plymouth, England"
+}, {
+  "arrivedAt": "2021-10-16",
+  "location": "Fowey, England"
+}, {
+  "arrivedAt": "2021-10-15",
+  "location": "Mevagissey, England"
+}, {
+  "arrivedAt": "2021-10-13",
+  "location": "Penzance, England"
+}, {
+  "arrivedAt": "2021-10-10",
+  "location": "St Austell, England"
+}, {
+  "arrivedAt": "2021-10-09",
+  "location": "Polruan, England"
+}, {
+  "arrivedAt": "2021-10-08",
+  "location": "Looe, England"
+}, {
+  "arrivedAt": "2021-10-07",
+  "location": "London, England"
+}, {
+  "arrivedAt": "2021-10-01",
+  "location": "Exeter, England"
+}, {
+  "arrivedAt": "2021-09-27",
+  "location": "Plymouth, England"
+}, {
+  "arrivedAt": "2021-09-24",
+  "location": "Sailing to Salcombe, England"
+}, {
+  "arrivedAt": "2021-09-19",
+  "location": "Plymouth, England"
+}, {
+  "arrivedAt": "2021-09-16",
+  "location": "London, England"
+}, {
+  "arrivedAt": "2021-09-14",
+  "location": "Auckland, New Zealand"
+}, {
+  "arrivedAt": "2021-08-11",
+  "location": "Rotorua, New Zealand"
+}, {
+  "arrivedAt": "2021-08-10",
+  "location": "Wellington, New Zealand"
+}, {
+  "arrivedAt": "2021-08-06",
+  "location": "Picton, New Zealand"
+}, {
+  "arrivedAt": "2021-08-01",
+  "location": "Nelson, New Zealand"
+}, {
+  "arrivedAt": "2021-07-30",
+  "location": "St Arnaud, New Zealand"
+}, {
+  "arrivedAt": "2021-07-29",
+  "location": "Murchison, New Zealand"
+}, {
+  "arrivedAt": "2021-07-28",
+  "location": "Westport, New Zealand"
+}, {
+  "arrivedAt": "2021-07-15",
+  "location": "Rotorua, New Zealand"
+}, {
+  "arrivedAt": "2021-07-12",
+  "location": "Westport, New Zealand"
+}, {
+  "arrivedAt": "2021-07-11",
+  "location": "Inangahua, New Zealand"
+}, {
+  "arrivedAt": "2021-07-10",
+  "location": "Reefton, New Zealand"
+}, {
+  "arrivedAt": "2021-07-09",
+  "location": "Lewis Pass, New Zealand"
+}, {
+  "arrivedAt": "2021-07-03",
+  "location": "Hanmer Springs, New Zealand"
+}, {
+  "arrivedAt": "2021-07-02",
+  "location": "Waipara, New Zealand"
+}, {
+  "arrivedAt": "2021-06-24",
+  "location": "Christchurch, New Zealand"
+}, {
+  "arrivedAt": "2021-06-17",
+  "location": "Wellington, New Zealand"
+}, {
+  "arrivedAt": "2021-06-09",
+  "location": "Christchurch, New Zealand"
+}, {
+  "arrivedAt": "2021-06-03",
+  "location": "Rotorua, New Zealand"
+}, {
+  "arrivedAt": "2021-06-03",
+  "location": "Rotorua, New Zealand"
+}, {
+  "arrivedAt": "2021-05-27",
+  "location": "Christchurch, New Zealand"
+}, {
+  "arrivedAt": "2021-05-26",
+  "location": "Rolleston, New Zealand"
+}, {
+  "arrivedAt": "2021-05-25",
+  "location": "Rakaia, New Zealand"
+}, {
+  "arrivedAt": "2021-05-23",
+  "location": "Ashburton, New Zealand"
+}, {
+  "arrivedAt": "2021-05-22",
+  "location": "Timaru, New Zealand"
+}, {
+  "arrivedAt": "2021-05-16",
+  "location": "Oamaru, New Zealand"
+}, {
+  "arrivedAt": "2021-05-15",
+  "location": "Warrington, New Zealand"
+}, {
+  "arrivedAt": "2021-05-11",
+  "location": "Dunedin, New Zealand"
+}, {
+  "arrivedAt": "2021-05-10",
+  "location": "Mosgiel, New Zealand"
+}, {
+  "arrivedAt": "2021-05-09",
+  "location": "Lake Waihola, New Zealand"
+}, {
+  "arrivedAt": "2021-05-08",
+  "location": "Kaka Point, New Zealand"
+}, {
+  "arrivedAt": "2021-05-07",
+  "location": "Curio Bay, New Zealand"
+}, {
+  "arrivedAt": "2021-05-04",
+  "location": "Invercargill, New Zealand"
+}, {
+  "arrivedAt": "2021-04-29",
+  "location": "Rakiura, New Zealand"
+}, {
+  "arrivedAt": "2021-04-24",
+  "location": "Invercargill, New Zealand"
+}, {
+  "arrivedAt": "2021-04-23",
+  "location": "Lumsden, New Zealand"
+}, {
+  "arrivedAt": "2021-04-13",
+  "location": "Queenstown, New Zealand"
+}, {
+  "arrivedAt": "2021-04-10",
+  "location": "Auckland, New Zealand"
+}, {
+  "arrivedAt": "2021-04-09",
+  "location": "Queenstown, New Zealand"
+}, {
+  "arrivedAt": "2021-04-08",
+  "location": "Cromwell, New Zealand"
+}, {
+  "arrivedAt": "2021-04-07",
+  "location": "Wanaka, New Zealand"
+}, {
+  "arrivedAt": "2021-04-06",
+  "location": "Lindis Pass, New Zealand"
+}, {
+  "arrivedAt": "2021-04-05",
+  "location": "Omarama, New Zealand"
+}, {
+  "arrivedAt": "2021-04-04",
+  "location": "Twizel, New Zealand"
+}, {
+  "arrivedAt": "2021-04-03",
+  "location": "Aoraki, New Zealand"
+}, {
+  "arrivedAt": "2021-04-02",
+  "location": "Lake Tekapo, New Zealand"
+}, {
+  "arrivedAt": "2021-04-01",
+  "location": "Lake Alexandrina, New Zealand"
+}, {
+  "arrivedAt": "2021-03-29",
+  "location": "Lake Tekapo, New Zealand"
+}, {
+  "arrivedAt": "2021-03-28",
+  "location": "Fairlie, New Zealand"
+}, {
+  "arrivedAt": "2021-03-27",
+  "location": "Mt. Somers, New Zealand"
+}, {
+  "arrivedAt": "2021-03-26",
+  "location": "Darfield, New Zealand"
+}, {
+  "arrivedAt": "2021-03-16",
+  "location": "Christchurch, New Zealand"
+}, {
+  "arrivedAt": "2021-03-12",
+  "location": "Rotorua, New Zealand"
+}]

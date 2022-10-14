@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "sideEffects": false,
+  "scripts": {
+    "build": "remix build",
+    "package": "remix build && ncc build ./build/index.js",
+    "dev": "remix dev",
+    "start": "remix-serve build"
+  },
+  "dependencies": {
+    "@remix-run/node": "1.7.2",
+    "@remix-run/react": "1.7.2",
+    "@remix-run/serve": "1.7.2",
+    "date-fns": "2.29.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "validator": "13.7.0",
+    "zod": "3.19.1"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "1.7.2",
+    "@remix-run/eslint-config": "1.7.2",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "@types/validator": "13.7.7",
+    "@vercel/ncc": "0.34.0",
+    "eslint": "8.25.0",
+    "typescript": "4.8.4"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
