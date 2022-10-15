@@ -5,16 +5,11 @@ import { useEffect } from 'react'
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
-import stylesheet from './styles.css'
 
 export const links: LinksFunction = () => [
   {
     rel: 'stylesheet',
     href: PhotoSwipeCSS,
-  },
-  {
-    rel: 'stylesheet',
-    href: stylesheet,
   },
 ]
 
