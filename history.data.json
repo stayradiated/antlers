@@ -3,7 +3,8 @@
   "location": "Firenze, Italia"
 }, {
   "arrivedAt": "2022-10-06",
-  "location": "Pitelli, Italia"
+  "location": "Pitelli, Italia",
+  "href": "./pitelli"
 }, {
   "arrivedAt": "2022-10-01",
   "location": "Lido di Ostia, Italia"

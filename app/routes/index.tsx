@@ -1,6 +1,6 @@
-import { json} from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import type { LoaderFunction} from '@remix-run/node'
+import type { LoaderFunction } from '@remix-run/node'
 import * as dF from 'date-fns'
 
 import { fetchHistory } from '~/lib/history.server'
@@ -17,24 +17,27 @@ export const loader: LoaderFunction = async () => {
   if (history instanceof Error) {
     throw history
   }
-  return json<LoaderData>({ history }) 
+
+  return json<LoaderData>({ history })
 }
 
 export default function Index() {
-  const {history: serializedHistory} = useLoaderData<LoaderData>()
+  const { history: serializedHistory } = useLoaderData<LoaderData>()
 
   const history = serializedHistory.map((item) => {
     return {
       ...item,
       arrivedAt: dF.parseISO(item.arrivedAt),
-      departedAt: item.departedAt ? dF.parseISO(item.departedAt) : undefined
+      departedAt: item.departedAt ? dF.parseISO(item.departedAt) : undefined,
     }
   })
 
   return (
     <main>
-      <p><em>Where is George Czabania?</em></p>
+      <p>
+        <em>Where is George Czabania?</em>
+      </p>
       <HistoryList history={history} />
     </main>
-  );
+  )
 }

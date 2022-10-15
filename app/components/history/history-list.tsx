@@ -12,8 +12,8 @@ const HistoryList = (props: HistoryListProps) => {
   return (
     <div>
       {history.map((item, index) => (
-        <HistoryListItem key={index} item={item}/> )
-      )}
+        <HistoryListItem key={index} item={item} />
+      ))}
     </div>
   )
 }
