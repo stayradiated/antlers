@@ -70,7 +70,7 @@ export default function Index() {
             target="_blank"
           >
             <img
-              className="thumbnail"
+              style={{ width: '100%' }}
               src={`https://cat.stayradiated.com/where-is-george-czabania/images/${album}/${entry.filename}.1000.webp`}
               alt={entry.filename}
             />
