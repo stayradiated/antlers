@@ -1,4 +1,3 @@
-import * as fs from 'node:fs/promises'
 import * as z from 'zod'
 import * as dF from 'date-fns'
 import validator from 'validator'
@@ -25,8 +24,8 @@ type HistoryItem = {
 type History = HistoryItem[]
 
 const fetchHistoryFile = async (): Promise<HistoryFile | Error> => {
-  const historyJsonString = await fs.readFile('./history.data.json')
-  const historyJson = JSON.parse(historyJsonString.toString('utf8')) as unknown
+  const response = await fetch('https://cat.stayradiated.com/where-is-george-czabania/index.json')
+  const historyJson = await response.json()
   const result = historyFileSchema.safeParse(historyJson)
   if (!result.success) {
     return result.error
