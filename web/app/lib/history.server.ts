@@ -24,7 +24,9 @@ type HistoryItem = {
 type History = HistoryItem[]
 
 const fetchHistoryFile = async (): Promise<HistoryFile | Error> => {
-  const response = await fetch('https://cat.stayradiated.com/where-is-george-czabania/index.json')
+  const response = await fetch(
+    'https://cat.stayradiated.com/where-is-george-czabania/index.json',
+  )
   const historyJson = await response.json()
   const result = historyFileSchema.safeParse(historyJson)
   if (!result.success) {

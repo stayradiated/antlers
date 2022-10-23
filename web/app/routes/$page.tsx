@@ -4,6 +4,9 @@ import { useLoaderData } from '@remix-run/react'
 import { useMemo } from 'react'
 import Markdown from 'markdown-to-jsx'
 import invariant from 'tiny-invariant'
+import { transformMarkdown, updateCache } from '@stayradiated/preprocess-markdown'
+
+import { config } from '../lib/config.server'
 
 type LoaderData = {
   markdown: string
@@ -14,8 +17,13 @@ export const loader: LoaderFunction = async (props) => {
   const { page } = params
   invariant(typeof page === 'string', 'Must specify page')
 
-  const response = await fetch(`https://cat.stayradiated.com/where-is-george-czabania/${page}`)
-  const markdown = await response.text()
+  const response = await fetch(
+    `https://cat.stayradiated.com/where-is-george-czabania/${page}`,
+  )
+  const { markdown, cacheUrlMap } = await transformMarkdown(await response.text())
+
+  // run in background
+  void updateCache({ cacheUrlMap, cacheDirPath: config.CACHE_DIR_PATH })
 
   return json<LoaderData>({
     markdown,
@@ -113,7 +121,6 @@ const Strava = (props: StravaProps) => {
       height="405"
       width="590"
       frameBorder="0"
-      allowTransparency
       scrolling="no"
       src={embedUrl}
     />
@@ -128,6 +135,12 @@ type ImageProps = {
 
 const Image = (props: ImageProps) => {
   const { alt, title, src } = props
+
+  if (src.startsWith('cache:')) {
+    const id = src.substring(6)
+    const source = `https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`
+    return <img alt={alt} title={title} src={source} />
+  }
 
   return <img alt={alt} title={title} src={src} />
 }

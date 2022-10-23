@@ -1,0 +1,47 @@
+{
+  "name": "@stayradiated/preprocess-markdown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "tidy": "xo --fix",
+    "build": "tsc --noEmit",
+    "package": "rm -rf ./dist && ncc build ./src/index.ts"
+  },
+  "keywords": [],
+  "author": {
+    "name": "George Czabania"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "remark": "14.0.2",
+    "undici": "5.11.0",
+    "unified": "10.1.2",
+    "unist-util-visit": "4.1.1"
+  },
+  "devDependencies": {
+    "@types/mdast": "3.0.10",
+    "@types/node": "18.11.3",
+    "@vercel/ncc": "0.34.0",
+    "vitest": "0.24.3",
+    "typescript": "4.8.4",
+    "xo": "0.52.4"
+  },
+  "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "prettier": true
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "useTabs": false
+  }
+}
