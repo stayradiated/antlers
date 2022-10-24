@@ -19,16 +19,24 @@ const getImagePath = (cacheDirPath: string, cacheId: string) => {
   return path.join(cacheDirPath, cacheId, 'original.jpg')
 }
 
-const getImageSize = (
+const getImageSizeSync = (
   cacheDirPath: string,
   cacheId: string,
-): { width: number; height: number } => {
+): { width: number; height: number } | Error => {
   const imagePath = getImagePath(cacheDirPath, cacheId)
-  const result = execaSync('file', [imagePath])
-  const match = /\s(\d\d+)x(\d\d+),/.exec(result.stdout)
-  const width = Number.parseInt(match?.[1] ?? '0', 10)
-  const height = Number.parseInt(match?.[2] ?? '0', 10)
-  return { width, height }
+  try {
+    const result = execaSync('file', [imagePath])
+    const match = /\s(\d\d+)x(\d\d+),/.exec(result.stdout)
+    const width = Number.parseInt(match?.[1] ?? '0', 10)
+    const height = Number.parseInt(match?.[2] ?? '0', 10)
+    return { width, height }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return error
+    }
+
+    return new Error(String(error))
+  }
 }
 
 type CacheUrlMap = Map<string, string>
@@ -44,7 +52,14 @@ const createImageCacheTransformer = (
         const sourceUrl = image.url.trim()
         const cacheId = calculateHash(sourceUrl)
         cacheUrlMap.set(cacheId, sourceUrl)
-        const { width, height } = getImageSize(cacheDirPath, cacheId)
+        const imageSize = getImageSizeSync(cacheDirPath, cacheId)
+        let width = 0
+        let height = 0
+        if (!(imageSize instanceof Error)) {
+          width = imageSize.width
+          height = imageSize.height
+        }
+
         image.url = ['cache', cacheId, width, height].join(':')
       }
     }
