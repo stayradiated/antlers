@@ -1,10 +1,21 @@
-import type { LoaderFunction } from '@remix-run/node'
+import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import Markdown from 'markdown-to-jsx'
 import invariant from 'tiny-invariant'
-import { transformMarkdown, updateCache } from '@stayradiated/preprocess-markdown'
+import { transformMarkdown, updateCache } from '../lib/preprocess.server'
+
+import PhotoSwipeLightbox from 'photoswipe/lightbox'
+import PhotoSwipe from 'photoswipe'
+import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
+
+export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: PhotoSwipeCSS,
+  },
+]
 
 import { config } from '../lib/config.server'
 
@@ -20,10 +31,15 @@ export const loader: LoaderFunction = async (props) => {
   const response = await fetch(
     `https://cat.stayradiated.com/where-is-george-czabania/${page}`,
   )
-  const { markdown, cacheUrlMap } = await transformMarkdown(await response.text())
+  const { markdown, cacheUrlMap } = await transformMarkdown(config.CACHE_DIR_PATH, await response.text())
 
   // run in background
   void updateCache({ cacheUrlMap, cacheDirPath: config.CACHE_DIR_PATH })
+    .then(() => {
+      console.log('Finished updating cache')
+    }, (error: unknown) => {
+      console.error(error)
+    })
 
   return json<LoaderData>({
     markdown,
@@ -137,16 +153,40 @@ const Image = (props: ImageProps) => {
   const { alt, title, src } = props
 
   if (src.startsWith('cache:')) {
-    const id = src.substring(6)
-    const source = `https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`
-    return <img alt={alt} title={title} src={source} />
+    const [_prefix, id, width, height] = src.split(':')
+
+    return (
+      <a
+        className='gallery-item'
+        href={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`}
+        data-pswp-width={width}
+        data-pswp-height={height}
+        target="_blank"
+      >
+        <img
+          style={{ width: '100%' }}
+          src={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/720.jpg`}
+          alt={alt}
+        />
+      </a>
+    )
   }
 
   return <img alt={alt} title={title} src={src} />
 }
 
-export default function Index() {
+export default function Route() {
   const { markdown } = useLoaderData<LoaderData>()
+
+  useEffect(() => {
+    const lightbox = new PhotoSwipeLightbox({
+      gallery: '#page',
+      children: '.gallery-item',
+      pswpModule: PhotoSwipe,
+    })
+
+    lightbox.init()
+  })
 
   const options = useMemo(
     () => ({
@@ -163,7 +203,7 @@ export default function Index() {
   )
 
   return (
-    <main>
+    <main id='page'>
       <Markdown options={options}>{markdown}</Markdown>
     </main>
   )
