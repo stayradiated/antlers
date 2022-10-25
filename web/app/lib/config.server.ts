@@ -1,5 +1,5 @@
+import process from 'node:process'
 import * as z from 'zod'
-import process from 'process'
 
 const envSchema = z.object({
   CACHE_DIR_PATH: z.string().default('./tmp'),

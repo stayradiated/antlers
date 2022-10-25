@@ -4,11 +4,13 @@ import { useLoaderData } from '@remix-run/react'
 import { useEffect, useMemo } from 'react'
 import Markdown from 'markdown-to-jsx'
 import invariant from 'tiny-invariant'
-import { transformMarkdown, updateCache } from '../lib/preprocess.server'
 
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
+import { transformMarkdown, updateCache } from '../lib/preprocess.server'
+
+import { config } from '../lib/config.server'
 
 export const links: LinksFunction = () => [
   {
@@ -16,8 +18,6 @@ export const links: LinksFunction = () => [
     href: PhotoSwipeCSS,
   },
 ]
-
-import { config } from '../lib/config.server'
 
 type LoaderData = {
   markdown: string
@@ -31,15 +31,20 @@ export const loader: LoaderFunction = async (props) => {
   const response = await fetch(
     `https://cat.stayradiated.com/where-is-george-czabania/${page}`,
   )
-  const { markdown, cacheUrlMap } = await transformMarkdown(config.CACHE_DIR_PATH, await response.text())
+  const { markdown, cacheUrlMap } = await transformMarkdown(
+    config.CACHE_DIR_PATH,
+    await response.text(),
+  )
 
-  // run in background
-  void updateCache({ cacheUrlMap, cacheDirPath: config.CACHE_DIR_PATH })
-    .then(() => {
+  // Run in background
+  void updateCache({ cacheUrlMap, cacheDirPath: config.CACHE_DIR_PATH }).then(
+    () => {
       console.log('Finished updating cache')
-    }, (error: unknown) => {
+    },
+    (error: unknown) => {
       console.error(error)
-    })
+    },
+  )
 
   return json<LoaderData>({
     markdown,
@@ -71,7 +76,7 @@ const Place = (props: PlaceProps) => {
   const { title, category, href, children } = props
   return (
     <blockquote>
-      <a href={href} target="_blank" ref="noopener">
+      <a href={href} target="_blank" rel="noopener">
         <h3>{title}</h3>
       </a>
       <em>{category}</em>
@@ -157,7 +162,7 @@ const Image = (props: ImageProps) => {
 
     return (
       <a
-        className='gallery-item'
+        className="gallery-item"
         href={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`}
         data-pswp-width={width}
         data-pswp-height={height}
@@ -203,7 +208,7 @@ export default function Route() {
   )
 
   return (
-    <main id='page'>
+    <main id="page">
       <Markdown options={options}>{markdown}</Markdown>
     </main>
   )
