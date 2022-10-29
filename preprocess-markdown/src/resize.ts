@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { execa } from 'execa'
+import{ getImageSize } from './size.js'
 
 // Type GetTemporaryPathOptions = {
 //   srcPath: string
@@ -99,13 +100,21 @@ const resizeImage = async (options: ResizeImageOptions) => {
   const { srcPath, maxWidth, maxHeight } = options
   const dirPath = path.dirname(srcPath)
 
+  const currentSize = await getImageSize(srcPath)
+  if (currentSize instanceof Error) {
+    throw currentSize
+  }
+
   const destPath = getResizedOutputPath({
     dirPath,
     name: maxWidth.toString(),
     extension: '.jpg',
   })
 
-  console.log({ srcPath, maxWidth, maxHeight, destPath })
+  if (currentSize.width < maxWidth && currentSize.height < maxHeight) {
+    await fs.copyFile(srcPath, destPath)
+    return
+  }
 
   try {
     await fs.stat(destPath)

@@ -5,9 +5,9 @@ import type { Transformer } from 'unified'
 import type { Visitor } from 'unist-util-visit'
 import { visit } from 'unist-util-visit'
 import type { Image } from 'mdast'
-import { execaSync } from 'execa'
 import { fetchImage } from './fetch.js'
 import { processImage } from './resize.js'
+import { getImageSizeSync } from './size.js'
 
 const calculateHash = (input: string): string => {
   const hash = crypto.createHash('sha1')
@@ -17,26 +17,6 @@ const calculateHash = (input: string): string => {
 
 const getImagePath = (cacheDirPath: string, cacheId: string) => {
   return path.join(cacheDirPath, cacheId, 'original.jpg')
-}
-
-const getImageSizeSync = (
-  cacheDirPath: string,
-  cacheId: string,
-): { width: number; height: number } | Error => {
-  const imagePath = getImagePath(cacheDirPath, cacheId)
-  try {
-    const result = execaSync('file', [imagePath])
-    const match = /\s(\d\d+)x(\d\d+),/.exec(result.stdout)
-    const width = Number.parseInt(match?.[1] ?? '0', 10)
-    const height = Number.parseInt(match?.[2] ?? '0', 10)
-    return { width, height }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return error
-    }
-
-    return new Error(String(error))
-  }
 }
 
 type CacheUrlMap = Map<string, string>
@@ -52,7 +32,10 @@ const createImageCacheTransformer = (
         const sourceUrl = image.url.trim()
         const cacheId = calculateHash(sourceUrl)
         cacheUrlMap.set(cacheId, sourceUrl)
-        const imageSize = getImageSizeSync(cacheDirPath, cacheId)
+
+        const imagePath = getImagePath(cacheDirPath, cacheId)
+        const imageSize = getImageSizeSync(imagePath)
+
         let width = 0
         let height = 0
         if (!(imageSize instanceof Error)) {
