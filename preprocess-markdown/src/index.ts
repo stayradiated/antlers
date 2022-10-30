@@ -28,7 +28,7 @@ const createImageCacheTransformer = (
   return (): Transformer => {
     const visitImage: Visitor = (node) => {
       const image = node as Image
-      if (image.url?.startsWith('https://100.125.248.114')) {
+      if (image.url?.startsWith('http://100.125.248.114')) {
         const sourceUrl = image.url.trim()
         const cacheId = calculateHash(sourceUrl)
         cacheUrlMap.set(cacheId, sourceUrl)
