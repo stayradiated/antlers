@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { execa } from 'execa'
-import{ getImageSize } from './size.js'
+import { getImageSize } from './size.js'
 
 // Type GetTemporaryPathOptions = {
 //   srcPath: string
