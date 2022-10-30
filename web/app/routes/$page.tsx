@@ -158,7 +158,9 @@ const Image = (props: ImageProps) => {
   const { alt, title, src } = props
 
   if (src.startsWith('cache:')) {
-    const [_prefix, id, width, height] = src.split(':')
+    const [_prefix, id, widthString, heightString] = src.split(':')
+    const width = parseInt(widthString, 10)
+    const height = parseInt(heightString, 10)
 
     return (
       <>
@@ -171,6 +173,8 @@ const Image = (props: ImageProps) => {
         >
           <img
             style={{ width: '100%' }}
+            width={width}
+            height={height}
             src={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/720.jpg`}
           />
         </a>

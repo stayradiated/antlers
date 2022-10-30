@@ -8,6 +8,7 @@ import type { Image } from 'mdast'
 import { fetchImage } from './fetch.js'
 import { processImage } from './resize.js'
 import { getImageSizeSync } from './size.js'
+import remarkToc from 'remark-toc'
 
 const calculateHash = (input: string): string => {
   const hash = crypto.createHash('sha1')
@@ -66,7 +67,9 @@ const transformMarkdown = async (
   const cacheUrlMap: CacheUrlMap = new Map()
   const transformer = createImageCacheTransformer(cacheDirPath, cacheUrlMap)
 
-  const file = await remark().use(transformer).process(input)
+  const file = await remark().use(transformer).use(remarkToc, {
+    heading: "Locations"
+  }).process(input)
 
   console.log(cacheUrlMap)
 
