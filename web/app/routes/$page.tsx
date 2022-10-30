@@ -1,6 +1,6 @@
 import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, Link } from '@remix-run/react'
 import { useEffect, useMemo } from 'react'
 import Markdown from 'markdown-to-jsx'
 import invariant from 'tiny-invariant'
@@ -149,7 +149,7 @@ const Strava = (props: StravaProps) => {
 }
 
 type ImageProps = {
-  alt: string
+  alt?: string
   title?: string
   src: string
 }
@@ -161,19 +161,23 @@ const Image = (props: ImageProps) => {
     const [_prefix, id, width, height] = src.split(':')
 
     return (
-      <a
-        className="gallery-item"
-        href={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`}
-        data-pswp-width={width}
-        data-pswp-height={height}
-        target="_blank"
-      >
-        <img
-          style={{ width: '100%' }}
-          src={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/720.jpg`}
-          alt={alt}
-        />
-      </a>
+      <>
+        <a
+          className="gallery-item"
+          href={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/2560.jpg`}
+          data-pswp-width={width}
+          data-pswp-height={height}
+          target="_blank"
+        >
+          <img
+            style={{ width: '100%' }}
+            src={`https://cat.stayradiated.com/where-is-george-czabania/image/${id}/720.jpg`}
+          />
+        </a>
+        {alt && (
+          <div style={{ textAlign: 'center', paddingBottom: '1em' }}>{alt}</div>
+        )}
+      </>
     )
   }
 
@@ -209,6 +213,7 @@ export default function Route() {
 
   return (
     <main id="page">
+      <Link to="/">« Home</Link>
       <Markdown options={options}>{markdown}</Markdown>
     </main>
   )
