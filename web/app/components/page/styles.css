@@ -1,0 +1,13 @@
+.page_ImageRow-main {
+  display: flex;
+}
+
+.page_ImageRow-main .page_Image-main {
+  margin-right: 8px;
+}
+
+.page_Image-img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}

@@ -56,8 +56,7 @@ const getResizedOutputPath = (options: GetResizedOutputPathOptions) => {
 type ImgpOptions = {
   srcPath: string
   destPath: string
-  maxWidth: number
-  maxHeight: number
+  width: number
   quality: number
   eraseexif: boolean
   optimize: boolean
@@ -65,22 +64,14 @@ type ImgpOptions = {
 }
 
 const imgp = async (options: ImgpOptions) => {
-  const {
-    srcPath,
-    destPath,
-    maxWidth,
-    maxHeight,
-    eraseexif,
-    optimize,
-    progressive,
-  } = options
+  const { srcPath, destPath, width, eraseexif, optimize, progressive } = options
   const imgpPath = getImgpOutputPath({ srcPath })
-  console.log(`» imgp -x ${maxWidth}x${maxHeight} ${srcPath}`)
+  console.log(`» imgp -x ${width}x0 ${srcPath}`)
   await execa(
     'imgp',
     [
       '-x',
-      `${maxWidth}x${maxHeight}`,
+      `${width}x0`,
       srcPath,
       eraseexif ? '--eraseexif' : [],
       optimize ? '--optimize' : [],
@@ -92,12 +83,11 @@ const imgp = async (options: ImgpOptions) => {
 
 type ResizeImageOptions = {
   srcPath: string
-  maxWidth: number
-  maxHeight: number
+  width: number
 }
 
 const resizeImage = async (options: ResizeImageOptions) => {
-  const { srcPath, maxWidth, maxHeight } = options
+  const { srcPath, width } = options
   const dirPath = path.dirname(srcPath)
 
   const currentSize = await getImageSize(srcPath)
@@ -107,11 +97,11 @@ const resizeImage = async (options: ResizeImageOptions) => {
 
   const destPath = getResizedOutputPath({
     dirPath,
-    name: maxWidth.toString(),
+    name: width.toString(),
     extension: '.jpg',
   })
 
-  if (currentSize.width < maxWidth && currentSize.height < maxHeight) {
+  if (currentSize.width < width) {
     await fs.copyFile(srcPath, destPath)
     return
   }
@@ -130,8 +120,7 @@ const resizeImage = async (options: ResizeImageOptions) => {
   await imgp({
     srcPath,
     destPath,
-    maxWidth,
-    maxHeight,
+    width,
     quality: 75,
     eraseexif: true,
     optimize: true,
@@ -141,14 +130,13 @@ const resizeImage = async (options: ResizeImageOptions) => {
 
 type ProcessImageOptions = {
   srcPath: string
-  sizes: Array<{ maxWidth: number; maxHeight: number }>
+  widthList: number[]
 }
 
 const processImage = async (options: ProcessImageOptions) => {
-  const { srcPath, sizes } = options
-  for (const size of sizes) {
-    const { maxWidth, maxHeight } = size
-    await resizeImage({ srcPath, maxWidth, maxHeight })
+  const { srcPath, widthList } = options
+  for (const width of widthList) {
+    await resizeImage({ srcPath, width })
   }
 }
 

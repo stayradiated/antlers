@@ -5,10 +5,10 @@ import type { Transformer } from 'unified'
 import type { Visitor } from 'unist-util-visit'
 import { visit } from 'unist-util-visit'
 import type { Image } from 'mdast'
+import remarkToc from 'remark-toc'
 import { fetchImage } from './fetch.js'
 import { processImage } from './resize.js'
 import { getImageSizeSync } from './size.js'
-import remarkToc from 'remark-toc'
 
 const calculateHash = (input: string): string => {
   const hash = crypto.createHash('sha1')
@@ -60,16 +60,25 @@ type Result = {
   cacheUrlMap: CacheUrlMap
 }
 
+type TransformMarkdownOptions = {
+  input: string
+  cacheDirPath: string
+}
+
 const transformMarkdown = async (
-  cacheDirPath: string,
-  input: string,
+  options: TransformMarkdownOptions,
 ): Promise<Result> => {
+  const { input, cacheDirPath } = options
+
   const cacheUrlMap: CacheUrlMap = new Map()
   const transformer = createImageCacheTransformer(cacheDirPath, cacheUrlMap)
 
-  const file = await remark().use(transformer).use(remarkToc, {
-    heading: "Locations"
-  }).process(input)
+  const file = await remark()
+    .use(transformer)
+    .use(remarkToc, {
+      heading: 'Locations',
+    })
+    .process(input)
 
   console.log(cacheUrlMap)
 
@@ -82,10 +91,11 @@ const transformMarkdown = async (
 type UpdateCacheOptions = {
   cacheUrlMap: CacheUrlMap
   cacheDirPath: string
+  imageResolutionList: number[]
 }
 
 const updateCache = async (options: UpdateCacheOptions): Promise<void> => {
-  const { cacheUrlMap, cacheDirPath } = options
+  const { cacheUrlMap, cacheDirPath, imageResolutionList } = options
 
   for (const [cacheId, sourceUrl] of cacheUrlMap.entries()) {
     const imagePath = getImagePath(cacheDirPath, cacheId)
@@ -96,12 +106,7 @@ const updateCache = async (options: UpdateCacheOptions): Promise<void> => {
     console.log('processing image')
     await processImage({
       srcPath: imagePath,
-      sizes: [
-        { maxWidth: 2560, maxHeight: 1600 },
-        { maxWidth: 1280, maxHeight: 1024 },
-        { maxWidth: 720, maxHeight: 720 },
-        { maxWidth: 224, maxHeight: 224 },
-      ],
+      widthList: imageResolutionList,
     })
   }
 }
