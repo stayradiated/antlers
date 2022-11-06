@@ -99,11 +99,14 @@ const updateCache = async (options: UpdateCacheOptions): Promise<void> => {
 
   for (const [cacheId, sourceUrl] of cacheUrlMap.entries()) {
     const imagePath = getImagePath(cacheDirPath, cacheId)
+
     await fetchImage({
       fromUrl: sourceUrl,
       toPath: imagePath,
     })
+
     console.log('processing image')
+
     await processImage({
       srcPath: imagePath,
       widthList: imageResolutionList,

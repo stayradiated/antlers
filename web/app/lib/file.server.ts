@@ -11,7 +11,7 @@ const getPage = async (options: GetPageOptions) => {
   const { pageId, ignoreCache } = options
 
   const { markdown } = await cache.get({
-    key: pageId,
+    key: `page:${pageId}`,
     ignoreCache,
     async getValue() {
       const response = await fetch(

@@ -13,8 +13,8 @@ const Image = (props: ImageProps) => {
     const height = Number.parseInt(heightString, 10)
 
     const getImgUrl = (res: number): string => {
-      // Return `https://cat.stayradiated.com/where-is-george-czabania/image/${id}/${res}.jpg`
-      return `http://localhost:8080/${id}/${res}.jpg`
+      return `https://cat.stayradiated.com/where-is-george-czabania/image/${id}/${res}.jpg`
+      // Return `http://localhost:8080/${id}/${res}.jpg`
     }
 
     const aspectRatio = width / height
