@@ -70,7 +70,7 @@ const transformMarkdown = async (
 ): Promise<Result> => {
   const { input, cacheDirPath } = options
 
-  const cacheUrlMap: CacheUrlMap = new Map()
+  const cacheUrlMap = createCacheUrlMap()
   const transformer = createImageCacheTransformer(cacheDirPath, cacheUrlMap)
 
   const file = await remark()
@@ -114,4 +114,38 @@ const updateCache = async (options: UpdateCacheOptions): Promise<void> => {
   }
 }
 
-export { transformMarkdown, updateCache }
+type TransformImageOptions = {
+  cacheDirPath: string
+  cacheUrlMap: CacheUrlMap
+  imageUrl: string
+}
+
+const transformImage = (options: TransformImageOptions): string => {
+  const { cacheDirPath, cacheUrlMap, imageUrl } = options
+
+  if (imageUrl.startsWith('http://100.125.248.114')) {
+    const sourceUrl = imageUrl.trim()
+    const cacheId = calculateHash(sourceUrl)
+    cacheUrlMap.set(cacheId, sourceUrl)
+
+    const imagePath = getImagePath(cacheDirPath, cacheId)
+    const imageSize = getImageSizeSync(imagePath)
+
+    let width = 0
+    let height = 0
+    if (!(imageSize instanceof Error)) {
+      width = imageSize.width
+      height = imageSize.height
+    }
+
+    const cachedImageUrl = ['cache', cacheId, width, height].join(':')
+
+    return cachedImageUrl
+  }
+
+  return imageUrl
+}
+
+const createCacheUrlMap = (): CacheUrlMap => new Map()
+
+export { transformMarkdown, updateCache, transformImage, createCacheUrlMap }

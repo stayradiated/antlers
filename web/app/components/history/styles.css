@@ -1,0 +1,91 @@
+.history_HistoryList-container {
+  display: grid;
+  grid-auto-flow: row; /* it's the default value (can be omitted) */
+  grid-gap: 10px;
+}
+
+.history_LargeHistoryListItem-root {
+  height: 90vh;
+}
+
+.history_SmallHistoryListItem-root {
+  height: 30vh;
+}
+
+.history_HistoryListItem-section {
+  position: relative;
+
+  overflow: hidden;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.history_HistoryListItem-text {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+
+
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.9));
+
+  display: grid;
+  grid-template-areas: 
+    "location location location"
+    "country arrivedAt link";
+  grid-template-rows: auto 60px;
+  grid-template-columns: auto auto 100px;
+}
+
+.history_HistoryListItem-location {
+  grid-area: location;
+
+  text-align: center;
+
+  font-family: 'Mrs Sheppards', cursive;
+  font-weight: 400;
+  margin: 0;
+
+  text-shadow: 0 5px 100px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.history_LargeHistoryListItem-root .history_HistoryListItem-location {
+  font-size: 200px;
+  margin-top: 20%;
+}
+.history_SmallHistoryListItem-root .history_HistoryListItem-location {
+  font-size: 80px;
+  margin-top: 5%;
+}
+
+
+.history_HistoryListItem-country {
+  grid-area: country;
+
+  margin: 0;
+
+  padding-left: 1em;
+  line-height: 60px;
+  font-weight: 600;
+}
+
+.history_HistoryListItem-arrivedAt {
+  grid-area: arrivedAt;
+
+  margin: 0;
+  line-height: 60px;
+}
+
+.history_HistoryListItem-link {
+  grid-area: link;
+
+  margin: 0;
+  line-height: 60px;
+
+  color: inherit;
+  text-decoration: none;
+}

@@ -1,13 +1,21 @@
 import * as z from 'zod'
 import * as dF from 'date-fns'
 import validator from 'validator'
+import {
+  createCacheUrlMap,
+  transformImage,
+  updateCache,
+} from '@stayradiated/preprocess-markdown'
+import { config } from './config.server'
 
 const historyFileItemSchema = z.object({
   arrivedAt: z.string().refine((value) => {
     return validator.isISO8601(value)
   }),
   location: z.string(),
-  href: z.optional(z.string()),
+  country: z.string(),
+  href: z.string().optional(),
+  image: z.string().optional(),
 })
 type HistoryFileItem = z.infer<typeof historyFileItemSchema>
 
@@ -19,7 +27,9 @@ type HistoryItem = {
   location: string
   departedAt: Date | undefined
   days: number
-  href: string | undefined
+  country?: string
+  href?: string
+  image?: string
 }
 type History = HistoryItem[]
 
@@ -42,7 +52,9 @@ const fetchHistory = async (): Promise<History | Error> => {
     return historyFile
   }
 
-  return historyFile
+  const cacheUrlMap = createCacheUrlMap()
+
+  const results = historyFile
     .sort((a, b) => {
       return a.arrivedAt > b.arrivedAt ? -1 : 1
     })
@@ -54,14 +66,40 @@ const fetchHistory = async (): Promise<History | Error> => {
         : undefined
       const days = dF.differenceInDays(departedAt ?? new Date(), arrivedAt)
 
+      const cachedImageUrl = item.image
+        ? transformImage({
+            cacheDirPath: config.CACHE_DIR_PATH,
+            cacheUrlMap,
+            imageUrl: item.image,
+          })
+        : undefined
+
       return {
         arrivedAt,
         departedAt,
         days,
         location: item.location,
+        country: item.country,
         href: item.href,
+        image: cachedImageUrl,
       }
     })
+
+  // Run in background
+  void updateCache({
+    cacheUrlMap,
+    cacheDirPath: config.CACHE_DIR_PATH,
+    imageResolutionList: [500, 750, 1000, 1280, 1500, 2000, 2500],
+  }).then(
+    () => {
+      console.log('Finished updating cache')
+    },
+    (error: unknown) => {
+      console.error(error)
+    },
+  )
+
+  return results
 }
 
 export { fetchHistory, fetchHistoryFile }

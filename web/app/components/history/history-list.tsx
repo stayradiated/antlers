@@ -1,4 +1,4 @@
-import { HistoryListItem } from './history-list-item'
+import { LargeHistoryListItem, SmallHistoryListItem } from './history-list-item'
 
 import type { History } from '~/lib/history.server'
 
@@ -10,10 +10,14 @@ const HistoryList = (props: HistoryListProps) => {
   const { history } = props
 
   return (
-    <div>
-      {history.map((item, index) => (
-        <HistoryListItem key={index} item={item} />
-      ))}
+    <div className="history_HistoryList-container">
+      {history.map((item, index) =>
+        index === 0 ? (
+          <LargeHistoryListItem key={index} item={item} />
+        ) : (
+          <SmallHistoryListItem key={index} item={item} />
+        ),
+      )}
     </div>
   )
 }

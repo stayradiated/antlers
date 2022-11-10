@@ -1,12 +1,19 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import type { LoaderFunction } from '@remix-run/node'
+import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import * as dF from 'date-fns'
 
 import { fetchHistory } from '~/lib/history.server'
 import type { History } from '~/lib/history.server'
 
-import { HistoryList } from '~/components/history'
+import { HistoryList, PageCSS } from '~/components/history'
+
+export const links: LinksFunction = () => [
+  {
+    rel: 'stylesheet',
+    href: PageCSS,
+  },
+]
 
 type LoaderData = {
   history: History
@@ -34,9 +41,6 @@ export default function Index() {
 
   return (
     <main>
-      <p>
-        <em>Where is George Czabania?</em>
-      </p>
       <HistoryList history={history} />
     </main>
   )
