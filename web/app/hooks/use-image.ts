@@ -32,7 +32,7 @@ const useImage = (src: string | undefined): Image | undefined => {
     const aspectRatio = width / height
 
     const srcSet = [
-      `${getImgUrl(500)} 500`,
+      `${getImgUrl(500)} 500w`,
       `${getImgUrl(750)} 750w`,
       `${getImgUrl(1000)} 1000w`,
       `${getImgUrl(1280)} 1280w`,

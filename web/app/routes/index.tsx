@@ -19,8 +19,11 @@ type LoaderData = {
   history: History
 }
 
-export const loader: LoaderFunction = async () => {
-  const history = await fetchHistory()
+export const loader: LoaderFunction = async (props) => {
+  const url = new URL(props.request.url)
+  const ignoreCache = url.searchParams.has('refresh')
+
+  const history = await fetchHistory({ ignoreCache })
   if (history instanceof Error) {
     throw history
   }

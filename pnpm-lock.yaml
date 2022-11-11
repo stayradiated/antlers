@@ -38,6 +38,7 @@ importers:
 
   web:
     specifiers:
+      '@react-hook/resize-observer': 1.2.6
       '@remix-run/dev': 1.7.5
       '@remix-run/eslint-config': 1.7.5
       '@remix-run/node': 1.7.5
@@ -60,6 +61,7 @@ importers:
       xo: 0.52.4
       zod: 3.19.1
     dependencies:
+      '@react-hook/resize-observer': 1.2.6_react@18.2.0
       '@remix-run/node': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@remix-run/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@remix-run/serve': 1.7.5_biqbaboplfbrettd7655fr4n2y
@@ -1513,6 +1515,10 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@juggle/resize-observer/3.4.0:
+    resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+    dev: false
+
   /@nicolo-ribaudo/eslint-scope-5-internals/5.1.1-v1:
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
     dependencies:
@@ -1574,6 +1580,33 @@ packages:
       tiny-glob: 0.2.9
       tslib: 2.4.0
     dev: true
+
+  /@react-hook/latest/1.0.3_react@18.2.0:
+    resolution: {integrity: sha512-dy6duzl+JnAZcDbNTfmaP3xHiKtbXYOaz3G51MGVljh548Y8MWzTr+PHLOfvpypEVW9zwvl+VyKjbWKEVbV1Rg==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@react-hook/passive-layout-effect/1.2.1_react@18.2.0:
+    resolution: {integrity: sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@react-hook/resize-observer/1.2.6_react@18.2.0:
+    resolution: {integrity: sha512-DlBXtLSW0DqYYTW3Ft1/GQFZlTdKY5VAFIC4+km6IK5NiPPDFchGbEJm1j6pSgMqPRHbUQgHJX7RaR76ic1LWA==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@juggle/resize-observer': 3.4.0
+      '@react-hook/latest': 1.0.3_react@18.2.0
+      '@react-hook/passive-layout-effect': 1.2.1_react@18.2.0
+      react: 18.2.0
+    dev: false
 
   /@remix-run/dev/1.7.5_67odqug3q6zvwws4422s5yrks4:
     resolution: {integrity: sha512-z/HEMi6e2eO6DvCrH+rNbqNohD5m1QMzVfXoIG976jw6Pn72PTaiGFNtDc5vNB2IjVuRAu1j0X9TbWLmU/+fOw==}

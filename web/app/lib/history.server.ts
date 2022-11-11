@@ -7,6 +7,7 @@ import {
   updateCache,
 } from '@stayradiated/preprocess-markdown'
 import { config } from './config.server'
+import { cache } from './cache.server'
 
 const historyFileItemSchema = z.object({
   arrivedAt: z.string().refine((value) => {
@@ -46,60 +47,74 @@ const fetchHistoryFile = async (): Promise<HistoryFile | Error> => {
   return result.data
 }
 
-const fetchHistory = async (): Promise<History | Error> => {
-  const historyFile = await fetchHistoryFile()
-  if (historyFile instanceof Error) {
-    return historyFile
-  }
+type FetchHistoryOptions = {
+  ignoreCache?: boolean
+}
 
-  const cacheUrlMap = createCacheUrlMap()
+const fetchHistory = async (
+  options: FetchHistoryOptions,
+): Promise<History | Error> => {
+  const { ignoreCache } = options
 
-  const results = historyFile
-    .sort((a, b) => {
-      return a.arrivedAt > b.arrivedAt ? -1 : 1
-    })
-    .map((item, index) => {
-      const nextDestination = historyFile[index - 1]
-      const arrivedAt = dF.parseISO(item.arrivedAt)
-      const departedAt = nextDestination
-        ? dF.parseISO(nextDestination.arrivedAt)
-        : undefined
-      const days = dF.differenceInDays(departedAt ?? new Date(), arrivedAt)
-
-      const cachedImageUrl = item.image
-        ? transformImage({
-            cacheDirPath: config.CACHE_DIR_PATH,
-            cacheUrlMap,
-            imageUrl: item.image,
-          })
-        : undefined
-
-      return {
-        arrivedAt,
-        departedAt,
-        days,
-        location: item.location,
-        country: item.country,
-        href: item.href,
-        image: cachedImageUrl,
+  return cache.get({
+    key: 'history:index',
+    ignoreCache,
+    async getValue() {
+      const historyFile = await fetchHistoryFile()
+      if (historyFile instanceof Error) {
+        return historyFile
       }
-    })
 
-  // Run in background
-  void updateCache({
-    cacheUrlMap,
-    cacheDirPath: config.CACHE_DIR_PATH,
-    imageResolutionList: [500, 750, 1000, 1280, 1500, 2000, 2500],
-  }).then(
-    () => {
-      console.log('Finished updating cache')
-    },
-    (error: unknown) => {
-      console.error(error)
-    },
-  )
+      const cacheUrlMap = createCacheUrlMap()
 
-  return results
+      const results = historyFile
+        .sort((a, b) => {
+          return a.arrivedAt > b.arrivedAt ? -1 : 1
+        })
+        .map((item, index) => {
+          const nextDestination = historyFile[index - 1]
+          const arrivedAt = dF.parseISO(item.arrivedAt)
+          const departedAt = nextDestination
+            ? dF.parseISO(nextDestination.arrivedAt)
+            : undefined
+          const days = dF.differenceInDays(departedAt ?? new Date(), arrivedAt)
+
+          const cachedImageUrl = item.image
+            ? transformImage({
+                cacheDirPath: config.CACHE_DIR_PATH,
+                cacheUrlMap,
+                imageUrl: item.image,
+              })
+            : undefined
+
+          return {
+            arrivedAt,
+            departedAt,
+            days,
+            location: item.location,
+            country: item.country,
+            href: item.href,
+            image: cachedImageUrl,
+          }
+        })
+
+      // Run in background
+      void updateCache({
+        cacheUrlMap,
+        cacheDirPath: config.CACHE_DIR_PATH,
+        imageResolutionList: [500, 750, 1000, 1280, 1500, 2000, 2500],
+      }).then(
+        () => {
+          console.log('Finished updating cache')
+        },
+        (error: unknown) => {
+          console.error(error)
+        },
+      )
+
+      return results
+    },
+  })
 }
 
 export { fetchHistory, fetchHistoryFile }

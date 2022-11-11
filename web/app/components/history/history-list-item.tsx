@@ -1,12 +1,13 @@
 import * as dF from 'date-fns'
 import { Link } from '@remix-run/react'
+import { BigText } from './big-text'
 import type { HistoryItem } from '~/lib/history.server'
+
+import { createCX } from '~/lib/className'
 
 import { useImage } from '~/hooks/use-image'
 
-const removeDiacritics = (input: string): string => {
-  return input.replace(/Ŝ/g, 'S').replace(/ŝ/g, 's')
-}
+const cx = createCX('history', 'HistoryListItem')
 
 type HistoryListItemProps = {
   item: HistoryItem
@@ -25,28 +26,29 @@ const HistoryListItem = (props: HistoryListItemProps) => {
   const image = useImage(imageUrl)
 
   return (
-    <section
-      className={`${classNames.root} history_HistoryListItem-section`}
-      style={{
-        backgroundImage: image ? `url(${image.src})` : undefined,
-      }}
-    >
-      <div className="history_HistoryListItem-text">
-        <h2 className="history_HistoryListItem-location">
-          {removeDiacritics(location)}
-        </h2>
+    <section className={`${classNames.root} ${cx('section')}`}>
+      {image?.type === 'cached' && (
+        <img
+          className={cx('image')}
+          src={image.src}
+          srcSet={image.srcSet.join(', ')}
+        />
+      )}
 
-        {country && (
-          <h3 className="history_HistoryListItem-country">{country}</h3>
-        )}
+      <div className={cx('inner')}>
+        <div className={cx('location')}>
+          <BigText text={location} />
+        </div>
 
-        <p className="history_HistoryListItem-arrivedAt">
+        {country && <h3 className={cx('country')}>{country}</h3>}
+
+        <p className={cx('arrivedAt')}>
           Arrived on <strong>{arrivedAtFormatted}</strong>. For {days}{' '}
           {days === 1 ? 'day' : 'days'}
         </p>
 
         {href && (
-          <Link to={href} className="history_HistoryListItem-link">
+          <Link to={href} className={cx('link')}>
             Read More
           </Link>
         )}
