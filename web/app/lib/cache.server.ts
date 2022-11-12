@@ -19,9 +19,14 @@ const createCache = (): Cache => {
         return cache.get(key) as T
       }
 
-      const value = await getValue()
-      cache.set(key, value)
-      return value
+      try {
+        const value = await getValue()
+        cache.set(key, value)
+        return value
+      } catch (error: unknown) {
+        console.error(error)
+        throw error
+      }
     },
   }
 
@@ -32,16 +37,10 @@ declare global {
   var __cache: Cache | undefined
 }
 
-let cache: Cache
-
-// If (process.env.NODE_ENV === "development") {
-//   cache = createCache()
-// }
-
 if (!global.__cache) {
   global.__cache = createCache()
 }
 
-cache = global.__cache
+const cache = global.__cache
 
 export { cache }

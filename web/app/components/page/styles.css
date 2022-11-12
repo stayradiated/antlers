@@ -1,13 +1,123 @@
-.page_ImageRow-main {
+.page_Page-container {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.page_PhotoRow-main {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 98vw;
+  margin-left: -49vw;
+  margin-right: -49vw;
+
   display: flex;
 }
 
-.page_ImageRow-main .page_Image-main {
+.page_PhotoRow-main .page_Photo-main {
   margin-right: 8px;
 }
 
-.page_Image-img {
+.page_Page-container article > .page_Photo-main {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 98vw;
+  margin-left: -49vw;
+  margin-right: -49vw;
+}
+
+.page_Photo-img {
   width: 100%;
   height: auto;
   vertical-align: middle;
+  border-radius: 4px;
+}
+
+.page_Map-image {
+  display: block;
+}
+
+.page_Extract-container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.page_Tip-container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.page_Place-container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.page_Accomodation-container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.page_Accomodation-row {
+  display: flex;
+}
+
+.page_Accomodation-star {
+  flex: 1;
+}
+
+.page_Accomodation-details {
+  padding: 0 1rem;
+}
+
+.page_Accomodation-details + .page_Accomodation-details {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.page_Accomodation-details-value {
+  font-weight: 200;
+  font-size: 1.5rem;
+  display: block;
+}
+
+.page_Accomodation-details-description {
+  text-transform: uppercase;
+}
+
+.page_Accomodation-icon {
+  margin: 1rem auto;
+}
+
+.page_Accomodation-title {
+  font-size: 2rem;
+}
+
+.page_Accomodation-link {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 2rem;
+  display: inline-block;
+  margin: 1rem 0;
+  color: #fff;
+}
+.page_Accomodation-link:hover {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.page_Accomodation-photos {
 }

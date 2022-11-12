@@ -6,7 +6,7 @@ import {
   transformImage,
   updateCache,
 } from '@stayradiated/preprocess-markdown'
-import { config } from './config.server'
+import { CACHE_DIR_PATH, CONTENT_HOST, CACHE_HOST } from './config.server'
 import { cache } from './cache.server'
 
 const historyFileItemSchema = z.object({
@@ -35,10 +35,8 @@ type HistoryItem = {
 type History = HistoryItem[]
 
 const fetchHistoryFile = async (): Promise<HistoryFile | Error> => {
-  const response = await fetch(
-    'https://cat.stayradiated.com/where-is-george-czabania/index.json',
-  )
-  const historyJson = await response.json()
+  const response = await fetch(new URL('index.json', CONTENT_HOST))
+  const historyJson: unknown = await response.json()
   const result = historyFileSchema.safeParse(historyJson)
   if (!result.success) {
     return result.error
@@ -81,7 +79,8 @@ const fetchHistory = async (
 
           const cachedImageUrl = item.image
             ? transformImage({
-                cacheDirPath: config.CACHE_DIR_PATH,
+                cacheDirPath: CACHE_DIR_PATH,
+                cacheHost: CACHE_HOST,
                 cacheUrlMap,
                 imageUrl: item.image,
               })
@@ -101,7 +100,7 @@ const fetchHistory = async (
       // Run in background
       void updateCache({
         cacheUrlMap,
-        cacheDirPath: config.CACHE_DIR_PATH,
+        cacheDirPath: CACHE_DIR_PATH,
         imageResolutionList: [500, 750, 1000, 1280, 1500, 2000, 2500],
       }).then(
         () => {

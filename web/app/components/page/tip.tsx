@@ -1,3 +1,7 @@
+import { createCX } from '~/lib/class-name'
+
+const cx = createCX('page', 'Tip')
+
 type TipProps = {
   title: string
   children: React.ReactNode
@@ -6,10 +10,10 @@ type TipProps = {
 const Tip = (props: TipProps) => {
   const { title, children } = props
   return (
-    <blockquote>
+    <section className={cx('container')}>
       <h3>{title}</h3>
       {children}
-    </blockquote>
+    </section>
   )
 }
 

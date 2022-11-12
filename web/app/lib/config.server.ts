@@ -3,10 +3,16 @@ import * as z from 'zod'
 
 const envSchema = z.object({
   CACHE_DIR_PATH: z.string().default('./tmp'),
+  CACHE_HOST: z
+    .string()
+    .default('http://cat.stayradiated.com/where-is-george-czabania/image/'),
+  CONTENT_HOST: z
+    .string()
+    .default('http://cat.stayradiated.com/where-is-george-czabania/'),
 })
 
-const config = envSchema.parse(process.env)
+const { CACHE_DIR_PATH, CACHE_HOST, CONTENT_HOST } = envSchema.parse(
+  process.env,
+)
 
-type Config = z.infer<typeof envSchema>
-
-export { config, type Config }
+export { CACHE_DIR_PATH, CACHE_HOST, CONTENT_HOST }

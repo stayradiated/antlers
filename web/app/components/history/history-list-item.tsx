@@ -3,9 +3,9 @@ import { Link } from '@remix-run/react'
 import { BigText } from './big-text'
 import type { HistoryItem } from '~/lib/history.server'
 
-import { createCX } from '~/lib/className'
+import { createCX } from '~/lib/class-name'
 
-import { useImage } from '~/hooks/use-image'
+import { usePhoto } from '~/hooks/use-photo'
 
 const cx = createCX('history', 'HistoryListItem')
 
@@ -23,11 +23,11 @@ const HistoryListItem = (props: HistoryListItemProps) => {
 
   const arrivedAtFormatted = dF.format(arrivedAt, 'PPPP')
 
-  const image = useImage(imageUrl)
+  const image = usePhoto(imageUrl ?? '')
 
   return (
     <section className={`${classNames.root} ${cx('section')}`}>
-      {image?.type === 'cached' && (
+      {image && (
         <img
           className={cx('image')}
           src={image.src}
