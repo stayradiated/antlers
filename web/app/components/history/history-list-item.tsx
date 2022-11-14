@@ -19,19 +19,28 @@ type HistoryListItemProps = {
 const HistoryListItem = (props: HistoryListItemProps) => {
   const { item, classNames } = props
 
-  const { arrivedAt, days, location, country, href, image: imageUrl } = item
+  const {
+    arrivedAt,
+    days,
+    location,
+    country,
+    href,
+    image: imageUrl,
+    imageAlignV,
+  } = item
 
   const arrivedAtFormatted = dF.format(arrivedAt, 'PPPP')
 
   const image = usePhoto(imageUrl ?? '')
 
   return (
-    <section className={`${classNames.root} ${cx('section')}`}>
+    <section className={`${classNames.root} ${cx('container')}`}>
       {image && (
         <img
           className={cx('image')}
           src={image.src}
           srcSet={image.srcSet.join(', ')}
+          style={{ objectPosition: `50% ${imageAlignV ?? 50}%` }}
         />
       )}
 

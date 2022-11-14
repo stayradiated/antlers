@@ -6,15 +6,19 @@ const cx = createCX('page', 'Photo')
 type PhotoProps = {
   caption?: string
   src: string
+  fullWidth?: boolean
 }
 
 const Photo = (props: PhotoProps) => {
-  const { caption, src } = props
+  const { caption, src, fullWidth } = props
 
   const photo = usePhoto(src)
 
   return (
-    <div style={{ flex: photo.aspectRatio }} className={cx('main')}>
+    <div
+      style={{ flex: photo.aspectRatio }}
+      className={cx('main', fullWidth && cx('full-width'))}
+    >
       <a
         className="photo-swipe-gallery-item"
         href={photo.src}

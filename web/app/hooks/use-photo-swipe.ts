@@ -4,6 +4,8 @@ import PhotoSwipe from 'photoswipe'
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
 
 const usePhotoSwipe = () => {
+  const galleryClassName = 'photo-swipe-gallery'
+
   useEffect(() => {
     const lightbox = new PhotoSwipeLightbox({
       gallery: '.photo-swipe-gallery',
@@ -13,6 +15,10 @@ const usePhotoSwipe = () => {
 
     lightbox.init()
   })
+
+  return {
+    galleryClassName,
+  }
 }
 
 export { usePhotoSwipe }

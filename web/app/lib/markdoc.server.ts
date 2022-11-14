@@ -30,6 +30,20 @@ const getMarkdocPage = async (options: GetPageOptions) => {
 
       const config: Config = {
         tags: {
+          location: {
+            render: 'Location',
+            children: [],
+            attributes: {
+              arriveAt: { type: String, required: true },
+              departAt: { type: String },
+              location: { type: String, required: true },
+              country: { type: String, required: true },
+              image: { type: String },
+              imageAlignV: { type: Number },
+              href: { type: String },
+              size: { type: String, matches: ['large', 'small'] },
+            },
+          },
           map: {
             render: 'Map',
             children: [],
@@ -75,6 +89,7 @@ const getMarkdocPage = async (options: GetPageOptions) => {
             attributes: {
               caption: { type: String },
               src: { type: String, required: true },
+              fullWidth: { type: Boolean, default: true },
             },
             transform(node, config) {
               const attributes = node.transformAttributes(config)
@@ -103,9 +118,9 @@ const getMarkdocPage = async (options: GetPageOptions) => {
               description: { type: String, required: true },
             },
           },
-          'photo-row': {
-            render: 'PhotoRow',
-            children: ['photo'],
+          row: {
+            render: 'Row',
+            children: ['tag'],
             attributes: {},
           },
         },

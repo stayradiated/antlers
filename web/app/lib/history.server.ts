@@ -17,6 +17,7 @@ const historyFileItemSchema = z.object({
   country: z.string(),
   href: z.string().optional(),
   image: z.string().optional(),
+  imageAlignV: z.number().optional(),
 })
 type HistoryFileItem = z.infer<typeof historyFileItemSchema>
 
@@ -31,6 +32,7 @@ type HistoryItem = {
   country?: string
   href?: string
   image?: string
+  imageAlignV?: number
 }
 type History = HistoryItem[]
 
@@ -94,6 +96,7 @@ const fetchHistory = async (
             country: item.country,
             href: item.href,
             image: cachedImageUrl,
+            imageAlignV: item.imageAlignV,
           }
         })
 

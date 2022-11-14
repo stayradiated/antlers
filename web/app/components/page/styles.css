@@ -1,9 +1,17 @@
+/******************************************************************************/
+/* PAGE */
+/******************************************************************************/
+
 .page_Page-container {
   max-width: 42rem;
   margin: 0 auto;
 }
 
-.page_PhotoRow-main {
+/******************************************************************************/
+/* ROW */
+/******************************************************************************/
+
+.page_Row-main {
   position: relative;
   left: 50%;
   right: 50%;
@@ -14,11 +22,15 @@
   display: flex;
 }
 
-.page_PhotoRow-main .page_Photo-main {
+.page_Row-main > * {
   margin-right: 8px;
 }
 
-.page_Page-container article > .page_Photo-main {
+/******************************************************************************/
+/* PHOTO */
+/******************************************************************************/
+
+.page_Page-container article > .page_Photo-full-width {
   position: relative;
   left: 50%;
   right: 50%;
@@ -34,9 +46,17 @@
   border-radius: 4px;
 }
 
+/******************************************************************************/
+/* MAP */
+/******************************************************************************/
+
 .page_Map-image {
   display: block;
 }
+
+/******************************************************************************/
+/* EXTRACT */
+/******************************************************************************/
 
 .page_Extract-container {
   margin: 10px auto;
@@ -46,6 +66,10 @@
   padding: 1rem;
 }
 
+/******************************************************************************/
+/* TIP */
+/******************************************************************************/
+
 .page_Tip-container {
   margin: 10px auto;
   background: rgba(0, 0, 0, 0.3);
@@ -54,6 +78,10 @@
   padding: 1rem;
 }
 
+/******************************************************************************/
+/* PLACE */
+/******************************************************************************/
+
 .page_Place-container {
   margin: 10px auto;
   background: rgba(0, 0, 0, 0.3);
@@ -61,6 +89,10 @@
 
   padding: 1rem;
 }
+
+/******************************************************************************/
+/* ACCOMODATION */
+/******************************************************************************/
 
 .page_Accomodation-container {
   margin: 10px auto;
@@ -121,3 +153,114 @@
 
 .page_Accomodation-photos {
 }
+
+/******************************************************************************/
+/* LOCATION */
+/******************************************************************************/
+
+.page_Location-container {
+  flex: 1;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.page_Page-container article > .page_Location-container {
+  left: 50%;
+  right: 50%;
+  width: 98vw;
+  margin-left: -49vw;
+  margin-right: -49vw;
+}
+
+.page_Location-size-large {
+  height: 90vh;
+}
+
+.page_Location-size-small {
+  height: 400px;
+}
+
+.page_Location-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page_Location-inner {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.9));
+
+  display: flex;
+  flex-direction: column;
+}
+
+.page_Location-details {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-height: 60px;
+  padding: 1rem;
+
+  display: flex;
+  gap: 1rem;
+}
+
+.page_Location-location {
+  flex: 1;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-x: hidden;
+}
+
+.page_Location-country {
+  margin: 0;
+  height: 3rem;
+  line-height: 3rem;
+}
+
+.page_Location-arriveAt {
+  margin: 0;
+  display: block;
+  height: 3rem;
+  line-height: 3rem;
+}
+
+.page_Location-days {
+}
+
+.page_Location-link {
+  height: 3rem;
+  line-height: 3rem;
+  margin: 0;
+
+  color: inherit;
+  text-decoration: none;
+
+  padding: 0 1em;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.page_Location-link:hover {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+@media only screen and (max-width: 576px) {
+  .page_SmallLocation-size-small {
+    height: 200px;
+  }
+
+  .page_Location-details {
+  }
+}
+

@@ -1,14 +1,14 @@
 import { createCX } from '~/lib/class-name'
 
-type PhotoRowProps = {
+type RowProps = {
   children: React.ReactNode
 }
 
-const cx = createCX('page', 'PhotoRow')
+const cx = createCX('page', 'Row')
 
-const PhotoRow = (props: PhotoRowProps) => {
+const Row = (props: RowProps) => {
   const { children } = props
   return <div className={cx('main')}>{children}</div>
 }
 
-export { PhotoRow }
+export { Row }

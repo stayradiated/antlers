@@ -1,50 +1,42 @@
+import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import type { LinksFunction, LoaderFunction } from '@remix-run/node'
-import * as dF from 'date-fns'
+import type { RenderableTreeNode } from '@markdoc/markdoc'
 
-import { fetchHistory } from '~/lib/history.server'
-import type { History } from '~/lib/history.server'
+import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
 
-import { HistoryList, PageCSS } from '~/components/history'
+import { Page, PageCSS } from '~/components/page'
+import { BitCSS } from '~/components/bit'
+
+import { getMarkdocPage } from '~/lib/markdoc.server'
+import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: PageCSS,
-  },
+  { rel: 'stylesheet', href: PhotoSwipeCSS },
+  { rel: 'stylesheet', href: PageCSS },
+  { rel: 'stylesheet', href: BitCSS },
 ]
 
 type LoaderData = {
-  history: History
+  content: RenderableTreeNode
 }
 
 export const loader: LoaderFunction = async (props) => {
   const url = new URL(props.request.url)
   const ignoreCache = url.searchParams.has('refresh')
 
-  const history = await fetchHistory({ ignoreCache })
-  if (history instanceof Error) {
-    throw history
-  }
-
-  return json<LoaderData>({ history })
-}
-
-export default function Index() {
-  const { history: serializedHistory } = useLoaderData<LoaderData>()
-
-  const history = serializedHistory.map((item) => {
-    return {
-      ...item,
-      arrivedAt: dF.parseISO(item.arrivedAt),
-      departedAt: item.departedAt ? dF.parseISO(item.departedAt) : undefined,
-    }
+  const { content } = await getMarkdocPage({
+    pageId: `index.md`,
+    ignoreCache,
   })
 
-  return (
-    <main>
-      <HistoryList history={history} />
-    </main>
-  )
+  return json<LoaderData>({ content })
+}
+
+export default function Route() {
+  const { content } = useLoaderData<LoaderData>()
+
+  const { galleryClassName } = usePhotoSwipe()
+
+  return <Page isIndex content={content} className={galleryClassName} />
 }

@@ -30,3 +30,24 @@
   width: 75%;
   height: 75%;
 }
+
+/* Big Text */
+
+.bit_BigText-container {
+  height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+
+  line-height: 1;
+  font-family: 'Mrs Sheppards', cursive;
+  font-weight: 400;
+  text-shadow: 0 5px 100px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bit_BigText-inner {
+  display: inline-block;
+}

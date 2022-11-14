@@ -2,24 +2,11 @@ import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-import React from 'react'
 import type { RenderableTreeNode } from '@markdoc/markdoc'
-import Markdoc from '@markdoc/markdoc'
 
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
 
-import {
-  Page,
-  Accomodation,
-  Photo,
-  PhotoRow,
-  PageCSS,
-  Map,
-  Strava,
-  Place,
-  Tip,
-  Extract,
-} from '~/components/page'
+import { Page, PageCSS } from '~/components/page'
 import { BitCSS } from '~/components/bit'
 
 import { getMarkdocPage } from '~/lib/markdoc.server'
@@ -54,22 +41,7 @@ export const loader: LoaderFunction = async (props) => {
 export default function Route() {
   const { content } = useLoaderData<LoaderData>()
 
-  usePhotoSwipe()
+  const { galleryClassName } = usePhotoSwipe()
 
-  return (
-    <Page className="photo-swipe-gallery">
-      {Markdoc.renderers.react(content, React, {
-        components: {
-          Accomodation,
-          Photo,
-          PhotoRow,
-          Map,
-          Strava,
-          Place,
-          Tip,
-          Extract,
-        },
-      })}
-    </Page>
-  )
+  return <Page content={content} className={galleryClassName} />
 }
