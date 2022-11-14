@@ -43,6 +43,21 @@ const getMarkdocPage = async (options: GetPageOptions) => {
               href: { type: String },
               size: { type: String, matches: ['large', 'small'] },
             },
+            transform(node, config) {
+              const attributes = node.transformAttributes(config)
+              const children = node.transformChildren(config)
+
+              attributes.image = attributes.image
+                ? transformImage({
+                    cacheDirPath: CACHE_DIR_PATH,
+                    cacheHost: CACHE_HOST,
+                    cacheUrlMap,
+                    imageUrl: attributes.image as string,
+                  })
+                : undefined
+
+              return new Tag('Location', attributes, children)
+            },
           },
           map: {
             render: 'Map',
