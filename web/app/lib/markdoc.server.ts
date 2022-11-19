@@ -149,7 +149,7 @@ const getMarkdocPage = async (options: GetPageOptions) => {
       void updateCache({
         cacheUrlMap,
         cacheDirPath: CACHE_DIR_PATH,
-        imageResolutionList: [500, 750, 1000, 1280, 1500, 2000, 2500],
+        imageResolutionList: [16, 500, 750, 1000, 1280, 1500, 2000, 2500],
       }).then(
         () => {
           console.log('Finished updating cache')

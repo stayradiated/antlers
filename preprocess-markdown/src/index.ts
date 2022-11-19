@@ -52,28 +52,24 @@ type TransformImageOptions = {
 const transformImage = (options: TransformImageOptions): string => {
   const { cacheDirPath, cacheHost, cacheUrlMap, imageUrl } = options
 
-  if (imageUrl.startsWith('http://100.125.248.114')) {
-    const sourceUrl = imageUrl.trim()
-    const cacheId = calculateHash(sourceUrl)
-    cacheUrlMap.set(cacheId, sourceUrl)
+  const sourceUrl = imageUrl.trim()
+  const cacheId = calculateHash(sourceUrl)
+  cacheUrlMap.set(cacheId, sourceUrl)
 
-    const imagePath = getImagePath(cacheDirPath, cacheId)
-    const imageSize = getImageSizeSync(imagePath)
+  const imagePath = getImagePath(cacheDirPath, cacheId)
+  const imageSize = getImageSizeSync(imagePath)
 
-    let width = 0
-    let height = 0
-    if (!(imageSize instanceof Error)) {
-      width = imageSize.width
-      height = imageSize.height
-    }
-
-    const cacheUrl = new URL(`./${cacheId}/`, cacheHost).href
-    const cachedImageUrl = ['cache', cacheUrl, width, height].join('•')
-
-    return cachedImageUrl
+  let width = 0
+  let height = 0
+  if (!(imageSize instanceof Error)) {
+    width = imageSize.width
+    height = imageSize.height
   }
 
-  return imageUrl
+  const cacheUrl = new URL(`./${cacheId}/`, cacheHost).href
+  const cachedImageUrl = ['cache', cacheUrl, width, height].join('•')
+
+  return cachedImageUrl
 }
 
 const createCacheUrlMap = (): CacheUrlMap => new Map()

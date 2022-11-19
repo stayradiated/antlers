@@ -27,6 +27,15 @@ const Photo = (props: PhotoProps) => {
         target="_blank"
       >
         <img
+          className={cx('placeholder')}
+          width={photo.width}
+          height={photo.height}
+          src={photo.src.replace('2500', '16')}
+          style={{
+            imageRendering: 'pixelated',
+          }}
+        />
+        <img
           className={cx('img')}
           width={photo.width}
           height={photo.height}

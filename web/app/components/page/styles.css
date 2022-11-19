@@ -30,8 +30,11 @@
 /* PHOTO */
 /******************************************************************************/
 
-.page_Page-container article > .page_Photo-full-width {
+.page_Photo-main {
   position: relative;
+}
+
+.page_Page-container article > .page_Photo-full-width {
   left: 50%;
   right: 50%;
   width: 98vw;
@@ -44,6 +47,17 @@
   height: auto;
   vertical-align: middle;
   border-radius: 4px;
+}
+
+.page_Photo-placeholder {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 /******************************************************************************/
