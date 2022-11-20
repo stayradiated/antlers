@@ -41,7 +41,7 @@ const getMarkdocPage = async (options: GetPageOptions) => {
               image: { type: String },
               imageAlignV: { type: Number },
               href: { type: String },
-              size: { type: String, matches: ['large', 'small'] },
+              height: { type: Number, default: 0.5 },
             },
             transform(node, config) {
               const attributes = node.transformAttributes(config)
@@ -57,6 +57,18 @@ const getMarkdocPage = async (options: GetPageOptions) => {
                 : undefined
 
               return new Tag('Location', attributes, children)
+            },
+          },
+          'location-bullet': {
+            render: 'LocationBullet',
+            children: [],
+            attributes: {
+              arriveAt: { type: String, required: true },
+              departAt: { type: String },
+              location: { type: String, required: true },
+              country: { type: String, required: true },
+              image: { type: String },
+              href: { type: String },
             },
           },
           map: {

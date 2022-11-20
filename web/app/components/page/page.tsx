@@ -4,6 +4,7 @@ import React from 'react'
 import type { RenderableTreeNode } from '@markdoc/markdoc'
 
 import { Location } from './location'
+import { LocationBullet } from './location-bullet'
 import { Accomodation } from './accomodation'
 import { Photo } from './photo'
 import { Row } from './row'
@@ -40,6 +41,7 @@ const Page = (props: PageProps) => {
           Tip,
           Extract,
           Location,
+          LocationBullet
         },
       })}
     </main>
