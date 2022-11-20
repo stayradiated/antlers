@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react'
 
 import { createCX } from '~/lib/class-name'
 
-import { usePhoto } from '~/hooks/use-photo'
+import { usePhotoMaybe } from '~/hooks/use-photo'
 
 const cx = createCX('page', 'LocationBullet')
 
@@ -14,7 +14,6 @@ type LocationBulletProps = {
   country: string
   href?: string
   image?: string
-  imageAlignV?: number
 }
 
 const LocationBullet = (props: LocationBulletProps) => {
@@ -25,49 +24,50 @@ const LocationBullet = (props: LocationBulletProps) => {
     country,
     href,
     image: imageUrl,
-    imageAlignV,
   } = props
 
   const arriveAt = dF.parseISO(arriveAtString)
   const departAt = departAtString ? dF.parseISO(departAtString) : new Date()
-  const arriveAtFormatted = dF.format(arriveAt, 'do MMMM, yyyy')
+  const arriveAtFormatted = dF.format(arriveAt, 'dd MMM yyyy')
   const nights = dF.differenceInDays(departAt, arriveAt)
 
-  const image = usePhoto(imageUrl ?? '')
+  const image = usePhotoMaybe(imageUrl)
 
-  return (
-    <section className={cx('container')}>
+  const element = (
+    <section
+      className={cx('container', Boolean(image) && cx('container-has-image'))}
+    >
       {image && (
         <img
           className={cx('image')}
           src={image.src}
           srcSet={image.srcSet.join(', ')}
-          style={{ objectPosition: `50% ${imageAlignV ?? 50}%` }}
         />
       )}
 
-      <div className={cx('details')}>
-        <div className={cx('location')}>
-           <h1>{location}</h1>
-        </div>
-
+      <div className={cx('title')}>
+        <h1 className={cx('location')}>{location}</h1>
         {country && <h2 className={cx('country')}>{country}</h2>}
+      </div>
 
-        <p className={cx('arriveAt')}>
-          {arriveAtFormatted}{' '}
-          <span className={cx('nights')}>
-            ∙ {nights} {nights === 1 ? 'night' : 'nights'}
-          </span>
+      <div className={cx('details')}>
+        <p className={cx('arriveAt')}>{arriveAtFormatted}</p>
+        <p className={cx('nights')}>
+          {nights} {nights === 1 ? 'night' : 'nights'}
         </p>
-
-        {href && (
-          <Link to={href} className={cx('link')}>
-            Read More
-          </Link>
-        )}
       </div>
     </section>
   )
+
+  if (href) {
+    return (
+      <Link to={href} className={cx('link')}>
+        {element}
+      </Link>
+    )
+  }
+
+  return element
 }
 
 export { LocationBullet }

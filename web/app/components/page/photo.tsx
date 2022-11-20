@@ -27,6 +27,13 @@ const Photo = (props: PhotoProps) => {
         target="_blank"
       >
         <img
+          className={cx('img')}
+          width={photo.width}
+          height={photo.height}
+          src={photo.src}
+          srcSet={photo.srcSet.join(', ')}
+        />
+        <img
           className={cx('placeholder')}
           width={photo.width}
           height={photo.height}
@@ -34,13 +41,6 @@ const Photo = (props: PhotoProps) => {
           style={{
             imageRendering: 'pixelated',
           }}
-        />
-        <img
-          className={cx('img')}
-          width={photo.width}
-          height={photo.height}
-          src={photo.src}
-          srcSet={photo.srcSet.join(', ')}
         />
       </a>
       {caption && (

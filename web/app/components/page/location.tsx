@@ -16,7 +16,7 @@ type LocationProps = {
   href?: string
   image?: string
   imageAlignV?: number
-  height?: number,
+  height?: number
 }
 
 const Location = (props: LocationProps) => {
@@ -39,7 +39,10 @@ const Location = (props: LocationProps) => {
   const image = usePhoto(imageUrl ?? '')
 
   return (
-    <section className={cx('container')} style={{ height: `${height * 100}vh` }}>
+    <section
+      className={cx('container')}
+      style={{ height: `${height * 100}vh` }}
+    >
       {image && (
         <img
           className={cx('image')}
@@ -51,7 +54,7 @@ const Location = (props: LocationProps) => {
 
       <div className={cx('inner')}>
         <div className={cx('location')}>
-           <BigText text={location} />
+          <BigText text={location} />
         </div>
 
         <div className={cx('details')}>

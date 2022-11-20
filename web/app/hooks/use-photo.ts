@@ -46,4 +46,12 @@ const usePhoto = (src: string): Photo => {
   }
 }
 
-export { usePhoto }
+const usePhotoMaybe = (src: string | undefined): Photo | undefined => {
+  if (typeof src === 'undefined') {
+    return undefined
+  }
+
+  return usePhoto(src)
+}
+
+export { usePhoto, usePhotoMaybe }

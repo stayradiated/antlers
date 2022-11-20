@@ -56,7 +56,8 @@ const getMarkdocPage = async (options: GetPageOptions) => {
                   })
                 : undefined
 
-              return new Tag('Location', attributes, children)
+              const tagName = config.tags![node.tag!].render
+              return new Tag(tagName, attributes, children)
             },
           },
           'location-bullet': {
@@ -69,6 +70,39 @@ const getMarkdocPage = async (options: GetPageOptions) => {
               country: { type: String, required: true },
               image: { type: String },
               href: { type: String },
+            },
+            transform(node, config) {
+              const attributes = node.transformAttributes(config)
+              const children = node.transformChildren(config)
+
+              attributes.image = attributes.image
+                ? transformImage({
+                    cacheDirPath: CACHE_DIR_PATH,
+                    cacheHost: CACHE_HOST,
+                    cacheUrlMap,
+                    imageUrl: attributes.image as string,
+                  })
+                : undefined
+
+              const tagName = config.tags![node.tag!].render
+              return new Tag(tagName, attributes, children)
+            },
+          },
+          travel: {
+            render: 'Travel',
+            children: ['tag'],
+            attributes: {
+              date: {
+                type: String,
+                required: true,
+                matches: /^\d{4}-\d{2}-\d{2}$/,
+              },
+              type: {
+                type: String,
+                required: true,
+                matches: ['plane', 'train', 'bus', 'bicycle'],
+              },
+              distance: { type: String },
             },
           },
           map: {

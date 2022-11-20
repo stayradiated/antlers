@@ -3,16 +3,18 @@ import Markdoc from '@markdoc/markdoc'
 import React from 'react'
 import type { RenderableTreeNode } from '@markdoc/markdoc'
 
+import { Accomodation } from './accomodation'
+import { Extract } from './extract'
 import { Location } from './location'
 import { LocationBullet } from './location-bullet'
-import { Accomodation } from './accomodation'
-import { Photo } from './photo'
-import { Row } from './row'
 import { Map } from './map'
-import { Strava } from './strava'
+import { Photo } from './photo'
 import { Place } from './place'
+import { Row } from './row'
+import { Strava } from './strava'
 import { Tip } from './tip'
-import { Extract } from './extract'
+import { Travel } from './travel'
+
 import { createCX } from '~/lib/class-name'
 
 const cx = createCX('page', 'Page')
@@ -33,15 +35,16 @@ const Page = (props: PageProps) => {
       {Markdoc.renderers.react(content, React, {
         components: {
           Accomodation,
-          Photo,
-          Row,
-          Map,
-          Strava,
-          Place,
-          Tip,
           Extract,
           Location,
-          LocationBullet
+          LocationBullet,
+          Map,
+          Photo,
+          Place,
+          Row,
+          Strava,
+          Tip,
+          Travel,
         },
       })}
     </main>
