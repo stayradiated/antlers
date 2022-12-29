@@ -13,7 +13,7 @@ type LocationBulletProps = {
   location: string
   country: string
   href?: string
-  image?: string
+  image?: Record<string, string>
 }
 
 const LocationBullet = (props: LocationBulletProps) => {
@@ -23,7 +23,7 @@ const LocationBullet = (props: LocationBulletProps) => {
     location,
     country,
     href,
-    image: imageUrl,
+    image: imageSource,
   } = props
 
   const arriveAt = dF.parseISO(arriveAtString)
@@ -31,17 +31,17 @@ const LocationBullet = (props: LocationBulletProps) => {
   const arriveAtFormatted = dF.format(arriveAt, 'dd MMM yyyy')
   const nights = dF.differenceInDays(departAt, arriveAt)
 
-  const image = usePhotoMaybe(imageUrl)
+  const photo = usePhotoMaybe(imageSource ? { source: imageSource, width: 1, height: 1 } : undefined)
 
   const element = (
     <section
-      className={cx('container', Boolean(image) && cx('container-has-image'))}
+      className={cx('container', Boolean(photo) && cx('container-has-image'))}
     >
-      {image && (
+      {photo && (
         <img
           className={cx('image')}
-          src={image.src}
-          srcSet={image.srcSet.join(', ')}
+          src={photo.src}
+          srcSet={photo.srcSet.join(', ')}
         />
       )}
 

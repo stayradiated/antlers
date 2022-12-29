@@ -4,7 +4,7 @@ import { BigText } from '~/components/bit/big-text'
 
 import { createCX } from '~/lib/class-name'
 
-import { usePhoto } from '~/hooks/use-photo'
+import { usePhotoMaybe } from '~/hooks/use-photo'
 
 const cx = createCX('page', 'Location')
 
@@ -14,7 +14,7 @@ type LocationProps = {
   location: string
   country: string
   href?: string
-  image?: string
+  image?: Record<string, string>,
   imageAlignV?: number
   height?: number
 }
@@ -26,7 +26,7 @@ const Location = (props: LocationProps) => {
     location,
     country,
     href,
-    image: imageUrl,
+    image: imageSource,
     imageAlignV,
     height = 0.5,
   } = props
@@ -36,18 +36,18 @@ const Location = (props: LocationProps) => {
   const arriveAtFormatted = dF.format(arriveAt, 'do MMMM, yyyy')
   const nights = dF.differenceInDays(departAt, arriveAt)
 
-  const image = usePhoto(imageUrl ?? '')
+  const photo = usePhotoMaybe(imageSource ? { source: imageSource, width: 1, height: 1 } : undefined)
 
   return (
     <section
       className={cx('container')}
       style={{ height: `${height * 100}vh` }}
     >
-      {image && (
+      {photo && (
         <img
           className={cx('image')}
-          src={image.src}
-          srcSet={image.srcSet.join(', ')}
+          src={photo.src}
+          srcSet={photo.srcSet.join(', ')}
           style={{ objectPosition: `50% ${imageAlignV ?? 50}%` }}
         />
       )}

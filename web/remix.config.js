@@ -7,6 +7,14 @@ module.exports = {
   // publicPath: "/build/",
   serverDependenciesToBundle: [
     'photoswipe',
-    'photoswipe/lightbox', 
+      'photoswipe/lightbox', 
+
+    'cache-manager-better-sqlite3',
+      'cbor-x',
+    
+    'p-map',
+      'aggregate-error',
+      'clean-stack',
+      'indent-string'
   ]
 };

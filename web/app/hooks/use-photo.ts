@@ -6,39 +6,27 @@ type Photo = {
   height: number
 }
 
-const usePhoto = (src: string): Photo => {
-  if (!src.startsWith('cache•')) {
-    return {
-      src,
-      srcSet: [],
-      aspectRatio: 0,
-      width: 0,
-      height: 0,
-    }
-  }
+type Input = {
+  source: Record<string, string>
+  width: number
+  height: number
+}
 
-  const [_prefix, url, widthString, heightString] = src.split('•')
-  const width = Number.parseInt(widthString, 10)
-  const height = Number.parseInt(heightString, 10)
-
-  const getImgUrl = (resolution: number): string => {
-    return new URL(`${resolution}.jpg`, url).href
-  }
-
+const usePhoto = (input: Input): Photo => {
+  const { source, width, height } = input
   const aspectRatio = width / height
 
-  const srcSet = [
-    `${getImgUrl(500)} 500w`,
-    `${getImgUrl(750)} 750w`,
-    `${getImgUrl(1000)} 1000w`,
-    `${getImgUrl(1280)} 1280w`,
-    `${getImgUrl(1500)} 1500w`,
-    `${getImgUrl(2000)} 2000w`,
-    `${getImgUrl(2500)} 2500w`,
-  ]
+  const srcSet = [...Object.entries(source)].map(([width, url]) => {
+    return `${url} ${width}w`
+  })
+
+  const maxWidth = Math.max(
+    ...[...Object.keys(source)].map((n) => Number.parseInt(n, 10)),
+  )
+  const maxWidthUrl = source[maxWidth]
 
   return {
-    src: getImgUrl(2500),
+    src: maxWidthUrl,
     srcSet,
     aspectRatio,
     width,
@@ -46,12 +34,12 @@ const usePhoto = (src: string): Photo => {
   }
 }
 
-const usePhotoMaybe = (src: string | undefined): Photo | undefined => {
-  if (typeof src === 'undefined') {
+const usePhotoMaybe = (input: Input | undefined): Photo | undefined => {
+  if (typeof input === 'undefined') {
     return undefined
   }
 
-  return usePhoto(src)
+  return usePhoto(input)
 }
 
 export { usePhoto, usePhotoMaybe }

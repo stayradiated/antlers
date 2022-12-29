@@ -5,14 +5,17 @@ const cx = createCX('page', 'Photo')
 
 type PhotoProps = {
   caption?: string
-  src: string
-  fullWidth?: boolean
+  src: Record<string, string>
+  width: number
+  height: number
 }
 
 const Photo = (props: PhotoProps) => {
-  const { caption, src, fullWidth } = props
+  const { caption, src, width, height } = props
 
-  const photo = usePhoto(src)
+  const photo = usePhoto({ source: src, width, height })
+
+  const fullWidth = true
 
   return (
     <div
@@ -37,7 +40,7 @@ const Photo = (props: PhotoProps) => {
           className={cx('placeholder')}
           width={photo.width}
           height={photo.height}
-          src={photo.src.replace('2500', '16')}
+          src={src[16]}
           style={{
             imageRendering: 'pixelated',
           }}

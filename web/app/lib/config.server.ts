@@ -8,27 +8,23 @@ const envSchema = z.object({
     .transform((arg) => arg === 'true'),
   DEV_SERVER_PATH: z.string().optional(),
 
-  CACHE_DIR_PATH: z.string().default('./tmp'),
-  CACHE_HOST: z
-    .string()
-    .default('http://cat.stayradiated.com/where-is-george-czabania/image/'),
-  CONTENT_HOST: z
-    .string()
-    .default('http://cat.stayradiated.com/where-is-george-czabania/'),
+  CONTENT_HOST: z.string(),
+  IMAGINARY_HOST: z.string(),
+  IMAGINARY_SIGNATURE_KEY: z.string(),
 })
 
 const {
-  CACHE_DIR_PATH,
-  CACHE_HOST,
   CONTENT_HOST,
   DEV_SERVER_ENABLED,
   DEV_SERVER_PATH,
+  IMAGINARY_HOST,
+  IMAGINARY_SIGNATURE_KEY,
 } = envSchema.parse(process.env)
 
 export {
-  CACHE_DIR_PATH,
-  CACHE_HOST,
   CONTENT_HOST,
   DEV_SERVER_PATH,
   DEV_SERVER_ENABLED,
+  IMAGINARY_HOST,
+  IMAGINARY_SIGNATURE_KEY,
 }

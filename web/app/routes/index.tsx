@@ -1,42 +1,62 @@
 import type { LinksFunction, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import type { RenderableTreeNode } from '@markdoc/markdoc'
+import type { RenderableTreeNode, ValidateError } from '@markdoc/markdoc'
 
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
+import { CONTENT_HOST } from '~/lib/config.server'
+import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
 import { Page, PageCSS } from '~/components/page'
 import { BitCSS } from '~/components/bit'
 
-import { getMarkdocPage } from '~/lib/markdoc.server'
+import { fetchContent, parseMarkdoc } from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: PhotoSwipeCSS },
   { rel: 'stylesheet', href: PageCSS },
   { rel: 'stylesheet', href: BitCSS },
+  { rel: 'stylesheet', href: MarkdocCSS },
 ]
 
-type LoaderData = {
-  content: RenderableTreeNode
-}
+type LoaderData =
+  | {
+      success: true
+      value: RenderableTreeNode
+    }
+  | {
+      success: false
+      errors: ValidateError[]
+      source: string
+    }
 
-export const loader: LoaderFunction = async (props) => {
-  const url = new URL(props.request.url)
-  const ignoreCache = url.searchParams.has('refresh')
-
-  const { content } = await getMarkdocPage({
+export const loader: LoaderFunction = async () => {
+  const source = await fetchContent({
+    contentHost: CONTENT_HOST,
     pageId: `index.md`,
-    ignoreCache,
   })
 
-  return json<LoaderData>({ content })
+  const result = await parseMarkdoc({ source })
+  return json<LoaderData>(
+    result.success
+      ? result
+      : {
+          ...result,
+          source,
+        },
+  )
 }
 
 export default function Route() {
-  const { content } = useLoaderData<LoaderData>()
-
+  const loaderData = useLoaderData<LoaderData>()
   const { galleryClassName } = usePhotoSwipe()
 
-  return <Page isIndex content={content} className={galleryClassName} />
+  if (!loaderData.success) {
+    const { errors, source } = loaderData
+    return <MarkdocErrorList errors={errors} source={source} />
+  }
+
+  const { value } = loaderData
+  return <Page isIndex content={value} className={galleryClassName} />
 }
