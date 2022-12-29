@@ -9,8 +9,13 @@ module.exports = {
     'photoswipe',
       'photoswipe/lightbox', 
 
+    'escape-string-regexp',
+
     'cache-manager-better-sqlite3',
       'cbor-x',
+      'better-sqlite3',
+        'bindings',
+        'file-uri-to-path',
     
     'p-map',
       'aggregate-error',

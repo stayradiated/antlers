@@ -8,7 +8,7 @@
   "scripts": {
     "build": "remix build",
     "build:types": "tsc --noEmit",
-    "package": "remix build && ncc build ./build/index.js",
+    "package": "rm -rf dist && pnpm run build && node ./scripts/build.mjs",
     "dev": "remix dev",
     "start": "remix-serve build",
     "tidy": "xo --fix --plugin=react ./app"
@@ -19,6 +19,7 @@
     "@remix-run/node": "1.9.0",
     "@remix-run/react": "1.9.0",
     "@remix-run/serve": "1.9.0",
+    "better-sqlite3": "8.0.1",
     "cache-manager": "5.1.4",
     "cache-manager-better-sqlite3": "1.1.2",
     "date-fns": "2.29.3",
@@ -38,6 +39,7 @@
     "@types/react-dom": "18.0.10",
     "@types/validator": "13.7.10",
     "@vercel/ncc": "0.36.0",
+    "esbuild": "0.16.12",
     "eslint": "8.30.0",
     "typescript": "4.9.4",
     "xo": "0.53.1"
