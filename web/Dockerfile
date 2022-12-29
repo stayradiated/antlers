@@ -11,7 +11,7 @@ RUN \
   dpkg -i /tmp/imgp.deb; \
   rm -r /tmp/imgp.deb
 
-RUN npm install --verbose --location=global @remix-run/serve@1.7.3
+RUN npm install --verbose --location=global @remix-run/serve@1.9.0
 
 WORKDIR /app
 COPY ./dist/ ./
