@@ -8,6 +8,7 @@ const envSchema = z.object({
     .transform((arg) => arg === 'true'),
   DEV_SERVER_PATH: z.string().optional(),
 
+  CACHE_PATH: z.string(),
   CONTENT_HOST: z.string(),
   IMAGINARY_HOST: z.string(),
   IMAGINARY_SIGNATURE_KEY: z.string(),
@@ -15,6 +16,7 @@ const envSchema = z.object({
 
 const {
   CONTENT_HOST,
+  CACHE_PATH,
   DEV_SERVER_ENABLED,
   DEV_SERVER_PATH,
   IMAGINARY_HOST,
@@ -22,6 +24,7 @@ const {
 } = envSchema.parse(process.env)
 
 export {
+  CACHE_PATH,
   CONTENT_HOST,
   DEV_SERVER_PATH,
   DEV_SERVER_ENABLED,

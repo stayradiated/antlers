@@ -31,7 +31,9 @@ const LocationBullet = (props: LocationBulletProps) => {
   const arriveAtFormatted = dF.format(arriveAt, 'dd MMM yyyy')
   const nights = dF.differenceInDays(departAt, arriveAt)
 
-  const photo = usePhotoMaybe(imageSource ? { source: imageSource, width: 1, height: 1 } : undefined)
+  const photo = usePhotoMaybe(
+    imageSource ? { source: imageSource, width: 1, height: 1 } : undefined,
+  )
 
   const element = (
     <section

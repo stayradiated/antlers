@@ -5,7 +5,7 @@ import * as path from "node:path"
 const url = new URL(import.meta.url)
 
 const projectPath = path.join(path.dirname(url.pathname), "../")
-const sourcePath = path.join(projectPath, "./build/index.js")
+const sourcePath = path.join(projectPath, "./scripts/serve.js")
 const distPath = path.join(projectPath, "./dist")
 
 await fs.mkdir(distPath, { recursive: true })

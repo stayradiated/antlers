@@ -1,10 +1,11 @@
 import sqliteStore from 'cache-manager-better-sqlite3'
 import { caching, multiCaching, type MultiCache } from 'cache-manager'
+import { CACHE_PATH } from '../config.server'
 
 const createCache = async (): Promise<MultiCache> => {
   const sqliteCache = await caching(sqliteStore, {
     name: 'cache',
-    path: './cache.db',
+    path: CACHE_PATH,
   })
 
   const memoryCache = await caching('memory', {
