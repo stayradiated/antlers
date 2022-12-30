@@ -4,34 +4,37 @@ import type {
   ValidateError,
 } from '@markdoc/markdoc'
 import Markdoc from '@markdoc/markdoc'
+import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
 
 import { nodes, tags } from './markdoc/index'
 import { parseMarkdoc } from './markdoc-parse'
 
-type ParseMarkdocOptions = {
+type TransformMarkdocOptions = {
   pageId: string
   source: string
   hash: string
 }
 
-type ParseMarkdocResult =
-  | {
-      createdAt: Date
-      hash: string
-      success: true
-      value: RenderableTreeNode
-    }
-  | {
-      createdAt: Date
-      hash: string
-      success: false
-      errors: ValidateError[]
-    }
+const $TransformMarkdocResult = z.discriminatedUnion('success', [
+  z.object({
+    success: z.literal(true),
+    createdAt: z.date(),
+    hash: z.string(),
+    value: z.custom<RenderableTreeNode>(),
+  }),
+  z.object({
+    success: z.literal(false),
+    createdAt: z.date(),
+    hash: z.string(),
+    errors: z.custom<ValidateError[]>(),
+  }),
+])
+type TransformMarkdocResult = z.infer<typeof $TransformMarkdocResult>
 
 const forceTransformMarkdoc = withDebugTime(
-  async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
+  async (options: TransformMarkdocOptions): Promise<TransformMarkdocResult> => {
     const { pageId, source, hash } = options
 
     const createdAt = new Date()
@@ -56,21 +59,23 @@ const forceTransformMarkdoc = withDebugTime(
 )
 
 const transformMarkdoc = withDebugTime(
-  async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
+  async (options: TransformMarkdocOptions): Promise<TransformMarkdocResult> => {
     const { pageId, hash } = options
 
     const cache = await getCache()
 
     const cacheKey = `transformMarkdoc:${pageId}`
-    const cachedResult = await cache.get<ParseMarkdocResult>(cacheKey)
+    const safeCachedResult = $TransformMarkdocResult.safeParse(
+      await cache.get<TransformMarkdocResult>(cacheKey),
+    )
 
-    if (!cachedResult || cachedResult.hash !== hash) {
+    if (!safeCachedResult.success || safeCachedResult.data.hash !== hash) {
       const result = await forceTransformMarkdoc(options)
       await cache.set(cacheKey, result)
       return result
     }
 
-    return cachedResult
+    return safeCachedResult.data
   },
   (options) => `transformMarkdoc: ${options.pageId}`,
 )

@@ -1,6 +1,7 @@
-import type { RenderableTreeNode, Node } from '@markdoc/markdoc'
+import type { Node } from '@markdoc/markdoc'
 import Markdoc from '@markdoc/markdoc'
 import pMap from 'p-map'
+import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
 
@@ -12,11 +13,13 @@ type ParseMarkdocOptions = {
   hash: string
 }
 
-type ParseMarkdocResult = {
-  createdAt: Date
-  hash: string
-  ast: Node
-}
+const $Node = z.custom<Node>()
+const $ParseMarkdocResult = z.object({
+  createdAt: z.date(),
+  hash: z.string(),
+  ast: $Node,
+})
+type ParseMarkdocResult = z.infer<typeof $ParseMarkdocResult>
 
 const forceParseMarkdoc = withDebugTime(
   async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
@@ -54,15 +57,18 @@ const parseMarkdoc = withDebugTime(
     const cache = await getCache()
 
     const cacheKey = `parseMarkdoc:${pageId}`
-    const cachedResult = await cache.get<ParseMarkdocResult>(cacheKey)
+    const safeCachedResult = $ParseMarkdocResult.safeParse(
+      await cache.get<ParseMarkdocResult>(cacheKey),
+    )
+    console.log(safeCachedResult)
 
-    if (!cachedResult || cachedResult.hash !== hash) {
+    if (!safeCachedResult.success || safeCachedResult.data.hash !== hash) {
       const result = await forceParseMarkdoc(options)
       await cache.set(cacheKey, result)
       return result
     }
 
-    return cachedResult
+    return safeCachedResult.data
   },
   (options) => `parseMarkdoc: ${options.pageId}`,
 )

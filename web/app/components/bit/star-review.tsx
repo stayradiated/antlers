@@ -14,9 +14,10 @@ const StarReview = (props: StarReviewProps) => {
 
   return (
     <div className={cx('main', className)}>
-      {Array.from({ length: value }).map(() => {
+      {Array.from({ length: value }).map((_, index) => {
         return (
           <div
+            key={index}
             className={cx('star')}
             style={{ backgroundImage: `url(${icons.star})` }}
           />

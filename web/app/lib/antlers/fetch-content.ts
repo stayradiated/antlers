@@ -1,13 +1,15 @@
 import * as crypto from 'node:crypto'
+import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
 
-type FetchContentResult = {
-  createdAt: Date
-  etag: string | undefined
-  responseHash: string
-  responseText: string
-}
+const $FetchContentResult = z.object({
+  createdAt: z.date(),
+  etag: z.string().optional(),
+  responseHash: z.string(),
+  responseText: z.string(),
+})
+type FetchContentResult = z.infer<typeof $FetchContentResult>
 
 const getCacheKey = (contentHost: string, fileName: string): string => {
   return `fetchContent:${contentHost}${fileName}`
@@ -43,6 +45,7 @@ const forceFetchContent = withDebugTime(
       .update(responseText)
       .digest()
       .toString('base64')
+
     const etag = response.headers.get('ETag') ?? undefined
 
     return {
@@ -61,13 +64,17 @@ const fetchContent = withDebugTime(
 
     const cache = await getCache()
     const cacheKey = getCacheKey(contentHost, pageId)
-    const cachedResult = await cache.get<FetchContentResult>(cacheKey)
+    const safeCachedResult = $FetchContentResult.safeParse(
+      await cache.get<FetchContentResult>(cacheKey),
+    )
 
-    if (!cachedResult) {
+    if (!safeCachedResult.success) {
       const result = await forceFetchContent(options)
       await cache.set(cacheKey, result)
       return result
     }
+
+    const cachedResult = safeCachedResult.data
 
     void (async function () {
       const updatedResult = await forceFetchContent(options, cachedResult)
