@@ -12,7 +12,7 @@ import { Page, PageCSS } from '~/components/page'
 import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 import { BitCSS } from '~/components/bit'
 
-import { fetchContent, parseMarkdoc } from '~/lib/antlers.server'
+import { fetchContent, transformMarkdoc } from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
@@ -35,15 +35,19 @@ type LoaderData =
 
 export const loader: LoaderFunction = async (props) => {
   const { params } = props
-  const { page: pageId } = params
-  invariant(typeof pageId === 'string', 'Must specify page')
+  const { page } = params
+  invariant(typeof page === 'string', 'Must specify page')
 
-  const source = await fetchContent({
+  const pageId = `${page}.md`
+
+  const content = await fetchContent({
     contentHost: CONTENT_HOST,
-    pageId: `${pageId}.md`,
+    pageId,
   })
+  const source = content.responseText
+  const hash = content.responseHash
 
-  const result = await parseMarkdoc({ source })
+  const result = await transformMarkdoc({ pageId, source, hash })
   return json<LoaderData>(
     result.success
       ? result
