@@ -18,6 +18,7 @@ const createCache = async (): Promise<MultiCache> => {
 }
 
 declare global {
+  /* eslint-disable-next-line no-var */
   var __cache: Promise<MultiCache> | undefined
 }
 

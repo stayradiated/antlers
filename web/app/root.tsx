@@ -11,6 +11,7 @@ import {
 import globalStylesheet from './global.css'
 
 export const meta: MetaFunction = () => ({
+  /* eslint-disable-next-line unicorn/text-encoding-identifier-case */
   charset: 'utf-8',
   title: 'Where is George Czabania?',
   viewport: 'width=device-width,initial-scale=1',

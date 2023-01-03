@@ -7,23 +7,23 @@ type Photo = {
 }
 
 type Input = {
-  source: Record<string, string>
+  urls: Record<string, string>
   width: number
   height: number
 }
 
 const usePhoto = (input: Input): Photo => {
-  const { source, width, height } = input
+  const { urls, width, height } = input
   const aspectRatio = width / height
 
-  const srcSet = [...Object.entries(source)].map(([width, url]) => {
+  const srcSet = [...Object.entries(urls)].map(([width, url]) => {
     return `${url} ${width}w`
   })
 
   const maxWidth = Math.max(
-    ...[...Object.keys(source)].map((n) => Number.parseInt(n, 10)),
+    ...[...Object.keys(urls)].map((n) => Number.parseInt(n, 10)),
   )
-  const maxWidthUrl = source[maxWidth]
+  const maxWidthUrl = urls[maxWidth]
 
   return {
     src: maxWidthUrl,

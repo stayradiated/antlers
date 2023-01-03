@@ -27,14 +27,14 @@
 }
 
 /******************************************************************************/
-/* PHOTO */
+/* Image */
 /******************************************************************************/
 
-.page_Photo-main {
+.page_Image-main {
   position: relative;
 }
 
-.page_Page-container article > .page_Photo-full-width {
+.page_Page-container article > .page_Image-full-width {
   left: 50%;
   right: 50%;
   width: 98vw;
@@ -42,14 +42,14 @@
   margin-right: -49vw;
 }
 
-.page_Photo-img {
+.page_Image-img {
   width: 100%;
   height: auto;
   vertical-align: middle;
   border-radius: 4px;
 }
 
-.page_Photo-placeholder {
+.page_Image-placeholder {
   position: absolute;
   width: 100%;
   height: auto;
@@ -169,17 +169,17 @@
 }
 
 /******************************************************************************/
-/* LOCATION BULLET */
+/* SOJOURN */
 /******************************************************************************/
 
-.page_LocationBullet-link {
+.page_Sojourn-link {
   color: inherit;
 }
-.page_LocationBullet-link:hover {
+.page_Sojourn-link:hover {
   text-decoration: none;
 }
 
-.page_LocationBullet-container {
+.page_Sojourn-container {
   position: relative;
 
   display: flex;
@@ -194,7 +194,7 @@
   overflow: hidden;
 }
 
-.page_LocationBullet-container-has-image:before {
+.page_Sojourn-container-has-image:before {
   content: '';
   display: block;
   position: absolute;
@@ -204,14 +204,14 @@
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5));
 }
 
-/* .page_LocationBullet-container:after { */
+/* .page_Sojourn-container:after { */
 /*   content: ''; */
 /*   display: block; */
 /*   height: 0; */
 /*   padding-bottom: 60%; */
 /* } */
 
-.page_LocationBullet-image {
+.page_Sojourn-image {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -220,29 +220,29 @@
   transition: transform 0.3s linear;
 }
 
-.page_LocationBullet-link:hover .page_LocationBullet-image {
+.page_Sojourn-link:hover .page_Sojourn-image {
   transform: scale(1.05);
 }
 
-.page_LocationBullet-container-has-image .page_LocationBullet-title:before {
+.page_Sojourn-container-has-image .page_Sojourn-title:before {
   content: '';
   display: block;
   height: 0;
   padding-top: 30%;
 }
 
-.page_LocationBullet-title {
+.page_Sojourn-title {
   text-align: center;
   padding-top: 4rem;
 }
 
-.page_LocationBullet-location {
+.page_Sojourn-location {
   margin: 0;
   font-size: 2.5rem;
   line-height: 2rem;
 }
 
-.page_LocationBullet-country {
+.page_Sojourn-country {
   margin: 0;
 
   height: 3rem;
@@ -255,7 +255,7 @@
   font-weight: 200;
 }
 
-.page_LocationBullet-details {
+.page_Sojourn-details {
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 1rem;
@@ -271,12 +271,12 @@
   font-size: 1rem;
 }
 
-.page_LocationBullet-arriveAt {
+.page_Sojourn-arriveAt {
   margin: 0;
   display: block;
 }
 
-.page_LocationBullet-nights {
+.page_Sojourn-nights {
   margin: 0;
   display: block;
 }

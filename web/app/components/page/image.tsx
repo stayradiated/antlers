@@ -1,19 +1,22 @@
 import { usePhoto } from '~/hooks/use-photo'
 import { createCX } from '~/lib/class-name'
 
-const cx = createCX('page', 'Photo')
+const cx = createCX('page', 'Image')
 
-type PhotoProps = {
-  caption?: string
-  src: Record<string, string>
-  width: number
-  height: number
+type ImageProps = {
+  alt?: string
+  title?: string
+  src: {
+    width: number
+    height: number
+    urls: Record<string, string>
+  }
 }
 
-const Photo = (props: PhotoProps) => {
-  const { caption, src, width, height } = props
+const Image = (props: ImageProps) => {
+  const { alt, title, src } = props
 
-  const photo = usePhoto({ source: src, width, height })
+  const photo = usePhoto(src)
 
   const fullWidth = true
 
@@ -30,6 +33,7 @@ const Photo = (props: PhotoProps) => {
         target="_blank"
       >
         <img
+          title={title}
           className={cx('img')}
           width={photo.width}
           height={photo.height}
@@ -40,19 +44,17 @@ const Photo = (props: PhotoProps) => {
           className={cx('placeholder')}
           width={photo.width}
           height={photo.height}
-          src={src[16]}
+          src={src.urls[16]}
           style={{
             imageRendering: 'pixelated',
           }}
         />
       </a>
-      {caption && (
-        <div style={{ textAlign: 'center', paddingBottom: '1em' }}>
-          {caption}
-        </div>
+      {alt && (
+        <div style={{ textAlign: 'center', paddingBottom: '1em' }}>{alt}</div>
       )}
     </div>
   )
 }
 
-export { Photo }
+export { Image }

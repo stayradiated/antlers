@@ -10,8 +10,9 @@ const withDebugTime =
     const start = process.hrtime.bigint()
     const result = await fn(...args)
     const end = process.hrtime.bigint()
-    const duration =
-      Math.round(Number((end - start) / BigInt(1000))) / 1000 + ' ms'
+    const duration = `${
+      Math.round(Number((end - start) / BigInt(1000))) / 1000
+    } ms`
     console.debug(label, duration)
     return result
   }

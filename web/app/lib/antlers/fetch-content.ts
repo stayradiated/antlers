@@ -1,7 +1,8 @@
-import * as crypto from 'node:crypto'
 import * as z from 'zod'
 import { withDebugTime } from '../debug'
+import { CONTENT_HOST } from '../config.server'
 import { getCache } from './cache'
+import { calcHash } from './hash'
 
 const $FetchContentResult = z.object({
   createdAt: z.date(),
@@ -11,13 +12,8 @@ const $FetchContentResult = z.object({
 })
 type FetchContentResult = z.infer<typeof $FetchContentResult>
 
-const getCacheKey = (contentHost: string, fileName: string): string => {
-  return `fetchContent:${contentHost}${fileName}`
-}
-
 type FetchContentOptions = {
   pageId: string
-  contentHost: string
 }
 
 const forceFetchContent = withDebugTime(
@@ -25,14 +21,20 @@ const forceFetchContent = withDebugTime(
     options: FetchContentOptions,
     previousResult?: FetchContentResult,
   ): Promise<FetchContentResult> => {
-    const { contentHost, pageId } = options
+    const { pageId } = options
     const createdAt = new Date()
     const headers = new Headers()
     if (typeof previousResult?.etag === 'string') {
       headers.set('If-None-Match', previousResult.etag)
     }
 
-    const response = await fetch(`${contentHost}${pageId}`, { headers })
+    const response = await fetch(`${CONTENT_HOST}${pageId}`, { headers })
+
+    if (response.status >= 400) {
+      throw new Error(
+        `Could not fetch content: ${response.status} ${response.statusText}`,
+      )
+    }
 
     // 304 Not Modified
     if (previousResult && response.status === 304) {
@@ -40,11 +42,7 @@ const forceFetchContent = withDebugTime(
     }
 
     const responseText = await response.text()
-    const responseHash = crypto
-      .createHash('sha256')
-      .update(responseText)
-      .digest()
-      .toString('base64')
+    const responseHash = calcHash(responseText)
 
     const etag = response.headers.get('ETag') ?? undefined
 
@@ -60,10 +58,10 @@ const forceFetchContent = withDebugTime(
 
 const fetchContent = withDebugTime(
   async (options: FetchContentOptions): Promise<FetchContentResult> => {
-    const { contentHost, pageId } = options
+    const { pageId } = options
 
     const cache = await getCache()
-    const cacheKey = getCacheKey(contentHost, pageId)
+    const cacheKey = `fetchContent:${pageId}`
     const safeCachedResult = $FetchContentResult.safeParse(
       await cache.get<FetchContentResult>(cacheKey),
     )

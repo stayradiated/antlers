@@ -1,50 +1,74 @@
 import type { Node } from '@markdoc/markdoc'
 import Markdoc from '@markdoc/markdoc'
-import pMap from 'p-map'
 import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
-
-import { fetchImageInfo } from './image-info'
+import { $ReferenceKeys, $Frontmatter } from './types'
+import type { ReferenceKeys } from './types'
+import { parseFrontmatter } from './frontmatter'
 
 type ParseMarkdocOptions = {
   pageId: string
   source: string
-  hash: string
+  sourceHash: string
 }
 
-const $Node = z.custom<Node>()
+const $Node = z.custom<Node>(z.record(z.string(), z.unknown()).parse)
+
 const $ParseMarkdocResult = z.object({
   createdAt: z.date(),
-  hash: z.string(),
+  sourceHash: z.string(),
   ast: $Node,
+  frontmatter: $Frontmatter,
+  referenceKeys: $ReferenceKeys,
 })
 type ParseMarkdocResult = z.infer<typeof $ParseMarkdocResult>
 
 const forceParseMarkdoc = withDebugTime(
   async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
-    const { source, hash } = options
+    const { source, sourceHash } = options
 
     const createdAt = new Date()
 
+    const referenceKeys: ReferenceKeys = {
+      files: [],
+      images: [],
+    }
+
     const ast = Markdoc.parse(source)
 
-    await pMap(
-      ast.walk(),
-      async (item) => {
-        if (item.type === 'image') {
-          const info = await fetchImageInfo({ source: item.attributes.src })
-          item.attributes.width = info.width
-          item.attributes.height = info.height
+    const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
+
+    if ('image' in frontmatter && typeof frontmatter.image === 'string') {
+      referenceKeys.images.push(frontmatter.image)
+    }
+
+    for (const item of ast.walk()) {
+      if (item.type === 'image') {
+        referenceKeys.images.push(item.attributes.src)
+      }
+
+      if (item.type === 'tag' && item.tag?.endsWith('Partial')) {
+        const file = item.attributes.file as unknown
+        if (typeof file === 'string') {
+          referenceKeys.files.push(file)
         }
-      },
-      { concurrency: 10 },
-    )
+      }
+
+      if (item.type === 'tag' && item.tag === 'sojourn') {
+        const image = item.attributes.image as unknown
+        if (typeof image === 'string') {
+          referenceKeys.images.push(image)
+        }
+      }
+    }
 
     return {
       createdAt,
-      hash,
+      sourceHash,
       ast,
+      frontmatter,
+      referenceKeys,
     }
   },
   (options) => `forceParseMarkdoc: ${options.pageId}`,
@@ -52,7 +76,7 @@ const forceParseMarkdoc = withDebugTime(
 
 const parseMarkdoc = withDebugTime(
   async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
-    const { pageId, hash } = options
+    const { pageId, sourceHash } = options
 
     const cache = await getCache()
 
@@ -60,15 +84,23 @@ const parseMarkdoc = withDebugTime(
     const safeCachedResult = $ParseMarkdocResult.safeParse(
       await cache.get<ParseMarkdocResult>(cacheKey),
     )
-    console.log(safeCachedResult)
 
-    if (!safeCachedResult.success || safeCachedResult.data.hash !== hash) {
+    if (
+      !safeCachedResult.success ||
+      safeCachedResult.data.sourceHash !== sourceHash
+    ) {
       const result = await forceParseMarkdoc(options)
       await cache.set(cacheKey, result)
       return result
     }
 
-    return safeCachedResult.data
+    const revivedAst = Markdoc.Ast.fromJSON(
+      JSON.stringify(safeCachedResult.data.ast),
+    ) as Node
+    return {
+      ...safeCachedResult.data,
+      ast: revivedAst,
+    }
   },
   (options) => `parseMarkdoc: ${options.pageId}`,
 )

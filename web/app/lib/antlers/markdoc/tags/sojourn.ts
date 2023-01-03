@@ -1,18 +1,17 @@
 import type { Schema } from '@markdoc/markdoc'
 
-type LocationProps = {
+type SojournProps = {
   arriveAt: string
   departAt?: string
   location: string
   country: string
   image?: string
-  imageAlignV?: number
   href?: string
-  height?: number
+  imageAlignV?: string
 }
 
-const location: Schema = {
-  render: 'Location',
+const sojourn: Schema = {
+  render: 'Sojourn',
   children: [],
   attributes: {
     arriveAt: { type: String, required: true },
@@ -20,11 +19,10 @@ const location: Schema = {
     location: { type: String, required: true },
     country: { type: String, required: true },
     image: { type: String },
-    imageAlignV: { type: Number },
     href: { type: String },
-    height: { type: Number, default: 0.5 },
+    imageAlignV: { type: Number },
   },
 }
 
-export { location }
-export type { LocationProps }
+export { sojourn }
+export type { SojournProps }

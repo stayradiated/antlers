@@ -5,18 +5,22 @@ import { createCX } from '~/lib/class-name'
 
 import { usePhotoMaybe } from '~/hooks/use-photo'
 
-const cx = createCX('page', 'LocationBullet')
+const cx = createCX('page', 'Sojourn')
 
-type LocationBulletProps = {
+type SojournProps = {
   arriveAt: string
   departAt?: string
   location: string
   country: string
   href?: string
-  image?: Record<string, string>
+  image?: {
+    width: number
+    height: number
+    urls: Record<number, string>
+  }
 }
 
-const LocationBullet = (props: LocationBulletProps) => {
+const Sojourn = (props: SojournProps) => {
   const {
     arriveAt: arriveAtString,
     departAt: departAtString,
@@ -32,7 +36,7 @@ const LocationBullet = (props: LocationBulletProps) => {
   const nights = dF.differenceInDays(departAt, arriveAt)
 
   const photo = usePhotoMaybe(
-    imageSource ? { source: imageSource, width: 1, height: 1 } : undefined,
+    typeof imageSource === 'object' ? imageSource : undefined,
   )
 
   const element = (
@@ -72,4 +76,4 @@ const LocationBullet = (props: LocationBulletProps) => {
   return element
 }
 
-export { LocationBullet }
+export { Sojourn }

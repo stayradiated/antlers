@@ -16,7 +16,7 @@ const paragraph: Schema = {
         }
 
         if (child instanceof Tag) {
-          return child.name === 'Photo'
+          return child.name === 'Image'
         }
 
         return false

@@ -4,13 +4,17 @@ import { useLoaderData } from '@remix-run/react'
 import type { RenderableTreeNode, ValidateError } from '@markdoc/markdoc'
 
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
-import { CONTENT_HOST } from '~/lib/config.server'
 import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
 import { Page, PageCSS } from '~/components/page'
 import { BitCSS } from '~/components/bit'
 
-import { fetchContent, transformMarkdoc } from '~/lib/antlers.server'
+import {
+  fetchContent,
+  transformMarkdoc,
+  getCache,
+  type References,
+} from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
@@ -24,6 +28,7 @@ type LoaderData =
   | {
       success: true
       value: RenderableTreeNode
+      references: References
     }
   | {
       success: false
@@ -31,17 +36,21 @@ type LoaderData =
       source: string
     }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
   const pageId = 'index.md'
+  const cacheParameter = new URL(request.url).searchParams.get('cache')
 
-  const content = await fetchContent({
-    contentHost: CONTENT_HOST,
-    pageId,
-  })
+  if (cacheParameter === '0') {
+    const cache = await getCache()
+    await cache.del(`parseMarkdoc:${pageId}`)
+    await cache.del(`transformMarkdoc:${pageId}`)
+  }
+
+  const content = await fetchContent({ pageId })
   const source = content.responseText
-  const hash = content.responseHash
+  const sourceHash = content.responseHash
 
-  const result = await transformMarkdoc({ source, pageId, hash })
+  const result = await transformMarkdoc({ source, pageId, sourceHash })
   return json<LoaderData>(
     result.success
       ? result
@@ -61,6 +70,13 @@ export default function Route() {
     return <MarkdocErrorList errors={errors} source={source} />
   }
 
-  const { value } = loaderData
-  return <Page isIndex content={value} className={galleryClassName} />
+  const { value, references } = loaderData
+  return (
+    <Page
+      isIndex
+      content={value}
+      context={{ references }}
+      className={galleryClassName}
+    />
+  )
 }

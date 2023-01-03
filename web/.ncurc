@@ -1,0 +1,6 @@
+{
+  "upgrade": true,
+
+  // needs to match version specified in cache-manager-better-sqlite3
+  "reject": ["better-sqlite3"]
+}

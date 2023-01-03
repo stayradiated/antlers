@@ -1,3 +1,7 @@
 export * from './markdoc-parse'
 export * from './markdoc-transform'
 export * from './fetch-content'
+export * from './cache'
+export * from './references'
+export * from './frontmatter'
+export * from './types'

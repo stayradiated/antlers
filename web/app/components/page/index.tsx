@@ -1,12 +1,3 @@
-export * from './accomodation'
-export * from './extract'
-export * from './location'
-export * from './map'
 export * from './page'
-export * from './photo'
-export * from './place'
-export * from './row'
-export * from './strava'
-export * from './tip'
 
 export { default as PageCSS } from './styles.css'

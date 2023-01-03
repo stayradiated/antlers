@@ -14,7 +14,11 @@ type LocationProps = {
   location: string
   country: string
   href?: string
-  image?: Record<string, string>
+  image?: {
+    width: number
+    height: number
+    urls: Record<string, string>
+  }
   imageAlignV?: number
   height?: number
 }
@@ -36,9 +40,7 @@ const Location = (props: LocationProps) => {
   const arriveAtFormatted = dF.format(arriveAt, 'do MMMM, yyyy')
   const nights = dF.differenceInDays(departAt, arriveAt)
 
-  const photo = usePhotoMaybe(
-    imageSource ? { source: imageSource, width: 1, height: 1 } : undefined,
-  )
+  const photo = usePhotoMaybe(imageSource ?? undefined)
 
   return (
     <section

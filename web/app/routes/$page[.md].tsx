@@ -6,13 +6,15 @@ import type { RenderableTreeNode, ValidateError } from '@markdoc/markdoc'
 
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
 
-import { CONTENT_HOST } from '~/lib/config.server'
-
 import { Page, PageCSS } from '~/components/page'
 import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 import { BitCSS } from '~/components/bit'
 
-import { fetchContent, transformMarkdoc } from '~/lib/antlers.server'
+import {
+  fetchContent,
+  transformMarkdoc,
+  type References,
+} from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
@@ -26,6 +28,7 @@ type LoaderData =
   | {
       success: true
       value: RenderableTreeNode
+      references: References
     }
   | {
       success: false
@@ -40,14 +43,11 @@ export const loader: LoaderFunction = async (props) => {
 
   const pageId = `${page}.md`
 
-  const content = await fetchContent({
-    contentHost: CONTENT_HOST,
-    pageId,
-  })
+  const content = await fetchContent({ pageId })
   const source = content.responseText
-  const hash = content.responseHash
+  const sourceHash = content.responseHash
 
-  const result = await transformMarkdoc({ pageId, source, hash })
+  const result = await transformMarkdoc({ pageId, source, sourceHash })
   return json<LoaderData>(
     result.success
       ? result
@@ -67,6 +67,12 @@ export default function Route() {
     return <MarkdocErrorList errors={errors} source={source} />
   }
 
-  const { value } = loaderData
-  return <Page content={value} className={galleryClassName} />
+  const { value, references } = loaderData
+  return (
+    <Page
+      content={value}
+      context={{ references }}
+      className={galleryClassName}
+    />
+  )
 }
