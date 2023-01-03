@@ -1,4 +1,8 @@
-import type { Node } from '@markdoc/markdoc'
+import type {
+  Config,
+  RenderableTreeNode,
+  ValidateError,
+} from '@markdoc/markdoc'
 import Markdoc from '@markdoc/markdoc'
 import * as z from 'zod'
 import { withDebugTime } from '../debug'
@@ -7,6 +11,16 @@ import { $ReferenceKeys, $Frontmatter, $Summary } from './types'
 import type { ReferenceKeys } from './types'
 import { parseFrontmatter } from './frontmatter'
 import { calcWordCount } from './summary'
+import { calcHash } from './hash'
+import { nodes, tags } from './markdoc/index'
+
+const config: Config = {
+  tags,
+  nodes,
+  variables: {},
+}
+
+const configHash = calcHash(JSON.stringify(config))
 
 type ParseMarkdocOptions = {
   pageId: string
@@ -14,16 +28,29 @@ type ParseMarkdocOptions = {
   sourceHash: string
 }
 
-const $Node = z.custom<Node>(z.record(z.string(), z.unknown()).parse)
+const $RenderableTreeNode = z.custom<RenderableTreeNode>(
+  z.record(z.string(), z.unknown()).parse,
+)
 
-const $ParseMarkdocResult = z.object({
-  createdAt: z.date(),
-  sourceHash: z.string(),
-  ast: $Node,
-  referenceKeys: $ReferenceKeys,
-  frontmatter: $Frontmatter,
-  summary: $Summary,
-})
+const $ParseMarkdocResult = z.discriminatedUnion('success', [
+  z.object({
+    success: z.literal(true),
+    createdAt: z.date(),
+    sourceHash: z.string(),
+    configHash: z.string(),
+    renderableTreeNode: $RenderableTreeNode,
+    referenceKeys: $ReferenceKeys,
+    frontmatter: $Frontmatter,
+    summary: $Summary,
+  }),
+  z.object({
+    success: z.literal(false),
+    createdAt: z.date(),
+    sourceHash: z.string(),
+    configHash: z.string(),
+    errors: z.custom<ValidateError[]>(),
+  }),
+])
 type ParseMarkdocResult = z.infer<typeof $ParseMarkdocResult>
 
 const forceParseMarkdoc = withDebugTime(
@@ -38,6 +65,13 @@ const forceParseMarkdoc = withDebugTime(
     }
 
     const ast = Markdoc.parse(source)
+
+    const errors = Markdoc.validate(ast, config)
+    if (errors.length > 0) {
+      return { success: false, createdAt, sourceHash, configHash, errors }
+    }
+
+    const renderableTreeNode = Markdoc.transform(ast, config)
 
     const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
 
@@ -77,9 +111,11 @@ const forceParseMarkdoc = withDebugTime(
     }
 
     return {
+      success: true,
       createdAt,
       sourceHash,
-      ast,
+      configHash,
+      renderableTreeNode,
       referenceKeys,
       frontmatter,
       summary: {
@@ -104,20 +140,15 @@ const parseMarkdoc = withDebugTime(
 
     if (
       !safeCachedResult.success ||
-      safeCachedResult.data.sourceHash !== sourceHash
+      safeCachedResult.data.sourceHash !== sourceHash ||
+      safeCachedResult.data.configHash !== configHash
     ) {
       const result = await forceParseMarkdoc(options)
       await cache.set(cacheKey, result)
       return result
     }
 
-    const revivedAst = Markdoc.Ast.fromJSON(
-      JSON.stringify(safeCachedResult.data.ast),
-    ) as Node
-    return {
-      ...safeCachedResult.data,
-      ast: revivedAst,
-    }
+    return safeCachedResult.data
   },
   (options) => `parseMarkdoc: ${options.pageId}`,
 )

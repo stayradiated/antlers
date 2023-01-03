@@ -28,7 +28,7 @@ export const links: LinksFunction = () => [
 type LoaderData =
   | {
       success: true
-      value: RenderableTreeNode
+      renderableTreeNode: RenderableTreeNode
       references: References
     }
   | {
@@ -76,10 +76,10 @@ export default function Route() {
     return <MarkdocErrorList errors={errors} source={source} />
   }
 
-  const { value, references } = loaderData
+  const { renderableTreeNode, references } = loaderData
   return (
     <Page
-      content={value}
+      content={renderableTreeNode}
       context={{ references }}
       className={galleryClassName}
     />

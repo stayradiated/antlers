@@ -14,15 +14,16 @@ const resolveReferencedFile = async (
 ): Promise<ReferencedFile> => {
   const source = await fetchContent({ pageId: referenceKey })
 
-  const {
-    summary,
-    frontmatter,
-    referenceKeys: fileReferenceKeys,
-  } = await parseMarkdoc({
+  const result = await parseMarkdoc({
     pageId: referenceKey,
     source: source.responseText,
     sourceHash: source.responseHash,
   })
+  if (!result.success) {
+    throw new Error(`Could not parse markdoc...`)
+  }
+
+  const { summary, frontmatter, referenceKeys: fileReferenceKeys } = result
   const references = await resolveReferenceKeys(fileReferenceKeys)
 
   return {

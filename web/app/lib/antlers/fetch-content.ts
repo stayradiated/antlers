@@ -1,3 +1,4 @@
+import { setTimeout } from 'node:timers/promises'
 import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { CONTENT_HOST } from '../config.server'
@@ -75,6 +76,7 @@ const fetchContent = withDebugTime(
     const cachedResult = safeCachedResult.data
 
     void (async function () {
+      await setTimeout(Math.random() * 10_000)
       const updatedResult = await forceFetchContent(options, cachedResult)
       if (updatedResult !== cachedResult) {
         await cache.set(cacheKey, updatedResult)
