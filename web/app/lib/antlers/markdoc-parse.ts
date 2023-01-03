@@ -3,9 +3,10 @@ import Markdoc from '@markdoc/markdoc'
 import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
-import { $ReferenceKeys, $Frontmatter } from './types'
+import { $ReferenceKeys, $Frontmatter, $Summary } from './types'
 import type { ReferenceKeys } from './types'
 import { parseFrontmatter } from './frontmatter'
+import { calcWordCount } from './summary'
 
 type ParseMarkdocOptions = {
   pageId: string
@@ -19,8 +20,9 @@ const $ParseMarkdocResult = z.object({
   createdAt: z.date(),
   sourceHash: z.string(),
   ast: $Node,
-  frontmatter: $Frontmatter,
   referenceKeys: $ReferenceKeys,
+  frontmatter: $Frontmatter,
+  summary: $Summary,
 })
 type ParseMarkdocResult = z.infer<typeof $ParseMarkdocResult>
 
@@ -43,9 +45,20 @@ const forceParseMarkdoc = withDebugTime(
       referenceKeys.images.push(frontmatter.image)
     }
 
+    let imageCount = 0
+    let wordCount = 0
+
     for (const item of ast.walk()) {
+      if (item.type === 'text') {
+        const { content } = item.attributes
+        if (typeof content === 'string') {
+          wordCount += calcWordCount(content)
+        }
+      }
+
       if (item.type === 'image') {
         referenceKeys.images.push(item.attributes.src)
+        imageCount += 1
       }
 
       if (item.type === 'tag' && item.tag?.endsWith('Partial')) {
@@ -67,8 +80,12 @@ const forceParseMarkdoc = withDebugTime(
       createdAt,
       sourceHash,
       ast,
-      frontmatter,
       referenceKeys,
+      frontmatter,
+      summary: {
+        wordCount,
+        imageCount,
+      },
     }
   },
   (options) => `forceParseMarkdoc: ${options.pageId}`,

@@ -18,6 +18,10 @@ type SojournProps = {
     height: number
     urls: Record<number, string>
   }
+  summary?: {
+    wordCount: number
+    imageCount: number
+  }
 }
 
 const Sojourn = (props: SojournProps) => {
@@ -28,6 +32,7 @@ const Sojourn = (props: SojournProps) => {
     country,
     href,
     image: imageSource,
+    summary,
   } = props
 
   const arriveAt = dF.parseISO(arriveAtString)
@@ -61,6 +66,11 @@ const Sojourn = (props: SojournProps) => {
         <p className={cx('nights')}>
           {nights} {nights === 1 ? 'night' : 'nights'}
         </p>
+        {summary && (
+          <p>
+            {summary.imageCount} images. {summary.wordCount} words.
+          </p>
+        )}
       </div>
     </section>
   )

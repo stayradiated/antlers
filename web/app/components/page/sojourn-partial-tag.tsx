@@ -15,7 +15,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
     return <ErrorMessage message={message} />
   }
 
-  const { frontmatter, references: fileReferences } = page
+  const { frontmatter, references: fileReferences, summary } = page
   const {
     arriveAt,
     departAt,
@@ -45,6 +45,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
       country={country}
       href={file}
       image={image}
+      summary={summary}
     />
   )
 }

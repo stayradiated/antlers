@@ -1,5 +1,11 @@
 import * as z from 'zod'
 
+const $Summary = z.object({
+  imageCount: z.number(),
+  wordCount: z.number(),
+})
+type Summary = z.infer<typeof $Summary>
+
 const $Frontmatter = z.object({
   arriveAt: z.string().optional(),
   departAt: z.string().optional(),
@@ -29,6 +35,7 @@ const $References: z.ZodType<References> = z.lazy(() =>
 
 const $ReferencedFile = z.object({
   frontmatter: $Frontmatter,
+  summary: $Summary,
   references: $References,
 })
 type ReferencedFile = z.infer<typeof $ReferencedFile>
@@ -46,6 +53,7 @@ export {
   $ReferencedFile,
   $ReferencedImage,
   $References,
+  $Summary,
 }
 export type {
   Frontmatter,
@@ -53,4 +61,5 @@ export type {
   ReferencedFile,
   ReferencedImage,
   References,
+  Summary,
 }
