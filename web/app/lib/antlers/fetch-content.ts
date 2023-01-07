@@ -1,5 +1,6 @@
 import { setTimeout } from 'node:timers/promises'
 import * as z from 'zod'
+import { errorBoundary } from '@stayradiated/error-boundary'
 import { withDebugTime } from '../debug'
 import { CONTENT_HOST } from '../config.server'
 import { getCache } from './cache'
@@ -21,7 +22,7 @@ const forceFetchContent = withDebugTime(
   async (
     options: FetchContentOptions,
     previousResult?: FetchContentResult,
-  ): Promise<FetchContentResult> => {
+  ): Promise<FetchContentResult | Error> => {
     const { pageId } = options
     const createdAt = new Date()
     const headers = new Headers()
@@ -29,10 +30,15 @@ const forceFetchContent = withDebugTime(
       headers.set('If-None-Match', previousResult.etag)
     }
 
-    const response = await fetch(`${CONTENT_HOST}${pageId}`, { headers })
+    const response = await errorBoundary(async () =>
+      fetch(`${CONTENT_HOST}${pageId}`, { headers }),
+    )
+    if (response instanceof Error) {
+      return response
+    }
 
     if (response.status >= 400) {
-      throw new Error(
+      return new Error(
         `Could not fetch content: ${response.status} ${response.statusText}`,
       )
     }
@@ -42,7 +48,11 @@ const forceFetchContent = withDebugTime(
       return previousResult
     }
 
-    const responseText = await response.text()
+    const responseText = await errorBoundary(async () => response.text())
+    if (responseText instanceof Error) {
+      return responseText
+    }
+
     const responseHash = calcHash(responseText)
 
     const etag = response.headers.get('ETag') ?? undefined
@@ -58,7 +68,7 @@ const forceFetchContent = withDebugTime(
 )
 
 const fetchContent = withDebugTime(
-  async (options: FetchContentOptions): Promise<FetchContentResult> => {
+  async (options: FetchContentOptions): Promise<FetchContentResult | Error> => {
     const { pageId } = options
 
     const cache = await getCache()
@@ -69,7 +79,10 @@ const fetchContent = withDebugTime(
 
     if (!safeCachedResult.success) {
       const result = await forceFetchContent(options)
-      await cache.set(cacheKey, result)
+      if (!(result instanceof Error)) {
+        await cache.set(cacheKey, result)
+      }
+
       return result
     }
 

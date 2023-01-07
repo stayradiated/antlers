@@ -1,3 +1,4 @@
+import { errorListBoundary } from '@stayradiated/error-boundary'
 import { fetchContent } from './fetch-content'
 import { fetchImageInfo } from './image-info'
 import { parseMarkdoc } from './markdoc-parse'
@@ -11,8 +12,11 @@ import type {
 
 const resolveReferencedFile = async (
   referenceKey: string,
-): Promise<ReferencedFile> => {
+): Promise<ReferencedFile | Error> => {
   const source = await fetchContent({ pageId: referenceKey })
+  if (source instanceof Error) {
+    return source
+  }
 
   const result = await parseMarkdoc({
     pageId: referenceKey,
@@ -25,6 +29,9 @@ const resolveReferencedFile = async (
 
   const { summary, frontmatter, referenceKeys: fileReferenceKeys } = result
   const references = await resolveReferenceKeys(fileReferenceKeys)
+  if (references instanceof Error) {
+    return references
+  }
 
   return {
     frontmatter,
@@ -44,28 +51,38 @@ const resolveReferencedImage = async (
 
 const resolveReferenceKeys = async (
   referenceKeys: ReferenceKeys,
-): Promise<References> => {
-  const referencedFiles = Object.fromEntries(
-    await Promise.all(
+): Promise<References | Error> => {
+  const referencedFilePairs = await errorListBoundary(async () =>
+    Promise.all(
       referenceKeys.files.map(async (referenceKey) => {
-        return [
-          referenceKey,
-          await resolveReferencedFile(referenceKey),
-        ] as const
-      }),
-    ),
-  )
+        const referencedFile = await resolveReferencedFile(referenceKey)
+        if (referencedFile instanceof Error) {
+          return referencedFile
+        }
 
-  const referencedImages = Object.fromEntries(
-    await Promise.all(
-      referenceKeys.images.map(async (referenceKey) => {
-        return [
-          referenceKey,
-          await resolveReferencedImage(referenceKey),
-        ] as const
+        return [referenceKey, referencedFile] as const
       }),
     ),
   )
+  if (referencedFilePairs instanceof Error) {
+    return referencedFilePairs
+  }
+
+  const referencedFiles = Object.fromEntries(referencedFilePairs)
+
+  const referencedImagePairs = await errorListBoundary(async () =>
+    Promise.all(
+      referenceKeys.images.map(async (referenceKey) => {
+        const referencedImage = await resolveReferencedImage(referenceKey)
+        return [referenceKey, referencedImage] as const
+      }),
+    ),
+  )
+  if (referencedImagePairs instanceof Error) {
+    return referencedImagePairs
+  }
+
+  const referencedImages = Object.fromEntries(referencedImagePairs)
 
   const references = {
     files: referencedFiles,

@@ -30,7 +30,9 @@ const $TransformMarkdocResult = z.discriminatedUnion('success', [
 type TransformMarkdocResult = z.infer<typeof $TransformMarkdocResult>
 
 const transformMarkdoc = withDebugTime(
-  async (options: TransformMarkdocOptions): Promise<TransformMarkdocResult> => {
+  async (
+    options: TransformMarkdocOptions,
+  ): Promise<TransformMarkdocResult | Error> => {
     const { pageId, source, sourceHash } = options
 
     const result = await parseMarkdoc({
@@ -40,15 +42,14 @@ const transformMarkdoc = withDebugTime(
     })
 
     if (!result.success) {
-      const { errors } = result
-      return {
-        success: false,
-        errors,
-      }
+      return result
     }
 
     const { renderableTreeNode, referenceKeys } = result
     const references = await resolveReferenceKeys(referenceKeys)
+    if (references instanceof Error) {
+      return references
+    }
 
     return {
       success: true,

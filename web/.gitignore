@@ -2,6 +2,7 @@ node_modules
 
 /.cache
 /cache.db
+/cache.db-journal
 /build
 /public/build
 .env

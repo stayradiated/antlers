@@ -53,10 +53,26 @@ export const loader: LoaderFunction = async (props) => {
   }
 
   const content = await fetchContent({ pageId })
+  if (content instanceof Error) {
+    return {
+      success: false,
+      errors: [content],
+      source: '',
+    }
+  }
+
   const source = content.responseText
   const sourceHash = content.responseHash
 
   const result = await transformMarkdoc({ pageId, source, sourceHash })
+  if (result instanceof Error) {
+    return {
+      success: false,
+      errors: [result],
+      source: '',
+    }
+  }
+
   return json<LoaderData>(
     result.success
       ? result
