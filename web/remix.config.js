@@ -17,6 +17,8 @@ module.exports = {
     'p-map',
       'aggregate-error',
       'clean-stack',
-      'indent-string'
+      'indent-string',
+
+    'p-debounce'
   ]
 };

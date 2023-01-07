@@ -7,12 +7,11 @@ import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
 import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
 import { Page, PageCSS } from '~/components/page'
-import { BitCSS } from '~/components/bit'
+import { BitCSS, ErrorMessage } from '~/components/bit'
 
 import {
   fetchContent,
   transformMarkdoc,
-  getCache,
   type References,
 } from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
@@ -26,33 +25,26 @@ export const links: LinksFunction = () => [
 
 type LoaderData =
   | {
-      success: true
+      state: 'success'
       renderableTreeNode: RenderableTreeNode
       references: References
     }
   | {
-      success: false
+      state: 'validation-error'
       errors: ValidateError[]
       source: string
     }
+  | {
+      state: 'error'
+      error: Error
+    }
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   const pageId = 'index.md'
-  const cacheParameter = new URL(request.url).searchParams.get('cache')
-
-  if (cacheParameter === '0') {
-    const cache = await getCache()
-    await cache.del(`parseMarkdoc:${pageId}`)
-    await cache.del(`transformMarkdoc:${pageId}`)
-  }
 
   const content = await fetchContent({ pageId })
   if (content instanceof Error) {
-    return {
-      success: false,
-      errors: [content],
-      source: '',
-    }
+    return json<LoaderData>({ state: 'error', error: content })
   }
 
   const source = content.responseText
@@ -60,20 +52,17 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const result = await transformMarkdoc({ source, pageId, sourceHash })
   if (result instanceof Error) {
-    return {
-      success: false,
-      errors: [result],
-      source: '',
-    }
+    return json<LoaderData>({ state: 'error', error: result })
   }
 
   return json<LoaderData>(
     result.success
-      ? result
-      : {
-          ...result,
-          source,
-        },
+      ? {
+          state: 'success',
+          renderableTreeNode: result.renderableTreeNode,
+          references: result.references,
+        }
+      : { state: 'validation-error', errors: result.errors, source },
   )
 }
 
@@ -81,7 +70,12 @@ export default function Route() {
   const loaderData = useLoaderData<LoaderData>()
   const { galleryClassName } = usePhotoSwipe()
 
-  if (!loaderData.success) {
+  if (loaderData.state === 'error') {
+    const message = `Error: ${JSON.stringify(loaderData, null, 2)}`
+    return <ErrorMessage message={message} />
+  }
+
+  if (loaderData.state === 'validation-error') {
     const { errors, source } = loaderData
     return <MarkdocErrorList errors={errors} source={source} />
   }

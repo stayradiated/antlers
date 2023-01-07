@@ -9,14 +9,16 @@ type MarkdocErrorListProps = {
 const MarkdocErrorList = (props: MarkdocErrorListProps) => {
   const { errors, source } = props
 
+  console.log({ props })
+
   const sourceLines = source.split('\n')
 
   return (
     <div className="markdoc_ErrorList-container">
       <h1>Validation Error</h1>
-      {errors.map((error) => {
+      {errors.map((error, index) => {
         const lines = sourceLines.slice(error.lines[0], error.lines[1])
-        return <MarkdocError error={error} lines={lines} />
+        return <MarkdocError key={index} error={error} lines={lines} />
       })}
     </div>
   )

@@ -65,15 +65,22 @@ const forceParseMarkdoc = withDebugTime(
     }
 
     const ast = Markdoc.parse(source)
+    const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
 
-    const errors = Markdoc.validate(ast, config)
+    const configWithVariables = {
+      ...config,
+      variables: {
+        ...config.variables,
+        ...frontmatter,
+      },
+    }
+
+    const errors = Markdoc.validate(ast, configWithVariables)
     if (errors.length > 0) {
       return { success: false, createdAt, sourceHash, configHash, errors }
     }
 
-    const renderableTreeNode = Markdoc.transform(ast, config)
-
-    const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
+    const renderableTreeNode = Markdoc.transform(ast, configWithVariables)
 
     if ('image' in frontmatter && typeof frontmatter.image === 'string') {
       referenceKeys.images.push(frontmatter.image)
@@ -127,30 +134,29 @@ const forceParseMarkdoc = withDebugTime(
   (options) => `forceParseMarkdoc: ${options.pageId}`,
 )
 
-const parseMarkdoc = withDebugTime(
-  async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
-    const { pageId, sourceHash } = options
+const parseMarkdoc = async (
+  options: ParseMarkdocOptions,
+): Promise<ParseMarkdocResult> => {
+  const { pageId, sourceHash } = options
 
-    const cache = await getCache()
+  const cache = await getCache()
 
-    const cacheKey = `parseMarkdoc:${pageId}`
-    const safeCachedResult = $ParseMarkdocResult.safeParse(
-      await cache.get<ParseMarkdocResult>(cacheKey),
-    )
+  const cacheKey = `parseMarkdoc:${pageId}`
+  const safeCachedResult = $ParseMarkdocResult.safeParse(
+    await cache.get<ParseMarkdocResult>(cacheKey),
+  )
 
-    if (
-      !safeCachedResult.success ||
-      safeCachedResult.data.sourceHash !== sourceHash ||
-      safeCachedResult.data.configHash !== configHash
-    ) {
-      const result = await forceParseMarkdoc(options)
-      await cache.set(cacheKey, result)
-      return result
-    }
+  if (
+    !safeCachedResult.success ||
+    safeCachedResult.data.sourceHash !== sourceHash ||
+    safeCachedResult.data.configHash !== configHash
+  ) {
+    const result = await forceParseMarkdoc(options)
+    await cache.set(cacheKey, result)
+    return result
+  }
 
-    return safeCachedResult.data
-  },
-  (options) => `parseMarkdoc: ${options.pageId}`,
-)
+  return safeCachedResult.data
+}
 
 export { parseMarkdoc }

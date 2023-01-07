@@ -6,13 +6,25 @@ const $Summary = z.object({
 })
 type Summary = z.infer<typeof $Summary>
 
-const $Frontmatter = z.object({
-  arriveAt: z.string().optional(),
-  departAt: z.string().optional(),
-  location: z.string().optional(),
-  country: z.string().optional(),
-  image: z.string().optional(),
-})
+const $Frontmatter = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal(undefined),
+  }),
+  z.object({
+    type: z.literal('sojourn'),
+    arriveAt: z.string().optional(),
+    departAt: z.string().optional(),
+    location: z.string().optional(),
+    country: z.string().optional(),
+    image: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal('location'),
+    name: z.string(),
+    region: z.string(),
+    country: z.string(),
+  }),
+])
 type Frontmatter = z.infer<typeof $Frontmatter>
 
 const $ReferenceKeys = z.object({
@@ -47,6 +59,14 @@ const $ReferencedImage = z.object({
 })
 type ReferencedImage = z.infer<typeof $ReferencedImage>
 
+const $FetchContentResult = z.object({
+  createdAt: z.date(),
+  etag: z.string().optional(),
+  responseHash: z.string(),
+  responseText: z.string(),
+})
+type FetchContentResult = z.infer<typeof $FetchContentResult>
+
 export {
   $Frontmatter,
   $ReferenceKeys,
@@ -54,6 +74,7 @@ export {
   $ReferencedImage,
   $References,
   $Summary,
+  $FetchContentResult,
 }
 export type {
   Frontmatter,
@@ -62,4 +83,5 @@ export type {
   ReferencedImage,
   References,
   Summary,
+  FetchContentResult,
 }

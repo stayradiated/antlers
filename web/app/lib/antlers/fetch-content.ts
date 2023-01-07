@@ -1,18 +1,11 @@
-import { setTimeout } from 'node:timers/promises'
-import * as z from 'zod'
 import { errorBoundary } from '@stayradiated/error-boundary'
 import { withDebugTime } from '../debug'
 import { CONTENT_HOST } from '../config.server'
 import { getCache } from './cache'
 import { calcHash } from './hash'
-
-const $FetchContentResult = z.object({
-  createdAt: z.date(),
-  etag: z.string().optional(),
-  responseHash: z.string(),
-  responseText: z.string(),
-})
-type FetchContentResult = z.infer<typeof $FetchContentResult>
+import { refreshManifest } from './manifest'
+import { $FetchContentResult } from './types.js'
+import type { FetchContentResult } from './types.js'
 
 type FetchContentOptions = {
   pageId: string
@@ -67,39 +60,31 @@ const forceFetchContent = withDebugTime(
   (options) => `forceFetchContent: ${options.pageId}`,
 )
 
-const fetchContent = withDebugTime(
-  async (options: FetchContentOptions): Promise<FetchContentResult | Error> => {
-    const { pageId } = options
+const fetchContent = async (
+  options: FetchContentOptions,
+): Promise<FetchContentResult | Error> => {
+  const { pageId } = options
 
-    const cache = await getCache()
-    const cacheKey = `fetchContent:${pageId}`
-    const safeCachedResult = $FetchContentResult.safeParse(
-      await cache.get<FetchContentResult>(cacheKey),
-    )
+  const cache = await getCache()
+  const cacheKey = `fetchContent:${pageId}`
+  const safeCachedResult = $FetchContentResult.safeParse(
+    await cache.get<FetchContentResult>(cacheKey),
+  )
 
-    if (!safeCachedResult.success) {
-      const result = await forceFetchContent(options)
-      if (!(result instanceof Error)) {
-        await cache.set(cacheKey, result)
-      }
-
-      return result
+  if (!safeCachedResult.success) {
+    const result = await forceFetchContent(options)
+    if (!(result instanceof Error)) {
+      await cache.set(cacheKey, result)
     }
 
-    const cachedResult = safeCachedResult.data
+    return result
+  }
 
-    void (async function () {
-      await setTimeout(Math.random() * 10_000)
-      const updatedResult = await forceFetchContent(options, cachedResult)
-      if (updatedResult !== cachedResult) {
-        await cache.set(cacheKey, updatedResult)
-        return updatedResult
-      }
-    })()
+  const cachedResult = safeCachedResult.data
 
-    return cachedResult
-  },
-  (options) => `fetchContent: ${options.pageId}`,
-)
+  void refreshManifest()
+
+  return cachedResult
+}
 
 export { fetchContent }

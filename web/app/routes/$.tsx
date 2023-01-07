@@ -14,7 +14,6 @@ import {
   fetchContent,
   transformMarkdoc,
   type References,
-  getCache,
 } from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
@@ -38,19 +37,10 @@ type LoaderData =
     }
 
 export const loader: LoaderFunction = async (props) => {
-  const { params, request } = props
-  const { page } = params
-  invariant(typeof page === 'string', 'Must specify page')
-
-  const pageId = `${page}.md`
-
-  const cacheParameter = new URL(request.url).searchParams.get('cache')
-
-  if (cacheParameter === '0') {
-    const cache = await getCache()
-    await cache.del(`parseMarkdoc:${pageId}`)
-    await cache.del(`transformMarkdoc:${pageId}`)
-  }
+  const { params } = props
+  const pageId = params['*']
+  invariant(typeof pageId === 'string', 'Must specify page')
+  invariant(typeof pageId.endsWith('.md'), 'Must be markdown file')
 
   const content = await fetchContent({ pageId })
   if (content instanceof Error) {

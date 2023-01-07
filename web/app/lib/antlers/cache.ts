@@ -1,8 +1,11 @@
 import sqliteStore from 'cache-manager-better-sqlite3'
 import { caching, multiCaching, type MultiCache } from 'cache-manager'
 import { CACHE_PATH } from '../config.server'
+import { getOnce } from './persist.js'
 
 const createCache = async (): Promise<MultiCache> => {
+  console.log('CREATING CACHE')
+
   const sqliteCache = await caching(sqliteStore, {
     name: 'cache',
     path: CACHE_PATH,
@@ -17,15 +20,6 @@ const createCache = async (): Promise<MultiCache> => {
   return cache
 }
 
-declare global {
-  /* eslint-disable-next-line no-var */
-  var __cache: Promise<MultiCache> | undefined
-}
-
-if (!global.__cache) {
-  global.__cache = createCache()
-}
-
-const getCache = async () => global.__cache!
+const getCache = async () => getOnce('cache', createCache)
 
 export { getCache }

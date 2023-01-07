@@ -5,7 +5,7 @@ const calcHash = (input: string): string => {
     .createHash('sha256')
     .update(input, 'utf8')
     .digest()
-    .toString('base64url')
+    .toString('base64')
 }
 
 export { calcHash }

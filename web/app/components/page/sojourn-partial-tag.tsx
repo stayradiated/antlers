@@ -16,6 +16,12 @@ const SojournPartialTag = (props: SojournPartialProps) => {
   }
 
   const { frontmatter, references: fileReferences, summary } = page
+  if (frontmatter.type !== 'sojourn') {
+    return (
+      <ErrorMessage message="SojournPartialTag: Referenced file must be type 'sojourn'" />
+    )
+  }
+
   const {
     arriveAt,
     departAt,
