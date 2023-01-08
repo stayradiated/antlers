@@ -9,7 +9,11 @@ const parseFrontmatter = (input: unknown): Frontmatter => {
     return defaultFrontmatter
   }
 
-  const frontmatter = $Frontmatter.parse(toml.parse(input))
+  const frontmatter = $Frontmatter.parse(
+    toml.parse(input, {
+      bigint: false,
+    }),
+  )
   return frontmatter
 }
 

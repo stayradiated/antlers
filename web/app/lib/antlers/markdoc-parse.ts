@@ -115,6 +115,13 @@ const forceParseMarkdoc = withDebugTime(
           referenceKeys.images.push(image)
         }
       }
+
+      if (item.type === 'tag' && item.tag === 'mapp') {
+        const file = item.attributes.file as unknown
+        if (typeof file === 'string') {
+          referenceKeys.files.push(file)
+        }
+      }
     }
 
     return {

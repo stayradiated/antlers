@@ -9,6 +9,7 @@ import { Accomodation } from './accomodation'
 import { Extract } from './extract'
 import { LocationTag } from './location-tag'
 import { Map } from './map'
+import { MapTag } from './map-tag'
 import { ImageTag } from './image-tag'
 import { Place } from './place'
 import { Row } from './row'
@@ -43,6 +44,7 @@ const Page = (props: PageProps) => {
             Extract,
             Location: LocationTag,
             Map,
+            Mapp: MapTag,
             Image: ImageTag,
             Place,
             Row,

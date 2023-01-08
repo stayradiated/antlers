@@ -1,6 +1,7 @@
 export * from './extract'
 export * from './location'
 export * from './map'
+export * from './mapp'
 export * from './place'
 export * from './row'
 export * from './sojourn'

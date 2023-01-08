@@ -9,8 +9,6 @@ type MarkdocErrorListProps = {
 const MarkdocErrorList = (props: MarkdocErrorListProps) => {
   const { errors, source } = props
 
-  console.log({ props })
-
   const sourceLines = source.split('\n')
 
   return (

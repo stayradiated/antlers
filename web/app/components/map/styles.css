@@ -1,0 +1,43 @@
+.map_Map-container {
+  position: relative;
+}
+
+.map_Map-image {
+}
+
+.map_Map-point {
+  position: absolute;
+}
+
+.map_Map-label {
+  display: block;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-top: -28px;
+}
+
+.map_Map-point:before {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  margin-left: -5px;
+  background: #ff4d4d;
+  border-radius: 50%;
+  animation: pulse 1.0s alternate infinite running;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(.7);
+  }
+
+  100% {
+    transform: scale(1.5);
+  }
+}

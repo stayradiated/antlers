@@ -23,6 +23,22 @@ const $Frontmatter = z.discriminatedUnion('type', [
     name: z.string(),
     region: z.string(),
     country: z.string(),
+    coordinates: z.object({
+      latitude: z.number(),
+      longitude: z.number(),
+    }),
+  }),
+  z.object({
+    type: z.literal('map'),
+    name: z.string(),
+    image: z.string(),
+    source: z.string().optional(),
+    coordinates: z.object({
+      north: z.number(),
+      east: z.number(),
+      south: z.number(),
+      west: z.number(),
+    }),
   }),
 ])
 type Frontmatter = z.infer<typeof $Frontmatter>
