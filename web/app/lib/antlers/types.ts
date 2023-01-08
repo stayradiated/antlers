@@ -26,7 +26,7 @@ const $Frontmatter = z.discriminatedUnion('type', [
     coordinates: z.object({
       latitude: z.number(),
       longitude: z.number(),
-    }),
+    }).optional(),
   }),
   z.object({
     type: z.literal('map'),
