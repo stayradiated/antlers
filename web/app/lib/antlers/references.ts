@@ -24,19 +24,21 @@ const resolveReferencedFile = async (
     sourceHash: source.responseHash,
   })
   if (!result.success) {
-    throw new Error(`Could not parse markdoc...`)
+    throw new Error(`Could not parse markdoc: ${JSON.stringify(result.errors)}`)
   }
 
-  const { summary, frontmatter, referenceKeys: fileReferenceKeys } = result
-  const references = await resolveReferenceKeys(fileReferenceKeys)
-  if (references instanceof Error) {
-    return references
+  const { summary, frontmatter, frontmatterReferenceKeys } = result
+  const frontmatterReferences = await resolveReferenceKeys(
+    frontmatterReferenceKeys,
+  )
+  if (frontmatterReferences instanceof Error) {
+    return frontmatterReferences
   }
 
   return {
-    frontmatter,
     summary,
-    references,
+    frontmatter,
+    frontmatterReferences,
   }
 }
 

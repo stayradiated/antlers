@@ -1,3 +1,4 @@
+import { match, P } from 'ts-pattern'
 import type {
   Config,
   RenderableTreeNode,
@@ -8,11 +9,13 @@ import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
 import { $ReferenceKeys, $Frontmatter, $Summary } from './types'
-import type { ReferenceKeys } from './types'
+import type { ReferenceKeys, Frontmatter } from './types'
 import { parseFrontmatter } from './frontmatter'
 import { calcWordCount } from './summary'
 import { calcHash } from './hash'
 import { nodes, tags } from './markdoc/index'
+
+const isString = (x: unknown): x is string => typeof x === 'string'
 
 const config: Config = {
   tags,
@@ -38,9 +41,13 @@ const $ParseMarkdocResult = z.discriminatedUnion('success', [
     createdAt: z.date(),
     sourceHash: z.string(),
     configHash: z.string(),
+
     renderableTreeNode: $RenderableTreeNode,
     referenceKeys: $ReferenceKeys,
+
     frontmatter: $Frontmatter,
+    frontmatterReferenceKeys: $ReferenceKeys,
+
     summary: $Summary,
   }),
   z.object({
@@ -63,6 +70,10 @@ const forceParseMarkdoc = withDebugTime(
       files: [],
       images: [],
     }
+    const frontmatterReferenceKeys: ReferenceKeys = {
+      files: [],
+      images: [],
+    }
 
     const ast = Markdoc.parse(source)
     const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
@@ -82,8 +93,30 @@ const forceParseMarkdoc = withDebugTime(
 
     const renderableTreeNode = Markdoc.transform(ast, configWithVariables)
 
-    if ('image' in frontmatter && typeof frontmatter.image === 'string') {
-      referenceKeys.images.push(frontmatter.image)
+    const frontmatterReferenceKeyFile = match<Frontmatter, string | undefined>(
+      frontmatter,
+    )
+      .with(
+        { type: 'sojourn', locationFile: P.when(isString) },
+        (item) => item.locationFile,
+      )
+      .with(
+        { type: 'location', countryMapFile: P.when(isString) },
+        (item) => item.countryMapFile,
+      )
+      .otherwise(() => undefined)
+    if (typeof frontmatterReferenceKeyFile === 'string') {
+      frontmatterReferenceKeys.files.push(frontmatterReferenceKeyFile)
+    }
+
+    const frontmatterReferenceKeyImage = match<Frontmatter, string | undefined>(
+      frontmatter,
+    )
+      .with({ type: 'sojourn', image: P.when(isString) }, (item) => item.image)
+      .with({ type: 'map' }, (item) => item.image)
+      .otherwise(() => undefined)
+    if (typeof frontmatterReferenceKeyImage === 'string') {
+      frontmatterReferenceKeys.images.push(frontmatterReferenceKeyImage)
     }
 
     let imageCount = 0
@@ -106,6 +139,8 @@ const forceParseMarkdoc = withDebugTime(
         const file = item.attributes.file as unknown
         if (typeof file === 'string') {
           referenceKeys.files.push(file)
+        } else if (file instanceof Markdoc.Ast.Variable) {
+          referenceKeys.files.push(file.resolve(configWithVariables))
         }
       }
 
@@ -113,13 +148,6 @@ const forceParseMarkdoc = withDebugTime(
         const image = item.attributes.image as unknown
         if (typeof image === 'string') {
           referenceKeys.images.push(image)
-        }
-      }
-
-      if (item.type === 'tag' && item.tag === 'mapp') {
-        const file = item.attributes.file as unknown
-        if (typeof file === 'string') {
-          referenceKeys.files.push(file)
         }
       }
     }
@@ -132,6 +160,7 @@ const forceParseMarkdoc = withDebugTime(
       renderableTreeNode,
       referenceKeys,
       frontmatter,
+      frontmatterReferenceKeys,
       summary: {
         wordCount,
         imageCount,

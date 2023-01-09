@@ -7,14 +7,16 @@ import type { PageContextValue } from './context'
 
 import { Accomodation } from './accomodation'
 import { Extract } from './extract'
-import { LocationTag } from './location-tag'
-import { Map } from './map'
-import { MapTag } from './map-tag'
 import { ImageTag } from './image-tag'
+import { LocationPartialTag } from './location-partial-tag'
+import { LocationTag } from './location-tag'
+import { MapLegacy } from './map-legacy'
+import { MapPartialTag } from './map-partial-tag'
+import { MapPointTag } from './map-point-tag'
 import { Place } from './place'
 import { Row } from './row'
-import { SojournTag } from './sojourn-tag'
 import { SojournPartialTag } from './sojourn-partial-tag'
+import { SojournTag } from './sojourn-tag'
 import { Strava } from './strava'
 import { Tip } from './tip'
 import { Travel } from './travel'
@@ -42,10 +44,12 @@ const Page = (props: PageProps) => {
           components: {
             Accomodation,
             Extract,
-            Location: LocationTag,
-            Map,
-            Mapp: MapTag,
             Image: ImageTag,
+            Location: LocationTag,
+            LocationPartial: LocationPartialTag,
+            MapLegacy,
+            MapPartial: MapPartialTag,
+            MapPoint: MapPointTag,
             Place,
             Row,
             Sojourn: SojournTag,

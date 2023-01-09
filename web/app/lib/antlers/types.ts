@@ -17,16 +17,15 @@ const $Frontmatter = z.discriminatedUnion('type', [
     location: z.string().optional(),
     country: z.string().optional(),
     image: z.string().optional(),
+    locationFile: z.string().optional(),
   }),
   z.object({
     type: z.literal('location'),
     name: z.string(),
     region: z.string(),
     country: z.string(),
-    coordinates: z.object({
-      latitude: z.number(),
-      longitude: z.number(),
-    }).optional(),
+    countryMapFile: z.string().optional(),
+    coordinates: z.tuple([z.number(), z.number()]).optional(),
   }),
   z.object({
     type: z.literal('map'),
@@ -63,8 +62,8 @@ const $References: z.ZodType<References> = z.lazy(() =>
 
 const $ReferencedFile = z.object({
   frontmatter: $Frontmatter,
+  frontmatterReferences: $References,
   summary: $Summary,
-  references: $References,
 })
 type ReferencedFile = z.infer<typeof $ReferencedFile>
 

@@ -39,7 +39,7 @@ type LoaderData =
     }
   | {
       state: 'error'
-      error: Error
+      error: string
     }
 
 export const loader: LoaderFunction = async (props) => {
@@ -51,7 +51,7 @@ export const loader: LoaderFunction = async (props) => {
 
   const content = await fetchContent({ pageId })
   if (content instanceof Error) {
-    return json<LoaderData>({ state: 'error', error: content })
+    return json<LoaderData>({ state: 'error', error: content.message })
   }
 
   const source = content.responseText
@@ -59,7 +59,7 @@ export const loader: LoaderFunction = async (props) => {
 
   const result = await transformMarkdoc({ source, pageId, sourceHash })
   if (result instanceof Error) {
-    return json<LoaderData>({ state: 'error', error: result })
+    return json<LoaderData>({ state: 'error', error: result.message })
   }
 
   return json<LoaderData>(
@@ -78,8 +78,7 @@ export default function Route() {
   const { galleryClassName } = usePhotoSwipe()
 
   if (loaderData.state === 'error') {
-    const message = `Error: ${JSON.stringify(loaderData, null, 2)}`
-    return <ErrorMessage message={message} />
+    return <ErrorMessage message={loaderData.error} />
   }
 
   if (loaderData.state === 'validation-error') {

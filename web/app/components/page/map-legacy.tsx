@@ -7,9 +7,9 @@ type MapProps = {
   src: string
 }
 
-const Map = (props: MapProps) => {
+const MapLegacy = (props: MapProps) => {
   const { alt, src } = props
   return <img className={cx('image')} src={src} alt={alt} />
 }
 
-export { Map }
+export { MapLegacy }

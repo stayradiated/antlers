@@ -15,7 +15,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
     return <ErrorMessage message={message} />
   }
 
-  const { frontmatter, references: fileReferences, summary } = page
+  const { frontmatter, frontmatterReferences, summary } = page
   if (frontmatter.type !== 'sojourn') {
     return (
       <ErrorMessage message="SojournPartialTag: Referenced file must be type 'sojourn'" />
@@ -29,7 +29,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
     country,
     image: imagePath,
   } = frontmatter
-  const image = imagePath ? fileReferences.images[imagePath] : undefined
+  const image = imagePath ? frontmatterReferences.images[imagePath] : undefined
 
   if (typeof arriveAt !== 'string') {
     return <ErrorMessage message="SojournPartialTag: Unknown Arrival Date" />
