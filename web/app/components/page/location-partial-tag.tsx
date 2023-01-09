@@ -1,11 +1,16 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
+import invariant from 'tiny-invariant'
 import type { LocationPartialProps } from '../../lib/antlers/markdoc/tags/index'
 import { PageContext } from './context'
+import { MapPointPartialTag } from './map-point-partial-tag'
+import type { MapPointPartialProps } from './map-point-partial-tag'
+import { TravelPartialTag } from './travel-partial-tag'
+import type { TravelPartialProps } from './travel-partial-tag'
 import { ErrorMessage } from '~/components/bit'
-import { Map } from '~/components/map'
+import { Map, type Point, type Line } from '~/components/map'
 
 const LocationPartialTag = (props: LocationPartialProps) => {
-  const { file: filepath } = props
+  const { file: filepath, children } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
@@ -45,16 +50,56 @@ const LocationPartialTag = (props: LocationPartialProps) => {
       return <ErrorMessage message={message} />
     }
 
+    const points: Point[] = [
+      {
+        label: file.frontmatter.name,
+        coordinates: file.frontmatter.coordinates,
+      },
+    ]
+
+    const lines: Line[] = []
+
+    React.Children.map(children, (node) => {
+      switch (node.type) {
+        case MapPointPartialTag: {
+          const { file: filepath, style } = node.props as MapPointPartialProps
+
+          const file = references.files[filepath]
+          invariant(file.frontmatter.type === 'location')
+          invariant(file.frontmatter.coordinates)
+
+          points.push({
+            label: file.frontmatter.name,
+            coordinates: file.frontmatter.coordinates,
+            style,
+          })
+          break
+        }
+
+        case TravelPartialTag: {
+          const { file: filepath } = node.props
+          const file = references.files[filepath]
+          invariant(file.frontmatter.type === 'travel')
+          invariant(file.frontmatter.coordinates)
+
+          lines.push({
+            coordinates: file.frontmatter.coordinates,
+          })
+          break
+        }
+
+        default: {
+          break
+        }
+      }
+    })
+
     mapElement = (
       <Map
         image={image}
         mapCoordinates={map.frontmatter.coordinates}
-        points={[
-          {
-            label: file.frontmatter.name,
-            coordinates: file.frontmatter.coordinates,
-          },
-        ]}
+        points={points}
+        lines={lines}
       />
     )
   }

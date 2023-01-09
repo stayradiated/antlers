@@ -39,6 +39,14 @@ const $Frontmatter = z.discriminatedUnion('type', [
       west: z.number(),
     }),
   }),
+  z.object({
+    type: z.literal('travel'),
+    start: z.string(),
+    end: z.string(),
+    date: z.string(),
+    mode: z.string(),
+    coordinates: z.array(z.tuple([z.number(), z.number()])),
+  }),
 ])
 type Frontmatter = z.infer<typeof $Frontmatter>
 

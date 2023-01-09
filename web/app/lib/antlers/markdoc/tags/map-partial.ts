@@ -15,7 +15,6 @@ const mapPartial: Schema = {
   },
   validate(node) {
     const hasValidChildren = node.children.every((child) => {
-      console.log(child)
       return child.tag === 'mapPoint'
     })
     if (!hasValidChildren) {

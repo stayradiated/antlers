@@ -22,33 +22,51 @@ const SojournPartialTag = (props: SojournPartialProps) => {
     )
   }
 
-  const {
-    arriveAt,
-    departAt,
-    location,
-    country,
-    image: imagePath,
-  } = frontmatter
+  const { arriveAt, departAt, locationFile, image: imagePath } = frontmatter
   const image = imagePath ? frontmatterReferences.images[imagePath] : undefined
 
   if (typeof arriveAt !== 'string') {
     return <ErrorMessage message="SojournPartialTag: Unknown Arrival Date" />
   }
 
-  if (typeof location !== 'string') {
-    return <ErrorMessage message="SojournPartialTag: Unknown Location" />
-  }
+  let locationName: string
+  let countryName: string
 
-  if (typeof country !== 'string') {
-    return <ErrorMessage message="SojournPartialTag: Unknown Country" />
+  if (typeof locationFile === 'string') {
+    const location = frontmatterReferences.files[locationFile]
+    if (!location) {
+      const message = `SojournPartialTag: Could not load reference ${locationFile}`
+      return <ErrorMessage message={message} />
+    }
+
+    if (location.frontmatter.type !== 'location') {
+      return (
+        <ErrorMessage message="SojournPartialTag: Referenced file must be type 'location'" />
+      )
+    }
+
+    locationName = location.frontmatter.name
+    countryName = `${location.frontmatter.region}, ${location.frontmatter.country}`
+  } else {
+    const { location, country } = frontmatter
+    if (typeof location !== 'string') {
+      return <ErrorMessage message="SojournPartialTag: Unknown Location" />
+    }
+
+    if (typeof country !== 'string') {
+      return <ErrorMessage message="SojournPartialTag: Unknown Country" />
+    }
+
+    locationName = location
+    countryName = country
   }
 
   return (
     <Sojourn
       arriveAt={arriveAt}
       departAt={departAt}
-      location={location}
-      country={country}
+      location={locationName}
+      country={countryName}
       href={file}
       image={image}
       summary={summary}

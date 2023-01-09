@@ -12,6 +12,7 @@ import { LocationPartialTag } from './location-partial-tag'
 import { LocationTag } from './location-tag'
 import { MapLegacy } from './map-legacy'
 import { MapPartialTag } from './map-partial-tag'
+import { MapPointPartialTag } from './map-point-partial-tag'
 import { MapPointTag } from './map-point-tag'
 import { Place } from './place'
 import { Row } from './row'
@@ -20,6 +21,7 @@ import { SojournTag } from './sojourn-tag'
 import { Strava } from './strava'
 import { Tip } from './tip'
 import { Travel } from './travel'
+import { TravelPartialTag } from './travel-partial-tag'
 
 import { createCX } from '~/lib/class-name'
 
@@ -50,6 +52,7 @@ const Page = (props: PageProps) => {
             MapLegacy,
             MapPartial: MapPartialTag,
             MapPoint: MapPointTag,
+            MapPointPartial: MapPointPartialTag,
             Place,
             Row,
             Sojourn: SojournTag,
@@ -57,6 +60,7 @@ const Page = (props: PageProps) => {
             Strava,
             Tip,
             Travel,
+            TravelPartial: TravelPartialTag,
           },
         })}
       </main>

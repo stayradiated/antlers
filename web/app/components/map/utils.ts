@@ -1,27 +1,10 @@
-type LatLon = {
-  latitude: number
-  longitude: number
-}
-
-type XY = {
-  x: number
-  y: number
-}
-
-type BorderCoordinates = {
-  east: number
-  north: number
-  south: number
-  west: number
-}
-type Dimensions = {
-  width: number
-  height: number
-}
-type ImagePosition = {
-  top: number
-  left: number
-}
+import type {
+  XY,
+  ImagePosition,
+  Coordinate,
+  Dimensions,
+  BorderCoordinates,
+} from './types'
 
 const getProjectionDimensions = (
   borderCoordinates: BorderCoordinates,
@@ -36,8 +19,11 @@ const getProjectionDimensions = (
   return { height: projectHeight, width: projectWidth }
 }
 
-const convLatLong = (latlon: LatLon, imageDimensions: Dimensions): XY => {
-  const { latitude, longitude } = latlon
+const convLatLong = (
+  coordinate: Coordinate,
+  imageDimensions: Dimensions,
+): XY => {
+  const [latitude, longitude] = coordinate
   const { width, height } = imageDimensions
   const x = (longitude + 180) * (width / 360)
   const y = (latitude * -1 + 90) * (height / 180)
@@ -49,17 +35,14 @@ const getImagePosition = (
   projectDimensions: Dimensions,
 ): ImagePosition => {
   const { x: left, y: top } = convLatLong(
-    {
-      latitude: borderCoordinates.north,
-      longitude: borderCoordinates.west,
-    },
+    [borderCoordinates.north, borderCoordinates.west],
     projectDimensions,
   )
   return { left, top }
 }
 
-const localise = (
-  point: LatLon,
+const localisePoint = (
+  point: Coordinate,
   borderCoordinates: BorderCoordinates,
   imageDimensions: Dimensions,
 ): XY => {
@@ -75,4 +58,25 @@ const localise = (
   }
 }
 
-export { localise }
+const localiseLine = (
+  line: Coordinate[],
+  borderCoordinates: BorderCoordinates,
+  imageDimensions: Dimensions,
+): XY[] => {
+  const projectDimensions = getProjectionDimensions(
+    borderCoordinates,
+    imageDimensions,
+  )
+  const imagePosition = getImagePosition(borderCoordinates, projectDimensions)
+
+  return line.map((point) => {
+    const xy = convLatLong(point, projectDimensions)
+
+    return {
+      x: xy.x - imagePosition.left,
+      y: xy.y - imagePosition.top,
+    }
+  })
+}
+
+export { localisePoint, localiseLine }
