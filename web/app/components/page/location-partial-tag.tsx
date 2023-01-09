@@ -77,7 +77,7 @@ const LocationPartialTag = (props: LocationPartialProps) => {
         }
 
         case TravelPartialTag: {
-          const { file: filepath } = node.props
+          const { file: filepath } = node.props as TravelPartialProps
           const file = references.files[filepath]
           invariant(file.frontmatter.type === 'travel')
           invariant(file.frontmatter.coordinates)

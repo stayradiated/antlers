@@ -1,10 +1,11 @@
 import type { ReactElement } from 'react'
 import type { Schema } from '@markdoc/markdoc'
 import type { TravelPartialProps } from './travel-partial'
+import type { MapPointProps } from './map-point'
 
 type LocationPartialProps = {
   file: string
-  children: Array<ReactElement<TravelPartialProps>>
+  children: Array<ReactElement<TravelPartialProps | MapPointProps>>
 }
 
 const validChildrenTags = ['travelPartial', 'mapPointPartial']
