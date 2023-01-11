@@ -1,9 +1,12 @@
+import { createCX } from '../../lib/class-name'
 import { localiseLine } from './utils'
-import type { Coordinate, BorderCoordinates, Dimensions } from './types'
+import type { Coordinate, CardinalCoordinates, Dimensions } from './types'
+
+const cx = createCX('map', 'SVGLine')
 
 type SVGLineProps = {
   lineCoordinates: Coordinate[]
-  mapCoordinates: BorderCoordinates
+  mapCoordinates: CardinalCoordinates
   size: Dimensions
 }
 
@@ -21,8 +24,9 @@ const SVGLine = (props: SVGLineProps) => {
       height="100%"
       viewBox={`0 0 ${size.width} ${size.height}`}
       xmlns="http://www.w3.org/2000/svg"
+      className={cx('container')}
     >
-      <path d={path} fill="transparent" stroke="white" strokeWidth="3" />
+      <path className={cx('path')} d={path} />
     </svg>
   )
 }

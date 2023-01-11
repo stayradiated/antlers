@@ -1,5 +1,7 @@
-import { localisePoint } from './utils'
+import { localisePointPercent } from './utils'
 import { SVGLine } from './svg-line'
+import type { CardinalCoordinates, ViewPort } from './types'
+import { useViewPort } from './use-view-port'
 import type { ReferencedImage } from '~/lib/antlers/index'
 import { createCX } from '~/lib/class-name'
 
@@ -18,29 +20,55 @@ type Line = {
 }
 
 type MapProps = {
+  viewPort?: ViewPort
+
   image: ReferencedImage
-  mapCoordinates: {
-    north: number
-    south: number
-    east: number
-    west: number
-  }
+  mapCoordinates: CardinalCoordinates
+
   points?: Point[]
   lines?: Line[]
 }
 
 const Map = (props: MapProps) => {
-  const { image, mapCoordinates, points = [], lines = [] } = props
+  const { mapCoordinates, image, points = [], lines = [] } = props
+  const viewPort = props.viewPort ?? {
+    aspectRatio: image.height / image.width,
+    translate: [0, 0],
+    scale: 1,
+  }
+
+  console.log({ viewPort })
+
+  const srcWidth = image.width
+  const srcHeight = image.height
+
+  const {
+    height,
+    width,
+    coordinates: viewPortCoordinates,
+    outerStyle,
+    innerStyle,
+  } = useViewPort({
+    srcCoordinates: mapCoordinates,
+    srcWidth,
+    srcHeight,
+    viewPort,
+  })
 
   return (
     <div className={cx('container')}>
-      <img className={cx('image')} src={image.urls['1250']} />
+      <div className={cx('zimg-container')} style={outerStyle}>
+        <div className={cx('zimg-portal')} style={innerStyle}>
+          <img className={cx('zimg-image')} src={image.urls.svg} />
+        </div>
+      </div>
+
       {points.map((point, index) => {
         const { coordinates, label, style } = point
-        const { x: left, y: top } = localisePoint(
+        const { x: left, y: top } = localisePointPercent(
           coordinates,
-          mapCoordinates,
-          image,
+          viewPortCoordinates,
+          { width, height },
         )
         return (
           <div
@@ -53,13 +81,14 @@ const Map = (props: MapProps) => {
         )
       })}
       <div className={cx('lines')}>
-        {lines.map((line) => {
+        {lines.map((line, index) => {
           const { coordinates } = line
           return (
             <SVGLine
+              key={index}
               lineCoordinates={coordinates}
-              mapCoordinates={mapCoordinates}
-              size={image}
+              mapCoordinates={viewPortCoordinates}
+              size={{ width, height }}
             />
           )
         })}

@@ -5,7 +5,7 @@ export type XY = {
   y: number
 }
 
-export type BorderCoordinates = {
+export type CardinalCoordinates = {
   east: number
   north: number
   south: number
@@ -20,4 +20,10 @@ export type Dimensions = {
 export type ImagePosition = {
   top: number
   left: number
+}
+
+export type ViewPort = {
+  aspectRatio: number
+  translate: [number, number]
+  scale: number
 }

@@ -78,7 +78,7 @@ type ReferencedFile = z.infer<typeof $ReferencedFile>
 const $ReferencedImage = z.object({
   width: z.number(),
   height: z.number(),
-  urls: z.record(z.number(), z.string()),
+  urls: z.record(z.string(), z.string()),
 })
 type ReferencedImage = z.infer<typeof $ReferencedImage>
 

@@ -96,6 +96,11 @@ const LocationPartialTag = (props: LocationPartialProps) => {
 
     mapElement = (
       <Map
+        viewPort={{
+          aspectRatio: 0.5,
+          translate: [5, -27],
+          scale: 3,
+        }}
         image={image}
         mapCoordinates={map.frontmatter.coordinates}
         points={points}

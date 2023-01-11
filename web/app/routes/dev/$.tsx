@@ -15,6 +15,10 @@ const getContentType = (extension: string): string => {
       return 'image/jpeg'
     }
 
+    case '.svg': {
+      return 'image/svg+xml'
+    }
+
     default: {
       return 'application/octet-stream'
     }

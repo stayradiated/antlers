@@ -18,9 +18,11 @@
 }
 
 .map_Map-label {
+  position: relative;
+  z-index: 1;
   display: block;
   color: #fff;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   padding: 4px 10px;
   margin-top: -28px;
@@ -30,7 +32,7 @@
   content: '';
   display: block;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   width: 10px;
   height: 10px;
   margin-top: -5px;
@@ -51,5 +53,36 @@
 
   100% {
     transform: scale(1.5);
+  }
+}
+
+.map_Map-zimg-container {
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.map_Map-zimg-portal {
+  position: absolute;
+}
+
+.map_SVGLine-container {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  pointer-events: none;
+}
+
+.map_SVGLine-path {
+  fill: transparent;
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 2;
+  animation: map_SVGLine-path-animation 10s linear forwards 1;
+  stroke-linecap: round;
+}
+
+@keyframes map_SVGLine-path-animation {
+  to {
+    stroke-dashoffset: 0;
   }
 }

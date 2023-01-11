@@ -1,3 +1,4 @@
+import { CONTENT_HOST } from '../config.server'
 import { sign } from './imaginary'
 
 type TransformImageOptions = {
@@ -32,6 +33,7 @@ const transformImage = (options: TransformImageOptions) => {
       quality: '80',
       stripmeta: 'true',
     }),
+    svg: `${CONTENT_HOST}${source}`,
   }
 }
 
