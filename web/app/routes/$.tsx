@@ -10,6 +10,7 @@ import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 import { Page, PageCSS } from '~/components/page'
 import { MapCSS } from '~/components/map'
 import { BitCSS, ErrorMessage } from '~/components/bit'
+import { errorToObject } from '~/lib/error'
 
 import {
   fetchContent,
@@ -31,6 +32,7 @@ type LoaderData =
       state: 'success'
       renderableTreeNode: RenderableTreeNode
       references: References
+      isIndex: boolean
     }
   | {
       state: 'validation-error'
@@ -51,7 +53,10 @@ export const loader: LoaderFunction = async (props) => {
 
   const content = await fetchContent({ pageId })
   if (content instanceof Error) {
-    return json<LoaderData>({ state: 'error', error: content.message })
+    return json<LoaderData>({
+      state: 'error',
+      error: JSON.stringify(errorToObject(content), null, 2),
+    })
   }
 
   const source = content.responseText
@@ -59,7 +64,10 @@ export const loader: LoaderFunction = async (props) => {
 
   const result = await transformMarkdoc({ source, pageId, sourceHash })
   if (result instanceof Error) {
-    return json<LoaderData>({ state: 'error', error: result.message })
+    return json<LoaderData>({
+      state: 'error',
+      error: JSON.stringify(errorToObject(result), null, 2),
+    })
   }
 
   return json<LoaderData>(
@@ -68,6 +76,7 @@ export const loader: LoaderFunction = async (props) => {
           state: 'success',
           renderableTreeNode: result.renderableTreeNode,
           references: result.references,
+          isIndex: pageId === 'index.md',
         }
       : { state: 'validation-error', errors: result.errors, source },
   )
@@ -86,10 +95,10 @@ export default function Route() {
     return <MarkdocErrorList errors={errors} source={source} />
   }
 
-  const { renderableTreeNode, references } = loaderData
+  const { renderableTreeNode, references, isIndex } = loaderData
   return (
     <Page
-      isIndex
+      isIndex={isIndex}
       content={renderableTreeNode}
       context={{ references }}
       className={galleryClassName}

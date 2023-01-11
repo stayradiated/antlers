@@ -61,7 +61,7 @@ const $ParseMarkdocResult = z.discriminatedUnion('success', [
 type ParseMarkdocResult = z.infer<typeof $ParseMarkdocResult>
 
 const forceParseMarkdoc = withDebugTime(
-  async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult> => {
+  async (options: ParseMarkdocOptions): Promise<ParseMarkdocResult | Error> => {
     const { source, sourceHash } = options
 
     const createdAt = new Date()
@@ -77,6 +77,9 @@ const forceParseMarkdoc = withDebugTime(
 
     const ast = Markdoc.parse(source)
     const frontmatter = parseFrontmatter(ast.attributes.frontmatter)
+    if (frontmatter instanceof Error) {
+      return frontmatter
+    }
 
     const configWithVariables = {
       ...config,
@@ -136,11 +139,14 @@ const forceParseMarkdoc = withDebugTime(
       }
 
       if (item.type === 'tag' && item.tag?.endsWith('Partial')) {
-        const file = item.attributes.file as unknown
-        if (typeof file === 'string') {
-          referenceKeys.files.push(file)
-        } else if (file instanceof Markdoc.Ast.Variable) {
-          referenceKeys.files.push(file.resolve(configWithVariables))
+        for (const [key, value] of Object.entries(item.attributes)) {
+          if (key === 'file' || key.endsWith('File')) {
+            if (typeof value === 'string') {
+              referenceKeys.files.push(value)
+            } else if (value instanceof Markdoc.Ast.Variable) {
+              referenceKeys.files.push(value.resolve(configWithVariables))
+            }
+          }
         }
       }
 
@@ -172,7 +178,7 @@ const forceParseMarkdoc = withDebugTime(
 
 const parseMarkdoc = async (
   options: ParseMarkdocOptions,
-): Promise<ParseMarkdocResult> => {
+): Promise<ParseMarkdocResult | Error> => {
   const { pageId, sourceHash } = options
 
   const cache = await getCache()
@@ -188,7 +194,10 @@ const parseMarkdoc = async (
     safeCachedResult.data.configHash !== configHash
   ) {
     const result = await forceParseMarkdoc(options)
-    await cache.set(cacheKey, result)
+    if (!(result instanceof Error)) {
+      await cache.set(cacheKey, result)
+    }
+
     return result
   }
 

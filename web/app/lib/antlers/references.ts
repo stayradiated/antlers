@@ -23,8 +23,16 @@ const resolveReferencedFile = async (
     source: source.responseText,
     sourceHash: source.responseHash,
   })
+  if (result instanceof Error) {
+    return result
+  }
+
   if (!result.success) {
-    throw new Error(`Could not parse markdoc: ${JSON.stringify(result.errors)}`)
+    return new Error(
+      `resolveReferencedFile: Could not parse markdoc: ${JSON.stringify(
+        result.errors,
+      )}`,
+    )
   }
 
   const { summary, frontmatter, frontmatterReferenceKeys } = result

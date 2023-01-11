@@ -68,17 +68,24 @@
 }
 
 .map_SVGLine-container {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .map_SVGLine-path {
   fill: transparent;
   stroke: rgba(255, 255, 255, 0.7);
   stroke-width: 2;
-  animation: map_SVGLine-path-animation 10s linear forwards 1;
   stroke-linecap: round;
+  pointer-events: none;
+  stroke-dasharray: 3 5;
+}
+
+.map_SVGLine-path-animated {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: map_SVGLine-path-animation 10s linear forwards 1;
 }
 
 @keyframes map_SVGLine-path-animation {

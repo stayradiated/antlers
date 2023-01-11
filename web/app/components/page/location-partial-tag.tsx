@@ -6,54 +6,39 @@ import { MapPointPartialTag } from './map-point-partial-tag'
 import type { MapPointPartialProps } from './map-point-partial-tag'
 import { TravelPartialTag } from './travel-partial-tag'
 import type { TravelPartialProps } from './travel-partial-tag'
-import { ErrorMessage } from '~/components/bit'
-import { Map, type Point, type Line } from '~/components/map'
+import { Map } from '~/components/map'
+import type { Point, Line } from '~/components/map'
+import { getMapFile, getLocationFile, getImage } from '~/lib/references'
 
 const LocationPartialTag = (props: LocationPartialProps) => {
-  const { file: filepath, children } = props
+  const { file: locationFilepath, viewPort, children } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
 
-  const file = references.files[filepath]
-  if (!file) {
-    const message = `LocationPartialTag: Could not load reference ${file}`
-    return <ErrorMessage message={message} />
-  }
-
-  if (file.frontmatter.type !== 'location') {
-    const message = `LocationPartialTag: Expected location type, found ${String(
-      file.frontmatter.type,
-    )}`
-    return <ErrorMessage message={message} />
-  }
+  const locationFile = getLocationFile(locationFilepath, references)
 
   let mapElement: React.ReactNode
-  const { countryMapFile } = file.frontmatter
-  if (file.frontmatter.coordinates && countryMapFile) {
-    const map = file.frontmatterReferences.files[countryMapFile]
-    if (!map) {
-      const message = `LocationPartialTag: Could not load countryMapFile reference ${countryMapFile}`
-      return <ErrorMessage message={message} />
-    }
 
-    if (map.frontmatter.type !== 'map') {
-      const message = `LocationPartialTag: Expected map type, found ${String(
-        map.frontmatter.type,
-      )}`
-      return <ErrorMessage message={message} />
-    }
+  const countryMapFile = props.countryMapFile
+    ? getMapFile(props.countryMapFile, references)
+    : locationFile.frontmatter.countryMapFile
+    ? getMapFile(
+        locationFile.frontmatter.countryMapFile,
+        locationFile.frontmatterReferences,
+      )
+    : undefined
 
-    const image = map.frontmatterReferences.images[map.frontmatter.image]
-    if (!image) {
-      const message = `Map: Could not resolve image`
-      return <ErrorMessage message={message} />
-    }
+  if (locationFile.frontmatter.coordinates && countryMapFile) {
+    const image = getImage(
+      countryMapFile.frontmatter.image,
+      countryMapFile.frontmatterReferences,
+    )
 
     const points: Point[] = [
       {
-        label: file.frontmatter.name,
-        coordinates: file.frontmatter.coordinates,
+        label: locationFile.frontmatter.name,
+        coordinates: locationFile.frontmatter.coordinates,
       },
     ]
 
@@ -77,13 +62,14 @@ const LocationPartialTag = (props: LocationPartialProps) => {
         }
 
         case TravelPartialTag: {
-          const { file: filepath } = node.props as TravelPartialProps
+          const { file: filepath, animated } = node.props as TravelPartialProps
           const file = references.files[filepath]
           invariant(file.frontmatter.type === 'travel')
           invariant(file.frontmatter.coordinates)
 
           lines.push({
             coordinates: file.frontmatter.coordinates,
+            animated,
           })
           break
         }
@@ -96,13 +82,9 @@ const LocationPartialTag = (props: LocationPartialProps) => {
 
     mapElement = (
       <Map
-        viewPort={{
-          aspectRatio: 0.5,
-          translate: [5, -27],
-          scale: 3,
-        }}
+        viewPort={viewPort}
         image={image}
-        mapCoordinates={map.frontmatter.coordinates}
+        mapCoordinates={countryMapFile.frontmatter.coordinates}
         points={points}
         lines={lines}
       />
@@ -112,8 +94,8 @@ const LocationPartialTag = (props: LocationPartialProps) => {
   return (
     <>
       <h3>
-        <a href={filepath}>
-          {file.frontmatter.name}, {file.frontmatter.country}
+        <a href={locationFilepath}>
+          {locationFile.frontmatter.name}, {locationFile.frontmatter.country}
         </a>
       </h3>
       {mapElement}

@@ -2,6 +2,7 @@ import type { Schema } from '@markdoc/markdoc'
 
 type TravelPartialProps = {
   file: string
+  animated: boolean
 }
 
 const travelPartial: Schema = {
@@ -10,6 +11,7 @@ const travelPartial: Schema = {
   children: [],
   attributes: {
     file: { type: String, required: true },
+    animated: { type: Boolean },
   },
 }
 

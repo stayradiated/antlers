@@ -1,11 +1,15 @@
 import type { ReactElement } from 'react'
 import type { Schema } from '@markdoc/markdoc'
+import { ViewPortAttribute } from '../attributes/index'
+import type { ViewPort } from '../attributes/index'
 import type { TravelPartialProps } from './travel-partial'
 import type { MapPointProps } from './map-point'
 
 type LocationPartialProps = {
   file: string
   children: Array<ReactElement<TravelPartialProps | MapPointProps>>
+  viewPort?: ViewPort
+  countryMapFile?: string
 }
 
 const validChildrenTags = ['travelPartial', 'mapPointPartial']
@@ -15,6 +19,8 @@ const locationPartial: Schema = {
   children: ['tag'],
   attributes: {
     file: { type: String, required: true },
+    viewPort: { type: ViewPortAttribute, required: false },
+    countryMapFile: { type: String, required: false },
   },
   validate(node) {
     const hasValidChildren = node.children.every((child) => {

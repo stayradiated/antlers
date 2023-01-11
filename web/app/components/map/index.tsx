@@ -17,6 +17,7 @@ type Point = {
 
 type Line = {
   coordinates: Array<[number, number]>
+  animated?: boolean
 }
 
 type MapProps = {
@@ -82,13 +83,14 @@ const Map = (props: MapProps) => {
       })}
       <div className={cx('lines')}>
         {lines.map((line, index) => {
-          const { coordinates } = line
+          const { coordinates, animated } = line
           return (
             <SVGLine
               key={index}
               lineCoordinates={coordinates}
               mapCoordinates={viewPortCoordinates}
               size={{ width, height }}
+              animated={animated}
             />
           )
         })}
