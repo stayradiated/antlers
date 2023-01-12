@@ -42,9 +42,12 @@ const Page = (props: PageProps) => {
       <main className={cx('container', className)}>
         {!isIndex && <Link to="/">« Home</Link>}
 
-        {isIndex && <>
-          <Link to="/photostream">Photostream</Link> • <Link to="/location/index.md">Locations</Link>
-        </>}
+        {isIndex && (
+          <>
+            <Link to="/photostream">Photostream</Link> •{' '}
+            <Link to="/location/index.md">Locations</Link>
+          </>
+        )}
 
         {Markdoc.renderers.react(content, React, {
           components: {

@@ -22,6 +22,14 @@
   display: flex;
 }
 
+.page_Accomodation-container .page_Row-main,
+.page_Place-container .page_Row-main {
+  width: 100%;
+  position: static;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .page_Row-main > * {
   margin-right: 8px;
 }
@@ -103,6 +111,7 @@
   border-radius: 8px;
 
   padding: 1rem;
+  position: relative;
 }
 
 /******************************************************************************/

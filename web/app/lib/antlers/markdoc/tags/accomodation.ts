@@ -2,7 +2,7 @@ import type { Schema } from '@markdoc/markdoc'
 
 const accomodation: Schema = {
   render: 'Accomodation',
-  children: ['image', 'paragraph'],
+  children: ['tag', 'image', 'paragraph'],
   attributes: {
     title: { type: String, required: true },
     review: { type: Number, required: true },

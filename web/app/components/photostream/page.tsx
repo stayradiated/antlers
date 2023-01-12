@@ -1,7 +1,7 @@
+import { Link } from '@remix-run/react'
 import { Image } from './image'
 import type { ReferencedImage } from '~/lib/antlers'
 import { createCX } from '~/lib/class-name'
-import { Link } from '@remix-run/react'
 
 const cx = createCX('photostream', 'Page')
 

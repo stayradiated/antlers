@@ -2,7 +2,7 @@ import type { Schema } from '@markdoc/markdoc'
 
 const place: Schema = {
   render: 'Place',
-  children: ['paragraph'],
+  children: ['tag', 'paragraph'],
   attributes: {
     title: { type: String, required: true },
     category: { type: String, required: true },
