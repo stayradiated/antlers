@@ -2,19 +2,15 @@ import { useContext } from 'react'
 import { Location } from './location'
 import { PageContext } from './context'
 import type { LocationProps } from '~/lib/antlers/markdoc/tags/index'
-import { ErrorMessage } from '~/components/bit'
+import { getImage } from '~/lib/references'
 
 const LocationTag = (props: LocationProps) => {
-  const { image: imageReference } = props
+  const { image: imageKey } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
 
-  const image = imageReference ? references.images[imageReference] : undefined
-  if (imageReference && !image) {
-    const message = `LocationTag: could not load image reference ${imageReference}`
-    return <ErrorMessage message={message} />
-  }
+  const image = imageKey ? getImage(imageKey, references) : undefined
 
   return <Location {...props} image={image} />
 }

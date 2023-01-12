@@ -1,3 +1,5 @@
+import type { ReferencedImage } from '~/lib/antlers/index'
+
 type Photo = {
   src: string
   srcSet: string[]
@@ -6,24 +8,14 @@ type Photo = {
   height: number
 }
 
-type Input = {
-  urls: Record<string, string>
-  width: number
-  height: number
-}
-
-const usePhoto = (input: Input): Photo => {
+const usePhoto = (input: ReferencedImage): Photo => {
   const { urls, width, height } = input
   const aspectRatio = width / height
 
-  const srcSet = [...Object.entries(urls)].map(([width, url]) => {
+  const srcSet = [...Object.entries(urls.byWidth)].map(([width, url]) => {
     return `${url} ${width}w`
   })
-
-  const maxWidth = Math.max(
-    ...[...Object.keys(urls)].map((n) => Number.parseInt(n, 10)),
-  )
-  const maxWidthUrl = urls[maxWidth]
+  const maxWidthUrl = urls.byWidth[2500]
 
   return {
     src: maxWidthUrl,
@@ -34,7 +26,9 @@ const usePhoto = (input: Input): Photo => {
   }
 }
 
-const usePhotoMaybe = (input: Input | undefined): Photo | undefined => {
+const usePhotoMaybe = (
+  input: ReferencedImage | undefined,
+): Photo | undefined => {
   if (typeof input === 'undefined') {
     return undefined
   }

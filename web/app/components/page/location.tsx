@@ -1,6 +1,7 @@
 import * as dF from 'date-fns'
 import { Link } from '@remix-run/react'
 import { BigText } from '~/components/bit/big-text'
+import type { ReferencedImage } from '~/lib/antlers'
 
 import { createCX } from '~/lib/class-name'
 
@@ -14,11 +15,7 @@ type LocationProps = {
   location: string
   country: string
   href?: string
-  image?: {
-    width: number
-    height: number
-    urls: Record<string, string>
-  }
+  image?: ReferencedImage
   imageAlignV?: number
   height?: number
 }

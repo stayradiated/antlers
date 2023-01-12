@@ -13,7 +13,7 @@ const Summary = (props: SummaryProps) => {
   return (
     <div className={cx('container')}>
       {summary.images.slice(0, 3).map((image) => (
-        <img className={cx('image')} src={image.urls.tinysquare} />
+        <img className={cx('image')} src={image.urls.square[32]} />
       ))}
     </div>
   )

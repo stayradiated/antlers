@@ -24,7 +24,7 @@ const config: Config = {
 }
 
 // Increment this number to bust cache
-const configVersion = '1.0.0'
+const configVersion = '1.0.1'
 
 const configHash = calcHash(JSON.stringify(config) + configVersion)
 
@@ -142,10 +142,7 @@ const forceParseMarkdoc = withDebugTime(
       if (item.type === 'image') {
         referenceKeys.images.push(item.attributes.src)
         summary.imageCount += 1
-
-        if (summary.images.length < 3) {
-          summary.images.push(item.attributes.src)
-        }
+        summary.images.push(item.attributes.src)
       }
 
       if (item.type === 'tag' && item.tag?.endsWith('Partial')) {

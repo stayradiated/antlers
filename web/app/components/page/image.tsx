@@ -1,16 +1,13 @@
 import { usePhoto } from '~/hooks/use-photo'
 import { createCX } from '~/lib/class-name'
+import type { ReferencedImage } from '~/lib/antlers'
 
 const cx = createCX('page', 'Image')
 
 type ImageProps = {
   alt?: string
   title?: string
-  src: {
-    width: number
-    height: number
-    urls: Record<string, string>
-  }
+  src: ReferencedImage
 }
 
 const Image = (props: ImageProps) => {
@@ -44,7 +41,7 @@ const Image = (props: ImageProps) => {
           className={cx('placeholder')}
           width={photo.width}
           height={photo.height}
-          src={src.urls[16]}
+          src={src.urls.byWidth[16]}
           style={{
             imageRendering: 'pixelated',
           }}

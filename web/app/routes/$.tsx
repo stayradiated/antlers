@@ -13,11 +13,9 @@ import { SojournCSS } from '~/components/sojourn'
 import { BitCSS, ErrorMessage } from '~/components/bit'
 import { errorToObject } from '~/lib/error'
 
-import {
-  fetchContent,
-  transformMarkdoc,
-  type References,
-} from '~/lib/antlers.server'
+import { fetchContent, transformMarkdoc } from '~/lib/antlers.server'
+import type { References } from '~/lib/antlers.server'
+
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [

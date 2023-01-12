@@ -77,7 +77,19 @@ const $References: z.ZodType<References> = z.lazy(() =>
 const $ReferencedImage = z.object({
   width: z.number(),
   height: z.number(),
-  urls: z.record(z.string(), z.string()),
+  urls: z.object({
+    svg: z.string(),
+    square: z.object({
+      32: z.string(),
+    }),
+    byWidth: z.object({
+      16: z.string(),
+      320: z.string(),
+      625: z.string(),
+      1250: z.string(),
+      2500: z.string(),
+    }),
+  }),
 })
 type ReferencedImage = z.infer<typeof $ReferencedImage>
 

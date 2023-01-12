@@ -1,12 +1,13 @@
 import { useContext } from 'react'
 import { Image } from './image'
 import { PageContext } from './context'
-import { type ImageTagProps } from '~/lib/antlers/markdoc/nodes/index'
+import type { ImageTagProps } from '~/lib/antlers/markdoc/nodes/index'
+import { getImage } from '~/lib/references'
 
 const ImageTag = (props: ImageTagProps) => {
-  const { src: imageReference, alt, title } = props
+  const { src: imageKey, alt, title } = props
   const { references } = useContext(PageContext)
-  const src = references.images[imageReference]
+  const src = getImage(imageKey, references)
 
   return <Image alt={alt} title={title} src={src} />
 }
