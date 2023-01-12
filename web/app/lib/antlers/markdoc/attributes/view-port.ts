@@ -13,7 +13,6 @@ type ViewPort = z.infer<typeof $ViewPort>
 
 class ViewPortAttribute implements CustomAttributeTypeInterface {
   validate(value: unknown) {
-    console.log('VALIDATE', value)
     const result = $ViewPort.safeParse(value)
     if (!result.success) {
       const error: ValidationError = {

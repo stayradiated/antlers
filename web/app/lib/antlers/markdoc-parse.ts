@@ -9,7 +9,7 @@ import * as z from 'zod'
 import { withDebugTime } from '../debug'
 import { getCache } from './cache'
 import { $ReferenceKeys, $Frontmatter, $Summary } from './types'
-import type { ReferenceKeys, Frontmatter } from './types'
+import type { ReferenceKeys, Frontmatter, Summary } from './types'
 import { parseFrontmatter } from './frontmatter'
 import { calcWordCount } from './summary'
 import { calcHash } from './hash'
@@ -23,7 +23,10 @@ const config: Config = {
   variables: {},
 }
 
-const configHash = calcHash(JSON.stringify(config))
+// Increment this number to bust cache
+const configVersion = '1.0.0'
+
+const configHash = calcHash(JSON.stringify(config) + configVersion)
 
 type ParseMarkdocOptions = {
   pageId: string
@@ -122,20 +125,27 @@ const forceParseMarkdoc = withDebugTime(
       frontmatterReferenceKeys.images.push(frontmatterReferenceKeyImage)
     }
 
-    let imageCount = 0
-    let wordCount = 0
+    const summary: Summary = {
+      imageCount: 0,
+      wordCount: 0,
+      images: [],
+    }
 
     for (const item of ast.walk()) {
       if (item.type === 'text') {
         const { content } = item.attributes
         if (typeof content === 'string') {
-          wordCount += calcWordCount(content)
+          summary.wordCount += calcWordCount(content)
         }
       }
 
       if (item.type === 'image') {
         referenceKeys.images.push(item.attributes.src)
-        imageCount += 1
+        summary.imageCount += 1
+
+        if (summary.images.length < 3) {
+          summary.images.push(item.attributes.src)
+        }
       }
 
       if (item.type === 'tag' && item.tag?.endsWith('Partial')) {
@@ -167,10 +177,7 @@ const forceParseMarkdoc = withDebugTime(
       referenceKeys,
       frontmatter,
       frontmatterReferenceKeys,
-      summary: {
-        wordCount,
-        imageCount,
-      },
+      summary,
     }
   },
   (options) => `forceParseMarkdoc: ${options.pageId}`,

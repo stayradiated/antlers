@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { PageContext } from './context'
-import { Sojourn } from './sojourn'
+import * as Sojourn from '~/components/sojourn'
 import { ErrorMessage } from '~/components/bit'
 import type { SojournProps } from '~/lib/antlers/markdoc/tags/index'
 
@@ -36,7 +36,7 @@ const SojournTag = (props: SojournProps) => {
   }
 
   return (
-    <Sojourn
+    <Sojourn.Card
       arriveAt={arriveAt}
       departAt={departAt}
       location={location}

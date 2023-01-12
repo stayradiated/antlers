@@ -43,8 +43,17 @@ const resolveReferencedFile = async (
     return frontmatterReferences
   }
 
+  const summaryReferences = await resolveReferenceKeys({
+    files: [],
+    images: summary.images,
+  })
+  if (summaryReferences instanceof Error) {
+    return summaryReferences
+  }
+
   return {
     summary,
+    summaryReferences,
     frontmatter,
     frontmatterReferences,
   }

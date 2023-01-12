@@ -4,8 +4,6 @@ import { CACHE_PATH } from '../config.server'
 import { getOnce } from './persist.js'
 
 const createCache = async (): Promise<MultiCache> => {
-  console.log('CREATING CACHE')
-
   const sqliteCache = await caching(sqliteStore, {
     name: 'cache',
     path: CACHE_PATH,

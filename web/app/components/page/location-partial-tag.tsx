@@ -8,7 +8,7 @@ import { TravelPartialTag } from './travel-partial-tag'
 import type { TravelPartialProps } from './travel-partial-tag'
 import { Map } from '~/components/map'
 import type { Point, Line } from '~/components/map'
-import { getMapFile, getLocationFile, getImage } from '~/lib/references'
+import { getFile, getImage } from '~/lib/references'
 
 const LocationPartialTag = (props: LocationPartialProps) => {
   const { file: locationFilepath, viewPort, children } = props
@@ -16,14 +16,15 @@ const LocationPartialTag = (props: LocationPartialProps) => {
   const pageContext = useContext(PageContext)
   const { references } = pageContext
 
-  const locationFile = getLocationFile(locationFilepath, references)
+  const locationFile = getFile('location', locationFilepath, references)
 
   let mapElement: React.ReactNode
 
   const countryMapFile = props.countryMapFile
-    ? getMapFile(props.countryMapFile, references)
+    ? getFile('map', props.countryMapFile, references)
     : locationFile.frontmatter.countryMapFile
-    ? getMapFile(
+    ? getFile(
+        'map',
         locationFile.frontmatter.countryMapFile,
         locationFile.frontmatterReferences,
       )

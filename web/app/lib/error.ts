@@ -1,5 +1,7 @@
-type JSONValue = undefined | boolean | number | string | JSONObject | JSONArray
-type JSONObject = Record<string, JSONValue>
+/* eslint-disable-next-line @typescript-eslint/ban-types */
+type JSONValue = null | boolean | number | string | JSONObject | JSONArray
+/* eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style */
+type JSONObject = { [k: string]: JSONValue }
 type JSONArray = JSONValue[]
 
 type ErrorToObjectOptions = {

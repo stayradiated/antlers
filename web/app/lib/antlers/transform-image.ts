@@ -9,6 +9,14 @@ const transformImage = (options: TransformImageOptions) => {
   const { source } = options
 
   return {
+    tinysquare: sign('/resize', source, {
+      width: '32',
+      height: '32',
+      nocrop: 'false',
+      type: 'webp',
+      quality: '50',
+      stripmeta: 'true',
+    }),
     16: sign('/resize', source, {
       width: '16',
       type: 'webp',

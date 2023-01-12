@@ -1,11 +1,13 @@
 import * as dF from 'date-fns'
 import { Link } from '@remix-run/react'
 
+import { Summary } from './summary'
+import type { ResolvedSummary } from './types'
 import { createCX } from '~/lib/class-name'
-
 import { usePhotoMaybe } from '~/hooks/use-photo'
+import type { ReferencedImage } from '~/lib/antlers'
 
-const cx = createCX('page', 'Sojourn')
+const cx = createCX('sojourn', 'Card')
 
 type SojournProps = {
   arriveAt: string
@@ -13,18 +15,11 @@ type SojournProps = {
   location: string
   country: string
   href?: string
-  image?: {
-    width: number
-    height: number
-    urls: Record<number, string>
-  }
-  summary?: {
-    wordCount: number
-    imageCount: number
-  }
+  image?: ReferencedImage
+  summary?: ResolvedSummary
 }
 
-const Sojourn = (props: SojournProps) => {
+const Card = (props: SojournProps) => {
   const {
     arriveAt: arriveAtString,
     departAt: departAtString,
@@ -62,15 +57,10 @@ const Sojourn = (props: SojournProps) => {
       </div>
 
       <div className={cx('details')}>
-        <p className={cx('arriveAt')}>{arriveAtFormatted}</p>
-        <p className={cx('nights')}>
-          {nights} {nights === 1 ? 'night' : 'nights'}
+        <p className={cx('date')}>
+          {arriveAtFormatted} • {nights} {nights === 1 ? 'night' : 'nights'}
         </p>
-        {summary && (
-          <p>
-            {summary.imageCount} images. {summary.wordCount} words.
-          </p>
-        )}
+        {summary && <Summary summary={summary} />}
       </div>
     </section>
   )
@@ -86,4 +76,4 @@ const Sojourn = (props: SojournProps) => {
   return element
 }
 
-export { Sojourn }
+export { Card }

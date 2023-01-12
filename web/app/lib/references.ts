@@ -1,80 +1,36 @@
 import invariant from 'tiny-invariant'
 import type {
   References,
-  TravelFrontmatter,
-  LocationFrontmatter,
-  SojournFrontmatter,
-  MapFrontmatter,
+  Frontmatter,
   ReferencedFile,
   ReferencedImage,
 } from './antlers/index'
 
-const getSojournFrontmatter = (
+type FrontmatterType = NonNullable<Frontmatter['type']>
+
+type TypedReferencedFile<T extends FrontmatterType> = Omit<
+  ReferencedFile,
+  'frontmatter'
+> & {
+  frontmatter: Frontmatter & { type: T }
+}
+
+const getFile = <T extends FrontmatterType>(
+  type: T,
   name: string,
   references: References,
-): SojournFrontmatter => {
+): TypedReferencedFile<T> => {
   const file = references.files[name]
   invariant(file, `File "${name}" does not exist in references.`)
 
   invariant(
-    file.frontmatter.type === 'sojourn',
-    `File "${name}" does not have correct type. Expected "sojourn", found "${file.frontmatter.type}".`,
+    file.frontmatter.type === type,
+    `File "${name}" does not have correct type. Expected "${type}", found "${JSON.stringify(
+      file.frontmatter.type,
+    )}".`,
   )
 
-  return file.frontmatter
-}
-
-type ReferencedLocationFile = ReferencedFile & {
-  frontmatter: LocationFrontmatter
-}
-
-const getLocationFile = (
-  name: string,
-  references: References,
-): ReferencedLocationFile => {
-  const file = references.files[name]
-  invariant(file, `File "${name}" does not exist in references.`)
-
-  invariant(
-    file.frontmatter.type === 'location',
-    `File "${name}" does not have correct type. Expected "location", found "${file.frontmatter.type}".`,
-  )
-
-  return file as ReferencedLocationFile
-}
-
-type ReferencedMapFile = ReferencedFile & {
-  frontmatter: MapFrontmatter
-}
-
-const getMapFile = (
-  name: string,
-  references: References,
-): ReferencedMapFile => {
-  const file = references.files[name]
-  invariant(file, `File "${name}" does not exist in references.`)
-
-  invariant(
-    file.frontmatter.type === 'map',
-    `File "${name}" does not have correct type. Expected "map", found "${file.frontmatter.type}".`,
-  )
-
-  return file as ReferencedMapFile
-}
-
-const getTravelFrontmatter = (
-  name: string,
-  references: References,
-): TravelFrontmatter => {
-  const file = references.files[name]
-  invariant(file, `File "${name}" does not exist in references.`)
-
-  invariant(
-    file.frontmatter.type === 'travel',
-    `File "${name}" does not have correct type. Expected "travel", found "${file.frontmatter.type}".`,
-  )
-
-  return file.frontmatter
+  return file as TypedReferencedFile<T>
 }
 
 const getImage = (name: string, references: References): ReferencedImage => {
@@ -83,10 +39,4 @@ const getImage = (name: string, references: References): ReferencedImage => {
   return image
 }
 
-export {
-  getSojournFrontmatter,
-  getLocationFile,
-  getTravelFrontmatter,
-  getMapFile,
-  getImage,
-}
+export { getFile, getImage }

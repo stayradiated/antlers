@@ -38,8 +38,6 @@ const Map = (props: MapProps) => {
     scale: 1,
   }
 
-  console.log({ viewPort })
-
   const srcWidth = image.width
   const srcHeight = image.height
 

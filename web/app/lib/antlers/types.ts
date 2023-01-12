@@ -1,14 +1,8 @@
 import * as z from 'zod'
 
-const $Summary = z.object({
-  imageCount: z.number(),
-  wordCount: z.number(),
-})
-type Summary = z.infer<typeof $Summary>
-
 const $SojournFrontmatter = z.object({
   type: z.literal('sojourn'),
-  arriveAt: z.string().optional(),
+  arriveAt: z.string(),
   departAt: z.string().optional(),
   location: z.string().optional(),
   country: z.string().optional(),
@@ -80,19 +74,27 @@ const $References: z.ZodType<References> = z.lazy(() =>
   }),
 )
 
-const $ReferencedFile = z.object({
-  frontmatter: $Frontmatter,
-  frontmatterReferences: $References,
-  summary: $Summary,
-})
-type ReferencedFile = z.infer<typeof $ReferencedFile>
-
 const $ReferencedImage = z.object({
   width: z.number(),
   height: z.number(),
   urls: z.record(z.string(), z.string()),
 })
 type ReferencedImage = z.infer<typeof $ReferencedImage>
+
+const $Summary = z.object({
+  imageCount: z.number(),
+  wordCount: z.number(),
+  images: z.array(z.string()),
+})
+type Summary = z.infer<typeof $Summary>
+
+const $ReferencedFile = z.object({
+  frontmatter: $Frontmatter,
+  frontmatterReferences: $References,
+  summary: $Summary,
+  summaryReferences: $References,
+})
+type ReferencedFile = z.infer<typeof $ReferencedFile>
 
 const $FetchContentResult = z.object({
   createdAt: z.date(),

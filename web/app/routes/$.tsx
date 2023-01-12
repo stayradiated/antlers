@@ -9,6 +9,7 @@ import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
 import { Page, PageCSS } from '~/components/page'
 import { MapCSS } from '~/components/map'
+import { SojournCSS } from '~/components/sojourn'
 import { BitCSS, ErrorMessage } from '~/components/bit'
 import { errorToObject } from '~/lib/error'
 
@@ -20,11 +21,12 @@ import {
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: PhotoSwipeCSS },
-  { rel: 'stylesheet', href: PageCSS },
-  { rel: 'stylesheet', href: MapCSS },
   { rel: 'stylesheet', href: BitCSS },
+  { rel: 'stylesheet', href: MapCSS },
   { rel: 'stylesheet', href: MarkdocCSS },
+  { rel: 'stylesheet', href: PageCSS },
+  { rel: 'stylesheet', href: PhotoSwipeCSS },
+  { rel: 'stylesheet', href: SojournCSS },
 ]
 
 type LoaderData =
