@@ -1,5 +1,18 @@
 import * as z from 'zod'
 
+const $FetchImageInfoResult = z.object({
+  width: z.number(),
+  height: z.number(),
+  type: z.string(),
+  space: z.string(),
+  hasAlpha: z.boolean(),
+  hasProfile: z.boolean(),
+  channels: z.number(),
+  orientation: z.number(),
+  exif: z.unknown().optional(),
+})
+type FetchImageInfoResult = z.infer<typeof $FetchImageInfoResult>
+
 const $SojournFrontmatter = z.object({
   type: z.literal('sojourn'),
   arriveAt: z.string(),
@@ -124,6 +137,7 @@ export {
   $References,
   $Summary,
   $FetchContentResult,
+  $FetchImageInfoResult,
 }
 export type {
   Frontmatter,
@@ -137,4 +151,5 @@ export type {
   LocationFrontmatter,
   MapFrontmatter,
   TravelFrontmatter,
+  FetchImageInfoResult,
 }

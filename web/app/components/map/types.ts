@@ -1,5 +1,19 @@
 export type Coordinate = [number, number]
 
+export type PointStyle = 'start' | 'dot'
+
+export type Line = {
+  coordinates: Array<[number, number]>
+  animated?: boolean
+}
+
+export type Point = {
+  label: string
+  coordinates: [number, number]
+  style?: PointStyle
+  href?: string
+}
+
 export type XY = {
   x: number
   y: number

@@ -1,78 +1,60 @@
+import { errorBoundary } from '@stayradiated/error-boundary'
 import { sign } from './imaginary'
 import { getCache } from './cache'
+import { $FetchImageInfoResult } from './types'
+import type { FetchImageInfoResult } from './types'
+import { withDebugTime } from '~/lib/debug'
 
 type ImageInfoOptions = {
   source: string
 }
 
-type ImageInfo = {
-  width: number
-  height: number
-  type: string
-  space: string
-  hasAlpha: boolean
-  hasProfile: boolean
-  channels: number
-  orientation: number
-  exif?: {
-    make?: string
-    model?: string
-    orientation?: number
-    software?: string
-    ycbcrPositioning?: number
-    exifVersion?: string
-    iso?: number
-    componentsConfiguration?: string
-    focalLengthIn35mmFilm?: number
-    exifImageWidth?: number
-    exifImageHeight?: number
-    xResolution?: string
-    yResolution?: string
-    dateTime?: string
-    dateTimeOriginal?: string
-    dateTimeDigitized?: string
-    fNumber?: string
-    exposureTime?: string
-    exposureProgram?: string
-    shutterSpeedValue?: string
-    apertureValue?: string
-    brightnessValue?: string
-    exposureCompensation?: string
-    meteringMode?: string
-    flashMode?: string
-    focalLength?: string
-    subjectArea?: number[]
-    colorSpace?: string
-    sensingMethod?: string
-    sceneType?: string
-    gps?: {
-      latitude?: number
-      longitude?: number
-      altitude?: string
-      speed?: string
-      direction?: number
-      directionRef?: string
-    }
-  }
-}
+const forceFetchImageInfo = withDebugTime(
+  async (source: string): Promise<FetchImageInfoResult | Error> => {
+    const url = sign('/info', source, {})
+
+    const content = await errorBoundary(async () => {
+      const response = await fetch(url)
+      if (response.status >= 400) {
+        throw new Error(
+          `forceFetchImageInfo: Received ${response.status}: ${response.statusText}`,
+        )
+      }
+
+      const responseText = await response.text()
+
+      const content = $FetchImageInfoResult.parse(JSON.parse(responseText))
+      return content
+    })
+
+    return content
+  },
+  (source) => `forceFetchImageInfo: ${source}`,
+)
 
 const fetchImageInfo = async (
   options: ImageInfoOptions,
-): Promise<ImageInfo> => {
+): Promise<FetchImageInfoResult | Error> => {
   const { source } = options
 
   const cache = await getCache()
-
   const cacheKey = `info:${source}`
+  const safeCachedResult = $FetchImageInfoResult.safeParse(
+    await cache.get<FetchImageInfoResult>(cacheKey),
+  )
 
-  return cache.wrap(cacheKey, async () => {
-    const url = sign('/info', source, {})
-    console.log(url, 'FETCH')
-    const response = await fetch(url)
-    const content = (await response.json()) as ImageInfo
-    console.log(url, 'DONE')
-    return content
-  })
+  if (!safeCachedResult.success) {
+    const result = await forceFetchImageInfo(source)
+    if (!(result instanceof Error)) {
+      await cache.set(cacheKey, result)
+    }
+
+    return result
+  }
+
+  const cachedResult = safeCachedResult.data
+
+  return cachedResult
 }
 
 export { fetchImageInfo }

@@ -61,8 +61,12 @@ const resolveReferencedFile = async (
 
 const resolveReferencedImage = async (
   referenceKey: string,
-): Promise<ReferencedImage> => {
+): Promise<ReferencedImage | Error> => {
   const info = await fetchImageInfo({ source: referenceKey })
+  if (info instanceof Error) {
+    return info
+  }
+
   const urls = transformImage({ source: referenceKey })
 
   return { width: info.width, height: info.height, urls }
@@ -93,6 +97,10 @@ const resolveReferenceKeys = async (
     Promise.all(
       referenceKeys.images.map(async (referenceKey) => {
         const referencedImage = await resolveReferencedImage(referenceKey)
+        if (referencedImage instanceof Error) {
+          return referencedImage
+        }
+
         return [referenceKey, referencedImage] as const
       }),
     ),

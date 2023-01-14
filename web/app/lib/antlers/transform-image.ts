@@ -1,4 +1,3 @@
-import { CONTENT_HOST } from '../config.server'
 import { sign } from './imaginary'
 import { type ReferencedImage } from './types'
 
@@ -12,7 +11,7 @@ const transformImage = (
   const { source } = options
 
   return {
-    svg: `${CONTENT_HOST}${source}`,
+    svg: source,
     square: {
       32: sign('/resize', source, {
         width: '32',

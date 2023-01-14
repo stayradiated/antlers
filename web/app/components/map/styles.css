@@ -13,11 +13,11 @@
   height: 100%;
 }
 
-.map_Map-point {
+.map_MapPoint-container {
   position: absolute;
 }
 
-.map_Map-label {
+.map_MapPoint-label {
   position: relative;
   z-index: 1;
   display: block;
@@ -28,22 +28,38 @@
   margin-top: -28px;
 }
 
-.map_Map-point:before {
+.map_MapPoint-container:before {
   content: '';
   display: block;
   position: absolute;
   z-index: 2;
   width: 10px;
   height: 10px;
-  margin-top: -5px;
-  margin-left: -5px;
+  top: -5px;
+  left: -5px;
   background: #ff4d4d;
   border-radius: 50%;
   animation: pulse 1.0s alternate infinite running;
 }
-.map_Map-point-start:before {
+.map_MapPoint-style-start:before {
   background: rgba(113, 88, 226, 0.9);
   animation: none;
+}
+
+.map_MapPoint-style-dot:before {
+  animation: none;
+}
+.map_MapPoint-style-dot .map_MapPoint-label {
+  opacity: 0.5;
+  transition: all 0.3s ease-in-out;
+  background: none;
+  top: 30px;
+  left: -50%;
+  font-size: 14px;
+}
+.map_MapPoint-style-dot:hover .map_MapPoint-label {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 @keyframes pulse {

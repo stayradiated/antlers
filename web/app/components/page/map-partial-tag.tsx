@@ -20,16 +20,17 @@ const MapPartialTag = (props: MapPartialProps) => {
   const map = getFile('map', mapFilename, references)
   const image = getImage(map.frontmatter.image, map.frontmatterReferences)
 
-  const points = React.Children.map(children, (child): Point | void => {
+  const points = React.Children.map(children ?? [], (child): Point | void => {
     if (child.type === MapPointPartialTag) {
-      const { file: locationFilename } = child.props as MapPointPartialProps
+      const { file: locationFilename, style } =
+        child.props as MapPointPartialProps
       const locationFile = getFile('location', locationFilename, references)
       const { name, coordinates } = locationFile.frontmatter
       if (!coordinates) {
         return undefined
       }
 
-      return { coordinates, label: name }
+      return { coordinates, label: name, style, href: locationFilename }
     }
 
     if (child.type === MapPointTag) {

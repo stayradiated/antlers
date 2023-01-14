@@ -2,7 +2,7 @@ import type { Schema } from '@markdoc/markdoc'
 
 type MapPointPartialProps = {
   file: string
-  style?: 'start'
+  style?: 'start' | 'dot'
 }
 
 const mapPointPartial: Schema = {
@@ -11,7 +11,7 @@ const mapPointPartial: Schema = {
   children: [],
   attributes: {
     file: { type: String, required: true },
-    style: { type: String, matches: ['start'] },
+    style: { type: String, matches: ['start', 'dot'] },
   },
 }
 
