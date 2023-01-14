@@ -4,15 +4,18 @@ import { ViewPortAttribute } from '../attributes/index'
 import type { ViewPort } from '../attributes/index'
 import type { TravelPartialProps } from './travel-partial'
 import type { MapPointProps } from './map-point'
+import type { MapPointPartialProps } from './map-point-partial'
 
 type LocationPartialProps = {
   file: string
-  children: Array<ReactElement<TravelPartialProps | MapPointProps>>
+  children: Array<
+    ReactElement<TravelPartialProps | MapPointProps | MapPointPartialProps>
+  >
   viewPort?: ViewPort
   countryMapFile?: string
 }
 
-const validChildrenTags = ['travelPartial', 'mapPointPartial']
+const validChildrenTags = ['travelPartial', 'mapPoint', 'mapPointPartial']
 
 const locationPartial: Schema = {
   render: 'LocationPartial',

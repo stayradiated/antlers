@@ -1,36 +1,42 @@
 import React, { useContext } from 'react'
 import { PageContext } from './context'
-import { ErrorMessage } from '~/components/bit'
+import { MapPointPartialTag } from './map-point-partial-tag'
+import { MapPointTag } from './map-point-tag'
 import { Map } from '~/components/map'
-import type { MapPartialProps } from '~/lib/antlers/markdoc/tags/index'
+import type { Point } from '~/components/map'
+import type {
+  MapPointPartialProps,
+  MapPointProps,
+  MapPartialProps,
+} from '~/lib/antlers/markdoc/tags/index'
+import { getFile, getImage } from '~/lib/references'
 
 const MapPartialTag = (props: MapPartialProps) => {
-  const { file, children } = props
+  const { file: mapFilename, children } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
 
-  const map = references.files[file]
-  if (!map) {
-    const message = `Map: Could not load reference ${file}`
-    return <ErrorMessage message={message} />
-  }
+  const map = getFile('map', mapFilename, references)
+  const image = getImage(map.frontmatter.image, map.frontmatterReferences)
 
-  if (map.frontmatter.type !== 'map') {
-    const message = `Map: Expected map type, found ${String(
-      map.frontmatter.type,
-    )}`
-    return <ErrorMessage message={message} />
-  }
+  const points = React.Children.map(children, (child): Point | void => {
+    if (child.type === MapPointPartialTag) {
+      const { file: locationFilename } = child.props as MapPointPartialProps
+      const locationFile = getFile('location', locationFilename, references)
+      const { name, coordinates } = locationFile.frontmatter
+      if (!coordinates) {
+        return undefined
+      }
 
-  const image = map.frontmatterReferences.images[map.frontmatter.image]
-  if (!image) {
-    const message = `Map: Could not resolve image`
-    return <ErrorMessage message={message} />
-  }
+      return { coordinates, label: name }
+    }
 
-  const points = React.Children.map(children, (child) => {
-    return child.props
+    if (child.type === MapPointTag) {
+      return child.props as MapPointProps
+    }
+  }).filter((item): item is Point => {
+    return typeof item !== 'undefined'
   })
 
   return (
