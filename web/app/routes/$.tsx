@@ -7,9 +7,13 @@ import invariant from 'tiny-invariant'
 import PhotoSwipeCSS from 'photoswipe/dist/photoswipe.css'
 import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
-import { Page, PageCSS } from '~/components/page'
-import { MapCSS } from '~/components/map'
-import { SojournCSS } from '~/components/sojourn'
+import { Page, stylesheet as PageCSS } from '~/components/page'
+import { stylesheet as AccomodationCSS } from '~/components/accomodation'
+import { stylesheet as MapCSS } from '~/components/map'
+import { stylesheet as VideoCSS } from '~/components/video'
+import { stylesheet as ImageCSS } from '~/components/image'
+import { stylesheet as SojournCSS } from '~/components/sojourn'
+import { stylesheet as LocationCSS } from '~/components/location'
 import { BitCSS, ErrorMessage } from '~/components/bit'
 import { errorToObject } from '~/lib/error'
 
@@ -19,12 +23,16 @@ import type { References } from '~/lib/antlers.server'
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
 export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: PhotoSwipeCSS },
   { rel: 'stylesheet', href: BitCSS },
-  { rel: 'stylesheet', href: MapCSS },
   { rel: 'stylesheet', href: MarkdocCSS },
   { rel: 'stylesheet', href: PageCSS },
-  { rel: 'stylesheet', href: PhotoSwipeCSS },
+  { rel: 'stylesheet', href: AccomodationCSS },
+  { rel: 'stylesheet', href: LocationCSS },
+  { rel: 'stylesheet', href: MapCSS },
   { rel: 'stylesheet', href: SojournCSS },
+  { rel: 'stylesheet', href: VideoCSS },
+  { rel: 'stylesheet', href: ImageCSS },
 ]
 
 type LoaderData =

@@ -3,7 +3,7 @@ import * as icons from '~/icons'
 
 import { createCX } from '~/lib/class-name'
 
-const cx = createCX('page', 'Accomodation')
+const cx = createCX('accomodation', 'Accomodation')
 
 type DetailsProps = {
   value: string

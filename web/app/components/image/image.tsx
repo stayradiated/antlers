@@ -2,7 +2,7 @@ import { usePhoto } from '~/hooks/use-photo'
 import { createCX } from '~/lib/class-name'
 import type { ReferencedImage } from '~/lib/antlers'
 
-const cx = createCX('page', 'Image')
+const cx = createCX('image', 'Image')
 
 type ImageProps = {
   alt?: string

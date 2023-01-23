@@ -1,0 +1,17 @@
+.video_Video-container {
+  position: relative;
+  margin-bottom: 8px;
+
+  left: 50%;
+  right: 50%;
+  width: 98vw;
+  margin-left: -49vw;
+  margin-right: -49vw;
+}
+
+.video {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 4px;
+}

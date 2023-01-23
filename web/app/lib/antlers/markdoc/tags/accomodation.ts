@@ -1,5 +1,16 @@
 import type { Schema } from '@markdoc/markdoc'
 
+type AccomodationTagProps = {
+  title: string
+  review: number
+  nights: number
+  costPerNight: string
+  linkHref: string
+  linkText: string
+  description: string
+  children: React.ReactNode
+}
+
 const accomodation: Schema = {
   render: 'Accomodation',
   children: ['tag', 'image', 'paragraph'],
@@ -15,3 +26,4 @@ const accomodation: Schema = {
 }
 
 export { accomodation }
+export type { AccomodationTagProps }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { PageContext } from './context'
 import { MapPointPartialTag } from './map-point-partial-tag'
 import { MapPointTag } from './map-point-tag'
+import { PageContext } from '~/components/page/context'
 import { Map } from '~/components/map'
 import type { Point } from '~/components/map'
 import type {

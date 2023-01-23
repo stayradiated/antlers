@@ -7,7 +7,7 @@ import { createCX } from '~/lib/class-name'
 
 import { usePhotoMaybe } from '~/hooks/use-photo'
 
-const cx = createCX('page', 'Location')
+const cx = createCX('location', 'Location')
 
 type LocationProps = {
   arriveAt: string

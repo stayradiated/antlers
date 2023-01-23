@@ -5,15 +5,7 @@ type StravaProps = {
 const Strava = (props: StravaProps) => {
   const { embedUrl } = props
 
-  return (
-    <iframe
-      height="405"
-      width="590"
-      frameBorder="0"
-      scrolling="no"
-      src={embedUrl}
-    />
-  )
+  return <iframe height="405" width="590" src={embedUrl} />
 }
 
 export { Strava }

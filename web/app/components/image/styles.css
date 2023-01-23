@@ -1,0 +1,31 @@
+.image_Image-main {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.page_Page-container article > .image_Image-full-width {
+  left: 50%;
+  right: 50%;
+  width: 98vw;
+  margin-left: -49vw;
+  margin-right: -49vw;
+}
+
+.image_Image-img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+
+.image_Image-placeholder {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  border-radius: 4px;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+

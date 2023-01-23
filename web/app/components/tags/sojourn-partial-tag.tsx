@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { PageContext } from './context'
+import { PageContext } from '~/components/page/context'
 import * as Sojourn from '~/components/sojourn'
 import type { SojournPartialProps } from '~/lib/antlers/markdoc/tags/index'
 import { ErrorMessage } from '~/components/bit'

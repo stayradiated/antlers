@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { Location } from './location'
-import { PageContext } from './context'
+import { Location } from '~/components/location'
+import { PageContext } from '~/components/page/context'
 import type { LocationProps } from '~/lib/antlers/markdoc/tags/index'
 import { getImage } from '~/lib/references'
 
