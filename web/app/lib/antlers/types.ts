@@ -58,6 +58,12 @@ const $TravelFrontmatter = z.object({
 })
 type TravelFrontmatter = z.infer<typeof $TravelFrontmatter>
 
+const $StoryFrontmatter = z.object({
+  type: z.literal('story'),
+  title: z.string(),
+})
+type StoryFrontmatter = z.infer<typeof $StoryFrontmatter>
+
 const $Frontmatter = z.discriminatedUnion('type', [
   z.object({
     type: z.literal(undefined),
@@ -66,6 +72,7 @@ const $Frontmatter = z.discriminatedUnion('type', [
   $LocationFrontmatter,
   $MapFrontmatter,
   $TravelFrontmatter,
+  $StoryFrontmatter,
 ])
 type Frontmatter = z.infer<typeof $Frontmatter>
 
@@ -140,16 +147,17 @@ export {
   $FetchImageInfoResult,
 }
 export type {
+  FetchContentResult,
+  FetchImageInfoResult,
   Frontmatter,
+  LocationFrontmatter,
+  MapFrontmatter,
   ReferenceKeys,
   ReferencedFile,
   ReferencedImage,
   References,
-  Summary,
-  FetchContentResult,
   SojournFrontmatter,
-  LocationFrontmatter,
-  MapFrontmatter,
+  StoryFrontmatter,
+  Summary,
   TravelFrontmatter,
-  FetchImageInfoResult,
 }
