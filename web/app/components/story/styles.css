@@ -1,0 +1,14 @@
+.story_Card-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.story_Card-link {
+  color: inherit;
+}
+
+.story_Card-title {
+  text-align: center;
+}

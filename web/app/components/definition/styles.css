@@ -1,0 +1,14 @@
+.definition_Definition-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: 'Bitter', serif;
+}
+
+.definition_Definition-content {
+  text-indent: 1rem;
+}
+
+.definition_Definition-content p:last-child {
+  margin-bottom: 0;
+}

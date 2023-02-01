@@ -9,11 +9,13 @@ import { MarkdocErrorList, MarkdocCSS } from '~/components/markdoc'
 
 import { Page, stylesheet as PageCSS } from '~/components/page'
 import { stylesheet as AccomodationCSS } from '~/components/accomodation'
-import { stylesheet as MapCSS } from '~/components/map'
-import { stylesheet as VideoCSS } from '~/components/video'
+import { stylesheet as DefinitionCSS } from '~/components/definition'
 import { stylesheet as ImageCSS } from '~/components/image'
-import { stylesheet as SojournCSS } from '~/components/sojourn'
 import { stylesheet as LocationCSS } from '~/components/location'
+import { stylesheet as MapCSS } from '~/components/map'
+import { stylesheet as SojournCSS } from '~/components/sojourn'
+import { stylesheet as StoryCSS } from '~/components/story'
+import { stylesheet as VideoCSS } from '~/components/video'
 import { BitCSS, ErrorMessage } from '~/components/bit'
 import { errorToObject } from '~/lib/error'
 
@@ -31,8 +33,10 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: LocationCSS },
   { rel: 'stylesheet', href: MapCSS },
   { rel: 'stylesheet', href: SojournCSS },
+  { rel: 'stylesheet', href: StoryCSS },
   { rel: 'stylesheet', href: VideoCSS },
   { rel: 'stylesheet', href: ImageCSS },
+  { rel: 'stylesheet', href: DefinitionCSS },
 ]
 
 type LoaderData =

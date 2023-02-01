@@ -61,6 +61,7 @@ type TravelFrontmatter = z.infer<typeof $TravelFrontmatter>
 const $StoryFrontmatter = z.object({
   type: z.literal('story'),
   title: z.string(),
+  date: z.string(),
 })
 type StoryFrontmatter = z.infer<typeof $StoryFrontmatter>
 

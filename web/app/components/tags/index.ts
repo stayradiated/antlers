@@ -1,4 +1,5 @@
 import { AccomodationTag } from './accomodation-tag'
+import { DefinitionTag } from './definition-tag'
 import { Extract } from './extract-tag'
 import { ImageTag } from './image-tag'
 import { LocationPartialTag } from './location-partial-tag'
@@ -11,30 +12,33 @@ import { Place } from './place-tag'
 import { Row } from './row-tag'
 import { SojournPartialTag } from './sojourn-partial-tag'
 import { SojournTag } from './sojourn-tag'
+import { StoryPartialTag } from './story-partial-tag'
 import { Strava } from './strava-tag'
 import { Tip } from './tip-tag'
-import { TravelPartialTag } from './travel-partial-tag'
 import { Travel } from './travel-tag'
+import { TravelPartialTag } from './travel-partial-tag'
 import { VideoTag } from './video-tag'
 
 const components = {
   Accomodation: AccomodationTag,
+  Definition: DefinitionTag,
   Extract,
   Image: ImageTag,
-  LocationPartial: LocationPartialTag,
   Location: LocationTag,
+  LocationPartial: LocationPartialTag,
   MapLegacy,
   MapPartial: MapPartialTag,
-  MapPointPartial: MapPointPartialTag,
   MapPoint: MapPointTag,
+  MapPointPartial: MapPointPartialTag,
   Place,
   Row,
-  SojournPartial: SojournPartialTag,
   Sojourn: SojournTag,
+  SojournPartial: SojournPartialTag,
+  StoryPartial: StoryPartialTag,
   Strava,
   Tip,
-  TravelPartial: TravelPartialTag,
   Travel,
+  TravelPartial: TravelPartialTag,
   Video: VideoTag,
 }
 
