@@ -3,12 +3,9 @@
   margin-bottom: 8px;
 }
 
-.page_Page-container article > .image_Image-full-width {
-  left: 50%;
-  right: 50%;
-  width: 98vw;
-  margin-left: -49vw;
-  margin-right: -49vw;
+.image_Image-link {
+  display: block;
+  background: rgba(255,255,255,0.1);
 }
 
 .image_Image-img {
@@ -16,6 +13,9 @@
   height: auto;
   vertical-align: middle;
   border-radius: 4px;
+
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
 }
 
 .image_Image-placeholder {
@@ -27,5 +27,21 @@
   top: 0;
   left: 0;
   z-index: -1;
+
+  display: 1;
+  transition: opacity 1s ease-in;
 }
 
+.image_Image-main-isLoaded .image_Image-placeholder {
+  opacity: 0
+}
+.image_Image-main-isLoaded .image_Image-img {
+  opacity: 1;
+}
+
+.image_Image-caption {
+  text-align: center;
+  padding: 0.8rem 0 1rem;
+  font-style: italic;
+  line-height: 1.5;
+}

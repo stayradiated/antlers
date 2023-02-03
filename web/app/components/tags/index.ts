@@ -14,6 +14,7 @@ import { SojournPartialTag } from './sojourn-partial-tag'
 import { SojournTag } from './sojourn-tag'
 import { StoryPartialTag } from './story-partial-tag'
 import { Strava } from './strava-tag'
+import { StyleTag } from './style-tag'
 import { Tip } from './tip-tag'
 import { Travel } from './travel-tag'
 import { TravelPartialTag } from './travel-partial-tag'
@@ -40,6 +41,7 @@ const components = {
   Travel,
   TravelPartial: TravelPartialTag,
   Video: VideoTag,
+  Style: StyleTag
 }
 
 export { components }

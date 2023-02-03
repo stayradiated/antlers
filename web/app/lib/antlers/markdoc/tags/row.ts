@@ -3,7 +3,7 @@ import { Tag } from '@markdoc/markdoc'
 
 const row: Schema = {
   render: 'Row',
-  children: ['tag', 'paragraph'],
+  children: ['tag', 'image', 'paragraph', 'softbreak'],
   attributes: {},
   transform(node, config) {
     const attributes = node.transformAttributes(config)

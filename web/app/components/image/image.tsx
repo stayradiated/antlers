@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react'
 import { usePhoto } from '~/hooks/use-photo'
 import { createCX } from '~/lib/class-name'
 import type { ReferencedImage } from '~/lib/antlers'
@@ -15,27 +16,36 @@ const Image = (props: ImageProps) => {
 
   const photo = usePhoto(src)
 
-  const fullWidth = true
+  const imageRef = useRef<HTMLImageElement>(null)
+  const [isLoaded, setLoaded] = useState(false)
+  const handleLoad = () => setLoaded(true)
+  useEffect(() => {
+    if (imageRef.current?.complete) {
+      setLoaded(true)
+    }
+  }, [])
 
   return (
     <div
       style={{ flex: photo.aspectRatio }}
-      className={cx('main', fullWidth && cx('full-width'))}
+      className={cx('main', isLoaded && cx('main-isLoaded'))}
     >
       <a
-        className="photo-swipe-gallery-item"
+        className={cx('link', "photo-swipe-gallery-item")}
         href={photo.src}
         data-pswp-width={photo.width}
         data-pswp-height={photo.height}
         target="_blank"
       >
         <img
+          ref={imageRef}
           title={title}
           className={cx('img')}
           width={photo.width}
           height={photo.height}
           src={photo.src}
           srcSet={photo.srcSet.join(', ')}
+          onLoad={handleLoad}
         />
         <img
           className={cx('placeholder')}
@@ -48,7 +58,7 @@ const Image = (props: ImageProps) => {
         />
       </a>
       {alt && (
-        <div style={{ textAlign: 'center', paddingBottom: '1em' }}>{alt}</div>
+        <div className={cx('caption')}>{alt}</div>
       )}
     </div>
   )
