@@ -1,3 +1,4 @@
+import * as dF from 'date-fns'
 import { Link } from '@remix-run/react'
 import { createCX } from '~/lib/class-name'
 
@@ -11,7 +12,10 @@ type CardProps = {
 }
 
 const Card = (props: CardProps) => {
-  const { title, date, href, wordCount } = props
+  const { title, date: dateString, href, wordCount } = props
+
+  const date = dF.parseISO(dateString)
+  const dateFormatted = dF.format(date, 'dd MMM yyyy')
 
   return (
     <div className={cx('container')}>
@@ -20,8 +24,10 @@ const Card = (props: CardProps) => {
           {title}
         </Link>
       </h1>
-      <p>{date}</p>
-      <p>{wordCount} words</p>
+      <div className={cx('details')}>
+        <p className={cx('date')}>{dateFormatted}</p>
+        <p className={cx('wordCount')}>{wordCount.toLocaleString()} words</p>
+      </div>
     </div>
   )
 }

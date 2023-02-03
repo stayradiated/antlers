@@ -12,3 +12,31 @@
 .story_Card-title {
   text-align: center;
 }
+
+.story_Card-details {
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  padding: 1rem;
+  padding-bottom: 0;
+
+  display: flex;
+  gap: 1rem;
+
+  height: 1rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+}
+
+.story_Card-date {
+  margin: 0;
+  display: block;
+}
+
+.story_Card-wordCount {
+  margin: 0;
+  display: block;
+}
