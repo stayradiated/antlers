@@ -7,6 +7,7 @@ import { DEV_SERVER_ENABLED, DEV_SERVER_PATH } from '../../lib/config.server'
 
 const getContentType = (extension: string): string => {
   switch (extension) {
+    case '.txt':
     case '.md': {
       return 'text/plain'
     }

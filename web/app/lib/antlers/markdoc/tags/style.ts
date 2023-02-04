@@ -9,7 +9,7 @@ const style: Schema = {
   render: 'Style',
   children: ['tag', 'paragraph', 'image'],
   attributes: {
-    fullWidth: { type: Boolean }
+    fullWidth: { type: Boolean },
   },
 }
 

@@ -1,0 +1,29 @@
+.place_Card-container {
+  margin: 1rem auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+
+  padding: 1rem;
+  position: relative;
+}
+
+.place_Card-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.5rem;
+}
+
+.place_Card-link {
+  color: inherit;
+}
+
+.place_Card-title {
+  line-height: 1.5;
+  margin: 0;
+}
+
+.place_Card-category {
+  line-height: 1.5;
+}

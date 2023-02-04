@@ -8,7 +8,7 @@ import { MapLegacy } from './map-legacy-tag'
 import { MapPartialTag } from './map-partial-tag'
 import { MapPointPartialTag } from './map-point-partial-tag'
 import { MapPointTag } from './map-point-tag'
-import { Place } from './place-tag'
+import { PlaceTag } from './place-tag'
 import { Row } from './row-tag'
 import { SojournPartialTag } from './sojourn-partial-tag'
 import { SojournTag } from './sojourn-tag'
@@ -31,7 +31,7 @@ const components = {
   MapPartial: MapPartialTag,
   MapPoint: MapPointTag,
   MapPointPartial: MapPointPartialTag,
-  Place,
+  Place: PlaceTag,
   Row,
   Sojourn: SojournTag,
   SojournPartial: SojournPartialTag,
@@ -41,7 +41,7 @@ const components = {
   Travel,
   TravelPartial: TravelPartialTag,
   Video: VideoTag,
-  Style: StyleTag
+  Style: StyleTag,
 }
 
 export { components }

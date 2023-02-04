@@ -1,25 +1,8 @@
-import { createCX } from '~/lib/class-name'
+import * as Place from '../place/index'
+import type { PlaceTagProps } from '~/lib/antlers/markdoc/tags/index'
 
-const cx = createCX('page', 'Place')
-
-type PlaceProps = {
-  title: string
-  category: string
-  href: string
-  children: React.ReactNode
+const PlaceTag = (props: PlaceTagProps) => {
+  return <Place.Card {...props} />
 }
 
-const Place = (props: PlaceProps) => {
-  const { title, category, href, children } = props
-  return (
-    <section className={cx('container')}>
-      <a href={href} target="_blank" rel="noopener">
-        <h3>{title}</h3>
-      </a>
-      <em>{category}</em>
-      {children}
-    </section>
-  )
-}
-
-export { Place }
+export { PlaceTag }

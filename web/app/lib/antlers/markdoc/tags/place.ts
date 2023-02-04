@@ -1,5 +1,12 @@
 import type { Schema } from '@markdoc/markdoc'
 
+type PlaceTagProps = {
+  title: string
+  category: string
+  href: string
+  children: React.ReactNode
+}
+
 const place: Schema = {
   render: 'Place',
   children: ['tag', 'paragraph'],
@@ -10,3 +17,4 @@ const place: Schema = {
   },
 }
 export { place }
+export type { PlaceTagProps }

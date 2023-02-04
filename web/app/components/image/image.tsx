@@ -18,7 +18,10 @@ const Image = (props: ImageProps) => {
 
   const imageRef = useRef<HTMLImageElement>(null)
   const [isLoaded, setLoaded] = useState(false)
-  const handleLoad = () => setLoaded(true)
+  const handleLoad = () => {
+    setLoaded(true)
+  }
+
   useEffect(() => {
     if (imageRef.current?.complete) {
       setLoaded(true)
@@ -31,7 +34,7 @@ const Image = (props: ImageProps) => {
       className={cx('main', isLoaded && cx('main-isLoaded'))}
     >
       <a
-        className={cx('link', "photo-swipe-gallery-item")}
+        className={cx('link', 'photo-swipe-gallery-item')}
         href={photo.src}
         data-pswp-width={photo.width}
         data-pswp-height={photo.height}
@@ -57,9 +60,7 @@ const Image = (props: ImageProps) => {
           }}
         />
       </a>
-      {alt && (
-        <div className={cx('caption')}>{alt}</div>
-      )}
+      {alt && <div className={cx('caption')}>{alt}</div>}
     </div>
   )
 }
