@@ -99,6 +99,4 @@ jobs:
       - 
         # https://github.com/softprops/action-gh-release
         name: Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v0.1.15
