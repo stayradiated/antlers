@@ -18,13 +18,14 @@ const Image = (props: ImageProps) => {
 
   const imageRef = useRef<HTMLImageElement>(null)
   const [isLoaded, setLoaded] = useState(false)
+
   const handleLoad = () => {
     setLoaded(true)
   }
 
   useEffect(() => {
     if (imageRef.current?.complete) {
-      setLoaded(true)
+      handleLoad()
     }
   }, [])
 

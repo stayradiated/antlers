@@ -1,6 +1,8 @@
 .image_Image-main {
   position: relative;
   margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .image_Image-link {
@@ -12,7 +14,7 @@
   width: 100%;
   height: auto;
   vertical-align: middle;
-  border-radius: 4px;
+  background-size: cover;
 
   opacity: 0;
   transition: opacity 0.3s ease-in;
@@ -23,10 +25,13 @@
   width: 100%;
   height: auto;
   vertical-align: middle;
-  border-radius: 4px;
+
+  filter: blur(20px);
+
   top: 0;
   left: 0;
   z-index: -1;
+  background-size: cover;
 
   display: 1;
   transition: opacity 1s ease-in;
