@@ -17,22 +17,22 @@ const Image = (props: ImageProps) => {
   const photo = usePhoto(src)
 
   const imageRef = useRef<HTMLImageElement>(null)
-  const [isLoaded, setLoaded] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const handleLoad = () => {
-    setLoaded(true)
+    setLoading(false)
   }
 
   useEffect(() => {
-    if (imageRef.current?.complete) {
-      handleLoad()
+    if (!imageRef.current?.complete) {
+      setLoading(true)
     }
   }, [])
 
   return (
     <div
       style={{ flex: photo.aspectRatio }}
-      className={cx('main', isLoaded && cx('main-isLoaded'))}
+      className={cx('main', isLoading && cx('main-isLoading'))}
     >
       <a
         className={cx('link', 'photo-swipe-gallery-item')}
@@ -40,6 +40,9 @@ const Image = (props: ImageProps) => {
         data-pswp-width={photo.width}
         data-pswp-height={photo.height}
         target="_blank"
+        style={{
+          backgroundImage: `url(${src.urls.byWidth[16]})`,
+        }}
       >
         <img
           ref={imageRef}
@@ -50,15 +53,6 @@ const Image = (props: ImageProps) => {
           src={photo.src}
           srcSet={photo.srcSet.join(', ')}
           onLoad={handleLoad}
-        />
-        <img
-          className={cx('placeholder')}
-          width={photo.width}
-          height={photo.height}
-          src={src.urls.byWidth[16]}
-          style={{
-            imageRendering: 'pixelated',
-          }}
         />
       </a>
       {alt && <div className={cx('caption')}>{alt}</div>}

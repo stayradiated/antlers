@@ -1,13 +1,17 @@
 .image_Image-main {
   position: relative;
   margin-bottom: 8px;
-  border-radius: 4px;
-  overflow: hidden;
 }
 
 .image_Image-link {
   display: block;
   background: rgba(255,255,255,0.1);
+
+  border-radius: 4px;
+  overflow: hidden;
+
+  image-rendering: pixelated;
+  background-size: cover;
 }
 
 .image_Image-img {
@@ -16,8 +20,10 @@
   vertical-align: middle;
   background-size: cover;
 
-  opacity: 0;
   transition: opacity 0.3s ease-in;
+}
+.image_Image-main-isLoading .image_Image-img {
+  opacity: 0;
 }
 
 .image_Image-placeholder {
@@ -26,7 +32,7 @@
   height: auto;
   vertical-align: middle;
 
-  filter: blur(20px);
+  /* filter: blur(20px); */
 
   top: 0;
   left: 0;
@@ -35,13 +41,6 @@
 
   display: 1;
   transition: opacity 1s ease-in;
-}
-
-.image_Image-main-isLoaded .image_Image-placeholder {
-  opacity: 0
-}
-.image_Image-main-isLoaded .image_Image-img {
-  opacity: 1;
 }
 
 .image_Image-caption {
