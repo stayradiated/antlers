@@ -19,6 +19,7 @@
   height: auto;
   vertical-align: middle;
   background-size: cover;
+  image-rendering: initial;
 
   transition: opacity 0.3s ease-in;
 }
