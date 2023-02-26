@@ -8,7 +8,7 @@ type MapPartialProps = {
   children: Array<ReactElement<MapPointProps | MapPointPartialProps>>
 }
 
-const validChildrenTags = new Set(['mapPoint', 'mapPointPartial'])
+const validChildrenTags = ['travelPartial', 'mapPoint', 'mapPointPartial']
 
 const mapPartial: Schema = {
   render: 'MapPartial',
@@ -18,14 +18,18 @@ const mapPartial: Schema = {
   },
   validate(node) {
     const hasValidChildren = node.children.every((child) => {
-      return typeof child.tag === 'string' && validChildrenTags.has(child.tag)
+      return (
+        typeof child.tag === 'string' && validChildrenTags.includes(child.tag)
+      )
     })
     if (!hasValidChildren) {
       return [
         {
           id: 'map-partial-invalid-children',
           level: 'error',
-          message: 'MapPartial can only contain MapPoint tags',
+          message: `MapPartial can only contain ${validChildrenTags.join(
+            ', ',
+          )} tags`,
         },
       ]
     }

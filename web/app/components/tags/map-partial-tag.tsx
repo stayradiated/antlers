@@ -1,13 +1,16 @@
 import React, { useContext } from 'react'
+import invariant from 'tiny-invariant'
 import { MapPointPartialTag } from './map-point-partial-tag'
 import { MapPointTag } from './map-point-tag'
+import { TravelPartialTag } from './travel-partial-tag'
 import { PageContext } from '~/components/page/context'
 import { Map } from '~/components/map'
-import type { Point } from '~/components/map'
+import type { Point, Line } from '~/components/map'
 import type {
   MapPointPartialProps,
   MapPointProps,
   MapPartialProps,
+  TravelPartialProps,
 } from '~/lib/antlers/markdoc/tags/index'
 import { getFile, getImage } from '~/lib/references'
 
@@ -19,22 +22,42 @@ const MapPartialTag = (props: MapPartialProps) => {
 
   const map = getFile('map', mapFilename, references)
   const image = getImage(map.frontmatter.image, map.frontmatterReferences)
+  const lines: Line[] = []
 
-  const points = React.Children.map(children ?? [], (child): Point | void => {
-    if (child.type === MapPointPartialTag) {
-      const { file: locationFilename, style } =
-        child.props as MapPointPartialProps
-      const locationFile = getFile('location', locationFilename, references)
-      const { name, coordinates } = locationFile.frontmatter
-      if (!coordinates) {
-        return undefined
+  const points = React.Children.map(children ?? [], (node): Point | void => {
+    switch (node.type) {
+      case MapPointPartialTag: {
+        const { file: locationFilename, style } =
+          node.props as MapPointPartialProps
+        const locationFile = getFile('location', locationFilename, references)
+        const { name, coordinates } = locationFile.frontmatter
+        if (!coordinates) {
+          return undefined
+        }
+
+        return { coordinates, label: name, style, href: locationFilename }
       }
 
-      return { coordinates, label: name, style, href: locationFilename }
-    }
+      case TravelPartialTag: {
+        const { file: filepath, animated } = node.props as TravelPartialProps
+        const file = references.files[filepath]
+        invariant(file.frontmatter.type === 'travel')
+        invariant(file.frontmatter.coordinates)
 
-    if (child.type === MapPointTag) {
-      return child.props as MapPointProps
+        lines.push({
+          coordinates: file.frontmatter.coordinates,
+          animated,
+        })
+        break
+      }
+
+      case MapPointTag: {
+        return node.props as MapPointProps
+      }
+
+      default: {
+        break
+      }
     }
   }).filter((item): item is Point => {
     return typeof item !== 'undefined'
@@ -45,6 +68,7 @@ const MapPartialTag = (props: MapPartialProps) => {
       image={image}
       mapCoordinates={map.frontmatter.coordinates}
       points={points}
+      lines={lines}
     />
   )
 }

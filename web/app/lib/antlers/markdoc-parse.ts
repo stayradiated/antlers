@@ -24,7 +24,7 @@ const config: Config = {
 }
 
 // Increment this number to bust cache
-const configVersion = '1.0.2'
+const configVersion = '1.0.3'
 
 const configHash = calcHash(JSON.stringify(config) + configVersion)
 
