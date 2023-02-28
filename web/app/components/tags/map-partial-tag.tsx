@@ -15,7 +15,7 @@ import type {
 import { getFile, getImage } from '~/lib/references'
 
 const MapPartialTag = (props: MapPartialProps) => {
-  const { file: mapFilename, children } = props
+  const { file: mapFilename, children, viewPort } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
@@ -39,7 +39,7 @@ const MapPartialTag = (props: MapPartialProps) => {
       }
 
       case TravelPartialTag: {
-        const { file: filepath, animated } = node.props as TravelPartialProps
+        const { file: filepath, animated, strokeWidth } = node.props as TravelPartialProps
         const file = references.files[filepath]
         invariant(file.frontmatter.type === 'travel')
         invariant(file.frontmatter.coordinates)
@@ -47,6 +47,7 @@ const MapPartialTag = (props: MapPartialProps) => {
         lines.push({
           coordinates: file.frontmatter.coordinates,
           animated,
+          strokeWidth,
         })
         break
       }
@@ -65,6 +66,7 @@ const MapPartialTag = (props: MapPartialProps) => {
 
   return (
     <Map
+      viewPort={viewPort}
       image={image}
       mapCoordinates={map.frontmatter.coordinates}
       points={points}

@@ -9,10 +9,11 @@ type SVGLineProps = {
   mapCoordinates: CardinalCoordinates
   size: Dimensions
   animated?: boolean
+  strokeWidth?: number
 }
 
 const SVGLine = (props: SVGLineProps) => {
-  const { lineCoordinates, mapCoordinates, size, animated = false } = props
+  const { lineCoordinates, mapCoordinates, size, animated = false, strokeWidth } = props
 
   const xyList = localiseLine(lineCoordinates, mapCoordinates, size)
   const path =
@@ -27,7 +28,7 @@ const SVGLine = (props: SVGLineProps) => {
       xmlns="http://www.w3.org/2000/svg"
       className={cx('container')}
     >
-      <path className={cx('path', animated && cx('path-animated'))} d={path} />
+      <path className={cx('path', animated && cx('path-animated'))} d={path} strokeWidth={strokeWidth} />
     </svg>
   )
 }

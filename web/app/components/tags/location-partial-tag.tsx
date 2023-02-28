@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import invariant from 'tiny-invariant'
 import type { LocationPartialProps } from '../../lib/antlers/markdoc/tags/index'
+import { MapPointTag } from './map-point-tag'
+import type { MapPointProps } from './map-point-partial-tag'
 import { MapPointPartialTag } from './map-point-partial-tag'
 import type { MapPointPartialProps } from './map-point-partial-tag'
 import { TravelPartialTag } from './travel-partial-tag'
@@ -47,6 +49,15 @@ const LocationPartialTag = (props: LocationPartialProps) => {
 
     React.Children.map(children, (node) => {
       switch (node.type) {
+        case MapPointTag: {
+          const { label, coordinates, icon } = node.props as MapPointProps
+          points.push({
+            label,
+            coordinates,
+            style: icon
+          })
+          break
+        }
         case MapPointPartialTag: {
           const { file: filepath, style } = node.props as MapPointPartialProps
 

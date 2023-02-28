@@ -5,6 +5,7 @@ export type PointStyle = 'start' | 'dot'
 export type Line = {
   coordinates: Array<[number, number]>
   animated?: boolean
+  strokeWidth?: number
 }
 
 export type Point = {
