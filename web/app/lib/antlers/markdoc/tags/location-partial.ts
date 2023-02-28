@@ -13,6 +13,7 @@ type LocationPartialProps = {
   >
   viewPort?: ViewPort
   countryMapFile?: string
+  showMap?: boolean
 }
 
 const validChildrenTags = ['travelPartial', 'mapPoint', 'mapPointPartial']
@@ -24,6 +25,7 @@ const locationPartial: Schema = {
     file: { type: String, required: true },
     viewPort: { type: ViewPortAttribute, required: false },
     countryMapFile: { type: String, required: false },
+    showMap: { type: Boolean, required: false, default: true }
   },
   validate(node) {
     const hasValidChildren = node.children.every((child) => {

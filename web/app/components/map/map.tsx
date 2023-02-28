@@ -62,7 +62,7 @@ const Map = (props: MapProps) => {
 
       <div className={cx('lines')}>
         {lines.map((line, index) => {
-          const { coordinates, animated, strokeWidth } = line
+          const { coordinates, animated, strokeWidth, strokeLength } = line
           return (
             <SVGLine
               key={index}
@@ -71,6 +71,7 @@ const Map = (props: MapProps) => {
               size={viewPortSize}
               animated={animated}
               strokeWidth={strokeWidth}
+              strokeLength={strokeLength}
             />
           )
         })}

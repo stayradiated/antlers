@@ -92,15 +92,15 @@
 .map_SVGLine-path {
   fill: transparent;
   stroke: rgba(255, 255, 255, 0.7);
-  stroke-width: 2;
+  stroke-width: var(--stroke-width);
   stroke-linecap: round;
   pointer-events: none;
   stroke-dasharray: 3 5;
 }
 
 .map_SVGLine-path-animated {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
+  stroke-dasharray: var(--stroke-length);
+  stroke-dashoffset: var(--stroke-length);
   animation: map_SVGLine-path-animation 10s linear forwards 1;
 }
 

@@ -39,7 +39,7 @@ const MapPartialTag = (props: MapPartialProps) => {
       }
 
       case TravelPartialTag: {
-        const { file: filepath, animated, strokeWidth } = node.props as TravelPartialProps
+        const { file: filepath, animated, strokeWidth, strokeLength } = node.props as TravelPartialProps
         const file = references.files[filepath]
         invariant(file.frontmatter.type === 'travel')
         invariant(file.frontmatter.coordinates)
@@ -48,6 +48,7 @@ const MapPartialTag = (props: MapPartialProps) => {
           coordinates: file.frontmatter.coordinates,
           animated,
           strokeWidth,
+          strokeLength
         })
         break
       }

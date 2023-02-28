@@ -13,7 +13,7 @@ import type { Point, Line } from '~/components/map'
 import { getFile, getImage } from '~/lib/references'
 
 const LocationPartialTag = (props: LocationPartialProps) => {
-  const { file: locationFilepath, viewPort, children } = props
+  const { file: locationFilepath, viewPort, children, showMap } = props
 
   const pageContext = useContext(PageContext)
   const { references } = pageContext
@@ -32,7 +32,7 @@ const LocationPartialTag = (props: LocationPartialProps) => {
       )
     : undefined
 
-  if (locationFile.frontmatter.coordinates && countryMapFile) {
+  if (showMap && locationFile.frontmatter.coordinates && countryMapFile) {
     const image = getImage(
       countryMapFile.frontmatter.image,
       countryMapFile.frontmatterReferences,

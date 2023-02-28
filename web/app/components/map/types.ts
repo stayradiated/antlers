@@ -6,6 +6,7 @@ export type Line = {
   coordinates: Array<[number, number]>
   animated?: boolean
   strokeWidth?: number
+  strokeLength?: number
 }
 
 export type Point = {
