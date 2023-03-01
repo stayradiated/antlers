@@ -15,7 +15,7 @@ const travelPartial: Schema = {
     file: { type: String, required: true },
     animated: { type: Boolean },
     strokeWidth: { type: Number },
-    strokeLength: { type: Number }
+    strokeLength: { type: Number },
   },
 }
 

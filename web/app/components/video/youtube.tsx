@@ -8,6 +8,7 @@ const getVideoId = (input: string): string => {
   if (!videoId) {
     throw new Error('Could not extract video ID')
   }
+
   return videoId
 }
 

@@ -6,7 +6,7 @@ import { ErrorMessage } from '~/components/bit'
 import { getFile, getImage } from '~/lib/references'
 
 const SojournPartialTag = (props: SojournPartialProps) => {
-  const { file: sojournFilename } = props
+  const { file: sojournFilename, link } = props
   const pageContext = useContext(PageContext)
   const { references } = pageContext
 
@@ -23,7 +23,8 @@ const SojournPartialTag = (props: SojournPartialProps) => {
     : undefined
 
   let locationName: string
-  let countryName: string
+  let region: string | undefined
+  let country: string
 
   if (typeof locationFilename === 'string') {
     const locationFile = getFile(
@@ -32,19 +33,25 @@ const SojournPartialTag = (props: SojournPartialProps) => {
       sojournFile.frontmatterReferences,
     )
     locationName = locationFile.frontmatter.name
-    countryName = `${locationFile.frontmatter.region}, ${locationFile.frontmatter.country}`
+    region = locationFile.frontmatter.region
+    country = locationFile.frontmatter.country
   } else {
-    const { location, country } = sojournFile.frontmatter
+    const {
+      location,
+      country: fCountry,
+      region: fRegion,
+    } = sojournFile.frontmatter
     if (typeof location !== 'string') {
       return <ErrorMessage message="SojournPartialTag: Unknown Location" />
     }
 
-    if (typeof country !== 'string') {
+    if (typeof fCountry !== 'string') {
       return <ErrorMessage message="SojournPartialTag: Unknown Country" />
     }
 
     locationName = location
-    countryName = country
+    region = fRegion
+    country = fCountry
   }
 
   return (
@@ -52,8 +59,9 @@ const SojournPartialTag = (props: SojournPartialProps) => {
       arriveAt={arriveAt}
       departAt={departAt}
       location={locationName}
-      country={countryName}
-      href={sojournFilename}
+      region={region}
+      country={country}
+      href={link ? sojournFilename : undefined}
       image={image}
       summary={{
         ...sojournFile.summary,

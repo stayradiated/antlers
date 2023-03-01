@@ -1,5 +1,5 @@
+import { YouTubeVideo } from './youtube'
 import { createCX } from '~/lib/class-name'
-import { YouTubeVideo } from "./youtube"
 
 type VideoProps = {
   src: string

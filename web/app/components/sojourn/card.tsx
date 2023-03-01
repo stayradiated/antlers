@@ -5,7 +5,7 @@ import { Summary } from './summary'
 import type { ResolvedSummary } from './types'
 import { createCX } from '~/lib/class-name'
 import { usePhotoMaybe } from '~/hooks/use-photo'
-import type { ReferencedImage } from '~/lib/antlers'
+import type { ReferencedImage, SojournFrontmatter } from '~/lib/antlers'
 
 const cx = createCX('sojourn', 'Card')
 
@@ -13,6 +13,7 @@ type SojournProps = {
   arriveAt: string
   departAt?: string
   location: string
+  region?: string
   country: string
   href?: string
   image?: ReferencedImage
@@ -24,6 +25,7 @@ const Card = (props: SojournProps) => {
     arriveAt: arriveAtString,
     departAt: departAtString,
     location,
+    region,
     country,
     href,
     image: imageSource,
@@ -53,12 +55,16 @@ const Card = (props: SojournProps) => {
 
       <div className={cx('title')}>
         <h1 className={cx('location')}>{location}</h1>
+        {region && <h2 className={cx('region')}>{region}</h2>}
         {country && <h2 className={cx('country')}>{country}</h2>}
       </div>
 
       <div className={cx('details')}>
-        <p className={cx('date')}>
-          {arriveAtFormatted} • {nights} {nights === 1 ? 'night' : 'nights'}
+        <p className={cx('datetime')}>
+          <span className={cx('arriveAt')}>{arriveAtFormatted}</span>
+          <span className={cx('nights')}>
+            {nights} {nights === 1 ? 'night' : 'nights'}
+          </span>
         </p>
         {summary && <Summary summary={summary} />}
       </div>

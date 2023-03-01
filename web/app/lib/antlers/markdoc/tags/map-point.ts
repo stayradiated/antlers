@@ -17,7 +17,7 @@ const mapPoint: Schema = {
   attributes: {
     label: { type: String, required: true },
     coordinates: { type: CoordinatesAttribute, required: true },
-    icon: { type: String, matches: ALL_ICONS.slice() },
+    icon: { type: String, matches: [...ALL_ICONS] },
   },
 }
 

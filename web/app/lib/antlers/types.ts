@@ -17,17 +17,20 @@ const $SojournFrontmatter = z.object({
   type: z.literal('sojourn'),
   arriveAt: z.string(),
   departAt: z.string().optional(),
-  location: z.string().optional(),
-  country: z.string().optional(),
   image: z.string().optional(),
   locationFile: z.string().optional(),
+
+  // Deprecated, use locationFile instead
+  location: z.string().optional(),
+  country: z.string().optional(),
+  region: z.string().optional(),
 })
 type SojournFrontmatter = z.infer<typeof $SojournFrontmatter>
 
 const $LocationFrontmatter = z.object({
   type: z.literal('location'),
   name: z.string(),
-  region: z.string(),
+  region: z.string().optional(),
   country: z.string(),
   countryMapFile: z.string().optional(),
   coordinates: z.tuple([z.number(), z.number()]).optional(),

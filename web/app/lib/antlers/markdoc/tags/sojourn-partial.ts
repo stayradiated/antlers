@@ -2,6 +2,7 @@ import type { Schema } from '@markdoc/markdoc'
 
 type SojournPartialProps = {
   file: string
+  link: boolean
 }
 
 const sojournPartial: Schema = {
@@ -9,6 +10,7 @@ const sojournPartial: Schema = {
   children: [],
   attributes: {
     file: { type: String, required: true },
+    link: { type: Boolean, default: true },
   },
 }
 

@@ -29,7 +29,7 @@ const resolveReferencedFile = async (
 
   if (!result.success) {
     return new Error(
-      `resolveReferencedFile: Could not parse markdoc: ${JSON.stringify(
+      `resolveReferencedFile: Could not parse markdoc for ${referenceKey}: ${JSON.stringify(
         result.errors,
       )}`,
     )

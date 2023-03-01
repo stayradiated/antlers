@@ -68,7 +68,10 @@
   line-height: 2rem;
 }
 
+.sojourn_Card-region,
 .sojourn_Card-country {
+  display: inline-block;
+
   margin: 0;
 
   height: 3rem;
@@ -79,6 +82,9 @@
   text-transform: uppercase;
   text-align: center;
   font-weight: 200;
+}
+.sojourn_Card-region + .sojourn_Card-country:before {
+  content: ', '
 }
 
 .sojourn_Card-details {
@@ -97,9 +103,12 @@
   font-size: 1rem;
 }
 
-.sojourn_Card-date {
+.sojourn_Card-datetime {
   margin: 0;
-  display: block;
+  white-space: nowrap;
+}
+.sojourn_Card-nights:before {
+  content: ' • '
 }
 
 .sojourn_Summary-container {
@@ -115,3 +124,58 @@
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
   transition: margin  0.3s ease-in-out;
 }
+
+
+
+.sojourn_UpcomingSojournList-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.sojourn_UpcomingSojournList-title {
+  text-align: center;
+  padding: 1rem;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-container {
+  background: none;
+  flex-direction: row-reverse;
+  margin-bottom: 0;
+  border-radius: 0;
+  padding: 0 1rem;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-container + .sojourn_Card-container {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-title {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-location {
+  font-size: 1.2rem;
+  line-height: 3rem;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-region {
+  display: none;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-country {
+  font-size: 1rem;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-country:before {
+  display: none;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-details {
+  padding-left: 0;
+  padding-right: 0;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-arriveAt {
+  /* display: none; */
+}
+.sojourn_UpcomingSojournList-container .sojourn_Card-container .sojourn_Card-nights {
+  display: none;
+}
+.sojourn_UpcomingSojournList-container .sojourn_Summary-container {
+  display: none;
+}
+

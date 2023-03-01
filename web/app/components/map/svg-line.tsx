@@ -14,9 +14,14 @@ type SVGLineProps = {
 }
 
 const SVGLine = (props: SVGLineProps) => {
-  const { lineCoordinates, mapCoordinates, size, animated = false, strokeWidth = 2, strokeLength = 1000} = props
-
-  console.log({ strokeWidth, strokeLength })
+  const {
+    lineCoordinates,
+    mapCoordinates,
+    size,
+    animated = false,
+    strokeWidth = 2,
+    strokeLength = 1000,
+  } = props
 
   const xyList = localiseLine(lineCoordinates, mapCoordinates, size)
   const path =
@@ -30,10 +35,12 @@ const SVGLine = (props: SVGLineProps) => {
       viewBox={`0 0 ${size.width} ${size.height}`}
       xmlns="http://www.w3.org/2000/svg"
       className={cx('container')}
-      style={{
-        '--stroke-width': strokeWidth,
-        '--stroke-length': strokeLength,
-      }}
+      style={
+        {
+          '--stroke-width': strokeWidth,
+          '--stroke-length': strokeLength,
+        } as React.CSSProperties
+      }
     >
       <path className={cx('path', animated && cx('path-animated'))} d={path} />
     </svg>

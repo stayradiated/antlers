@@ -51,7 +51,9 @@ const transformMarkdoc = withDebugTime(
     const { renderableTreeNode, referenceKeys } = result
     const references = await resolveReferenceKeys(referenceKeys)
     if (references instanceof Error) {
-      return new Error('Could not resolve references.', { cause: references })
+      return new Error(`Could not resolve references for ${pageId}.`, {
+        cause: references,
+      })
     }
 
     return {

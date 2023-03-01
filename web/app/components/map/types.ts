@@ -1,6 +1,6 @@
 export type Coordinate = [number, number]
 
-export type PointStyle = 'start' | 'dot'
+export type PointStyle = 'start' | 'dot' | 'accomodation'
 
 export type Line = {
   coordinates: Array<[number, number]>
