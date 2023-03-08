@@ -60,7 +60,7 @@ type LoaderData =
 
 export const loader: LoaderFunction = async (props) => {
   const { params } = props
-  const pageId = params['*']
+  const pageId = params['*'] ?? 'index.md'
 
   invariant(typeof pageId === 'string', 'Must specify page')
   invariant(typeof pageId.endsWith('.md'), 'Must be markdown file')

@@ -24,7 +24,7 @@ const Page = (props: PageProps) => {
   return (
     <PageContext.Provider value={context}>
       <main className={cx('container', className)}>
-        {!isIndex && <Link to="/">« Home</Link>}
+        {!isIndex && <Link to="./" reloadDocument>« Home</Link>}
 
         {isIndex && (
           <>

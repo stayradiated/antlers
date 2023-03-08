@@ -1,6 +1,2 @@
-import type { LoaderFunction } from '@remix-run/node'
-import { redirect } from '@remix-run/node'
-
-export const loader: LoaderFunction = async () => {
-  return redirect('index.md')
-}
+export * from  './$'
+export { default as default } from  './$'
