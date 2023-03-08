@@ -11,6 +11,7 @@ import { PageContext } from '~/components/page/context'
 import { Map } from '~/components/map'
 import type { Point, Line } from '~/components/map'
 import { getFile, getImage } from '~/lib/references'
+import { BASE_PATH } from '~/lib/config.server'
 
 const LocationPartialTag = (props: LocationPartialProps) => {
   const { file: locationFilepath, viewPort, children, showMap } = props
@@ -107,7 +108,7 @@ const LocationPartialTag = (props: LocationPartialProps) => {
   return (
     <>
       <h3>
-        <a href={locationFilepath}>
+        <a href={`${BASE_PATH}${locationFilepath}`}>
           {locationFile.frontmatter.name}, {locationFile.frontmatter.country}
         </a>
       </h3>

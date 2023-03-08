@@ -1,2 +1,2 @@
-export * from  './$'
-export { default as default } from  './$'
+export * from './$'
+export { default } from './$'

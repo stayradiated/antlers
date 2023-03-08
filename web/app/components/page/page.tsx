@@ -8,6 +8,7 @@ import type { PageContextValue } from './context'
 import { components } from '~/components/tags'
 
 import { createCX } from '~/lib/class-name'
+import { BASE_PATH } from '~/lib/config.server'
 
 const cx = createCX('page', 'Page')
 
@@ -24,12 +25,16 @@ const Page = (props: PageProps) => {
   return (
     <PageContext.Provider value={context}>
       <main className={cx('container', className)}>
-        {!isIndex && <Link to="./" reloadDocument>« Home</Link>}
+        {!isIndex && (
+          <Link to={BASE_PATH} reloadDocument>
+            « Home
+          </Link>
+        )}
 
         {isIndex && (
           <>
-            <Link to="/photostream">Photostream</Link> •{' '}
-            <Link to="/location/index.md">Locations</Link>
+            <Link to={`${BASE_PATH}photostream`}>Photostream</Link> •{' '}
+            <Link to={`${BASE_PATH}location/index.md`}>Locations</Link>
           </>
         )}
 

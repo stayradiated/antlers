@@ -12,6 +12,11 @@ const envSchema = z.object({
   CONTENT_HOST: z.string(),
   IMAGINARY_HOST: z.string(),
   IMAGINARY_SIGNATURE_KEY: z.string(),
+
+  BASE_PATH: z
+    .string()
+    .regex(/^(\/.+)?\/$/)
+    .default('/'),
 })
 
 const {
@@ -21,6 +26,7 @@ const {
   DEV_SERVER_PATH,
   IMAGINARY_HOST,
   IMAGINARY_SIGNATURE_KEY,
+  BASE_PATH,
 } = envSchema.parse(process.env)
 
 export {
@@ -30,4 +36,5 @@ export {
   DEV_SERVER_ENABLED,
   IMAGINARY_HOST,
   IMAGINARY_SIGNATURE_KEY,
+  BASE_PATH,
 }

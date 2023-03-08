@@ -3,6 +3,7 @@ import { PageContext } from '~/components/page/context'
 import * as Story from '~/components/story'
 import type { StoryPartialProps } from '~/lib/antlers/markdoc/tags/index'
 import { getFile } from '~/lib/references'
+import { BASE_PATH } from '~/lib/config.server'
 
 const StoryPartialTag = (props: StoryPartialProps) => {
   const { file: storyFilename } = props
@@ -17,7 +18,7 @@ const StoryPartialTag = (props: StoryPartialProps) => {
     <Story.Card
       title={title}
       date={date}
-      href={storyFilename}
+      href={`${BASE_PATH}${storyFilename}`}
       wordCount={wordCount}
     />
   )
