@@ -9,7 +9,6 @@ import {
 } from '@remix-run/react'
 
 import globalStylesheet from './global.css'
-import { BASE_PATH } from './lib/config.server'
 
 export const meta: MetaFunction = () => ({
   /* eslint-disable-next-line unicorn/text-encoding-identifier-case */
@@ -54,7 +53,6 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <base href={BASE_PATH} target="_blank" />
       </head>
       <body>
         <Outlet />
