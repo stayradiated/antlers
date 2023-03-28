@@ -22,6 +22,7 @@ import { errorToObject } from '~/lib/error'
 
 import { fetchContent, transformMarkdoc } from '~/lib/antlers.server'
 import type { References } from '~/lib/antlers.server'
+import { BASE_PATH } from '~/lib/config.server'
 
 import { usePhotoSwipe } from '~/hooks/use-photo-swipe'
 
@@ -47,6 +48,7 @@ type LoaderData =
       renderableTreeNode: RenderableTreeNode
       references: References
       isIndex: boolean
+      basePath: string
     }
   | {
       state: 'validation-error'
@@ -91,6 +93,7 @@ export const loader: LoaderFunction = async (props) => {
           renderableTreeNode: result.renderableTreeNode,
           references: result.references,
           isIndex: pageId === 'index.md',
+          basePath: BASE_PATH,
         }
       : { state: 'validation-error', errors: result.errors, source },
   )
@@ -99,6 +102,10 @@ export const loader: LoaderFunction = async (props) => {
 export default function Route() {
   const loaderData = useLoaderData<LoaderData>()
   const { galleryClassName } = usePhotoSwipe()
+
+  if (!loaderData) {
+    return <ErrorMessage message="No loader data!" />
+  }
 
   if (loaderData.state === 'error') {
     return <ErrorMessage message={loaderData.error} />
@@ -109,12 +116,12 @@ export default function Route() {
     return <MarkdocErrorList errors={errors} source={source} />
   }
 
-  const { renderableTreeNode, references, isIndex } = loaderData
+  const { renderableTreeNode, references, isIndex, basePath } = loaderData
   return (
     <Page
       isIndex={isIndex}
       content={renderableTreeNode}
-      context={{ references }}
+      context={{ references, basePath }}
       className={galleryClassName}
     />
   )

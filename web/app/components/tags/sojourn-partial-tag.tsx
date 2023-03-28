@@ -4,12 +4,11 @@ import * as Sojourn from '~/components/sojourn'
 import type { SojournPartialProps } from '~/lib/antlers/markdoc/tags/index'
 import { ErrorMessage } from '~/components/bit'
 import { getFile, getImage } from '~/lib/references'
-import { BASE_PATH } from '~/lib/config.server'
 
 const SojournPartialTag = (props: SojournPartialProps) => {
   const { file: sojournFilename, link } = props
   const pageContext = useContext(PageContext)
-  const { references } = pageContext
+  const { references, basePath } = pageContext
 
   const sojournFile = getFile('sojourn', sojournFilename, references)
   const {
@@ -62,7 +61,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
       location={locationName}
       region={region}
       country={country}
-      href={link ? `${BASE_PATH}${sojournFilename}` : undefined}
+      href={link ? `${basePath}${sojournFilename}` : undefined}
       image={image}
       summary={{
         ...sojournFile.summary,

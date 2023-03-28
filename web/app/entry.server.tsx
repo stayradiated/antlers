@@ -32,10 +32,10 @@ export default async function handleRequest(
 
           pipe(body)
         },
-        onShellError(error) {
+        onShellError(error: unknown) {
           reject(error)
         },
-        onError(error) {
+        onError(error: unknown) {
           didError = true
 
           console.error(error)
