@@ -3,7 +3,6 @@ import type { References } from '~/lib/antlers'
 
 type PageContextValue = {
   references: References
-  basePath: string
 }
 
 const PageContext = createContext<PageContextValue>({
@@ -11,7 +10,6 @@ const PageContext = createContext<PageContextValue>({
     files: {},
     images: {},
   },
-  basePath: '/',
 })
 
 export { PageContext }

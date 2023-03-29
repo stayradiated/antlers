@@ -20,21 +20,20 @@ type PageProps = {
 
 const Page = (props: PageProps) => {
   const { content, className, isIndex, context } = props
-  const { basePath } = context
 
   return (
     <PageContext.Provider value={context}>
       <main className={cx('container', className)}>
         {!isIndex && (
-          <Link to={basePath} reloadDocument>
+          <Link to="/" reloadDocument>
             « Home
           </Link>
         )}
 
         {isIndex && (
           <>
-            <Link to={`${basePath}photostream`}>Photostream</Link> •{' '}
-            <Link to={`${basePath}location/index.md`}>Locations</Link>
+            <Link to={`/photostream`}>Photostream</Link> •{' '}
+            <Link to={`/location/index.md`}>Locations</Link>
           </>
         )}
 

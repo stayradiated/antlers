@@ -7,7 +7,7 @@ import { getFile } from '~/lib/references'
 const StoryPartialTag = (props: StoryPartialProps) => {
   const { file: storyFilename } = props
   const pageContext = useContext(PageContext)
-  const { references, basePath } = pageContext
+  const { references } = pageContext
 
   const storyFile = getFile('story', storyFilename, references)
   const { title, date } = storyFile.frontmatter
@@ -17,7 +17,7 @@ const StoryPartialTag = (props: StoryPartialProps) => {
     <Story.Card
       title={title}
       date={date}
-      href={`${basePath}${storyFilename}`}
+      href={`/${storyFilename}`}
       wordCount={wordCount}
     />
   )

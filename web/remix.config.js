@@ -1,14 +1,10 @@
-const prefix = process.env.NODE_ENV === 'development'
-  ? '/'
-  : '{{BASE_PATH}}'
-
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
-  publicPath: `${prefix}build/`,
+  publicPath: `/build/`,
   serverDependenciesToBundle: [
     'photoswipe',
       'photoswipe/lightbox', 
@@ -24,5 +20,8 @@ module.exports = {
       'indent-string',
 
     'p-debounce'
-  ]
+  ],
+  future: {
+    v2_routeConvention: true,
+  },
 };

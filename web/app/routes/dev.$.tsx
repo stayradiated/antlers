@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import type { LoaderFunction } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 
-import { DEV_SERVER_ENABLED, DEV_SERVER_PATH } from '../../lib/config.server'
+import { DEV_SERVER_ENABLED, DEV_SERVER_PATH } from '../lib/config.server'
 
 const getContentType = (extension: string): string => {
   switch (extension) {

@@ -16,7 +16,7 @@ const LocationPartialTag = (props: LocationPartialProps) => {
   const { file: locationFilepath, viewPort, children, showMap } = props
 
   const pageContext = useContext(PageContext)
-  const { references, basePath } = pageContext
+  const { references } = pageContext
 
   const locationFile = getFile('location', locationFilepath, references)
 
@@ -107,7 +107,7 @@ const LocationPartialTag = (props: LocationPartialProps) => {
   return (
     <>
       <h3>
-        <a href={`${basePath}${locationFilepath}`}>
+        <a href={locationFilepath}>
           {locationFile.frontmatter.name}, {locationFile.frontmatter.country}
         </a>
       </h3>

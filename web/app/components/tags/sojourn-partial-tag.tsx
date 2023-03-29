@@ -8,7 +8,7 @@ import { getFile, getImage } from '~/lib/references'
 const SojournPartialTag = (props: SojournPartialProps) => {
   const { file: sojournFilename, link } = props
   const pageContext = useContext(PageContext)
-  const { references, basePath } = pageContext
+  const { references } = pageContext
 
   const sojournFile = getFile('sojourn', sojournFilename, references)
   const {
@@ -61,7 +61,7 @@ const SojournPartialTag = (props: SojournPartialProps) => {
       location={locationName}
       region={region}
       country={country}
-      href={link ? `${basePath}${sojournFilename}` : undefined}
+      href={link ? `/${sojournFilename}` : undefined}
       image={image}
       summary={{
         ...sojournFile.summary,
