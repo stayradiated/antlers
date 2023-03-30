@@ -1,4 +1,4 @@
-import { YouTubeVideo } from './youtube'
+import { YouTubeVideo, isYouTubeURL } from './youtube'
 import { createCX } from '~/lib/class-name'
 
 type VideoProps = {
@@ -13,7 +13,7 @@ const cx = createCX('video', 'Video')
 const Video = (props: VideoProps) => {
   const { src, controls, autoPlay, loop } = props
 
-  if (src.startsWith('https://www.youtube.com')) {
+  if (isYouTubeURL(src)) {
     return <YouTubeVideo src={src} />
   }
 
