@@ -1,0 +1,25 @@
+---
+import type { Image } from '~/db.js'
+import PhotoStreamImage from './image.astro'
+
+type Props = {
+  imageList: Pick<Image, 'id' |'width' | 'height'> []
+}
+
+const { imageList } = Astro.props
+
+---
+
+<a href="/">« Home</a>
+<div class='container'>
+  {imageList.map((image) => (
+    <PhotoStreamImage image={image} />
+  ))}
+</div>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 4px;
+}
+</style>

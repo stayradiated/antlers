@@ -1,0 +1,46 @@
+---
+import cc from 'classcat'
+import * as icons from "~/icons";
+
+type Props = {
+  value: number;
+  class?: string;
+};
+
+const { value, class: klass } = Astro.props;
+
+---
+
+<div class={cc(["main", klass])}>
+  {Array.from({ length: value }).map(() => (
+    <div
+      class="star"
+      style={{ backgroundImage: `url(${icons.star})` }}
+    />
+  ))}
+  {value % 1 >= 0.5 && (
+    <div
+      class="star-half"
+      style={{ backgroundImage: `url(${icons.starHalf})` }}
+    />
+  )}
+</div>
+<style>
+.main {
+  height: 30px;
+  display: flex;
+  opacity: 0.5;
+}
+
+.star {
+  width: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.star-half {
+  width: 30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+</style>

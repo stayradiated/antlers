@@ -1,0 +1,115 @@
+---
+import Map from '~/components/map/map.astro'
+import type { Point, Line, ViewPort } from '~/components/map/types.js'
+import * as db from '~/db.js'
+
+type Node = {
+  $$mdtype: string
+  name: string
+  attributes: any
+}
+
+
+type Props = {
+  file: string
+  viewPort: ViewPort
+  children: Node[]
+  showMap?: boolean | undefined
+  countryMapFile?: string | undefined
+}
+
+const { file: locationId, viewPort, children, showMap } = Astro.props
+
+const location = await db.getLocation(locationId)
+
+const countryMapFile = Astro.props.countryMapFile
+  ? await db.getMap(Astro.props.countryMapFile)
+  : location.countryMapFile
+    ? await db.getMap(location.countryMapFile)
+    : undefined
+
+let mapProps = undefined
+
+if (showMap && countryMapFile) {
+  const image = await db.getImage(countryMapFile.image)
+
+  const points = [] as Point[]
+
+  if (
+    typeof location.latitude === 'string' &&
+    typeof location.longitude === 'string'
+  ) {
+    points.push({
+      label: location.name,
+      coordinates: [location.latitude, location.longitude],
+    })
+  }
+
+  const lines: Line[] = []
+
+  for (const node of children) {
+    switch (node.name) {
+      case 'MapPoint': {
+        const { label, coordinates, icon } = node.attributes
+        points.push({
+          label,
+          coordinates,
+          style: icon,
+        })
+        break
+      }
+
+      case 'MapPointPartial': {
+        const { file: locationId, style } = node.attributes
+        const location = await db.getLocation(locationId)
+        if (
+          typeof location.latitude === 'number' &&
+          typeof location.longitude === 'number'
+        ) {
+          points.push({
+            label: location.name,
+            coordinates: [location.latitude, location.longitude],
+            style,
+          })
+        }
+        break
+      }
+
+      case 'TravelPartial': {
+        const { file: travelId, animated } = node.attributes
+        const travel = await db.getTravel(travelId)
+        lines.push({
+          coordinates: JSON.parse(travel.coordinates),
+          animated,
+        })
+        break
+      }
+
+      default: {
+        break
+      }
+    }
+  }
+
+  mapProps = {
+    viewPort,
+    image,
+    mapCoordinates: {
+      east: countryMapFile.coordinatesEast,
+      west: countryMapFile.coordinatesWest,
+      north: countryMapFile.coordinatesNorth,
+      south: countryMapFile.coordinatesSouth,
+    },
+    points,
+    lines,
+  }
+}
+
+---
+
+<h3>
+  <a href={locationId}>
+    {location.name}, {location.country}
+  </a>
+</h3>
+{mapProps && <Map {...mapProps} />}

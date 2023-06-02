@@ -1,0 +1,73 @@
+---
+import * as dF from 'date-fns'
+import * as icons from '~/icons/index.js'
+
+type Props = {
+  type: 'plane' | 'train'
+  children: any
+  date?: string
+  distance: string
+}
+
+const travelTypeIcon = {
+  plane: icons.airplane,
+  train: icons.train,
+}
+
+const { date: dateString, type, distance } = Astro.props
+
+const date = dateString
+  ? dF.format(dF.parseISO(dateString), 'dd MMM yyyy')
+  : ''
+---
+
+<div class='container'>
+  <img class='icon' src={travelTypeIcon[type]} />
+  <div class='text'>
+    <slot />
+  </div>
+  <div class='details'>
+    <p class='date'>{date}</p>
+    <p class='distance'>{distance}</p>
+  </div>
+</div>
+<style>
+.container {
+  position: relative;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-top: 8px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 8px solid rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+  display: block;
+  width: 3rem;
+  margin: 0 auto;
+  opacity: 0.6;
+}
+
+.text {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1rem;
+}
+
+.date {
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.distance {
+  font-variant: small-caps;
+  text-align: right;
+  margin: 0;
+}
+</style>

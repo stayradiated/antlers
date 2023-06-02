@@ -1,0 +1,32 @@
+---
+
+type Props = {
+  href: string
+  title: string
+  children: any
+}
+
+const { title, href } = Astro.props
+
+---
+
+<section class='container'>
+  <em>
+    <slot />
+  </em>
+  <p>
+    From{' '}
+    <a href={href} target="_blank" rel="noopener">
+      {title}
+    </a>
+  </p>
+</section>
+<style>
+.container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+</style>

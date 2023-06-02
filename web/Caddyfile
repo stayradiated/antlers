@@ -1,8 +1,0 @@
-localhost:3001 {
-        reverse_proxy https://george-czabania.netlify.app
-
-        handle /travel* {
-                uri strip_prefix /travel
-                reverse_proxy localhost:3000
-        }
-}

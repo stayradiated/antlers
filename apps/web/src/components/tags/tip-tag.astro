@@ -1,0 +1,22 @@
+---
+type Props = {
+  title: string
+  children: any
+}
+
+const { title} = Astro.props
+---
+
+<section class='container'>
+  <h3>{title}</h3>
+  <slot />
+</section>
+<style>
+.container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+</style>

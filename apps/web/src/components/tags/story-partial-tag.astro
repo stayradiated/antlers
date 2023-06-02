@@ -1,0 +1,23 @@
+---
+import StoryCard from '~/components/story/story-card.astro'
+import * as db from '~/db.js'
+
+type Props = {
+  file: string
+}
+
+const { file: storyId } = Astro.props
+
+const page = await db.getPage(storyId)
+const { wordCount } = page
+
+const story = await db.getStory(storyId)
+const { title, date } = story
+---
+
+<StoryCard
+  title={title}
+  date={date}
+  href={`/${storyId}`}
+  wordCount={wordCount}
+/>

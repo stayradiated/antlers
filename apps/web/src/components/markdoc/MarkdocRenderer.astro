@@ -1,0 +1,46 @@
+---
+// https://github.com/flexdinesh/blogster/blob/main/packages/astro-markdoc-renderer/src/MarkdocRenderer.astro
+
+import { createNode, assertValidNode, shouldRenderTag, shouldRenderNode, shouldRenderInnerHTML, shouldRenderChildren } from "./node-helper";
+import type { Content, Components } from "./types";
+
+type Props = {
+  content: Content;
+  components?: Components;
+};
+
+const { content, components } = Astro.props;
+
+const node = createNode(content, components);
+assertValidNode(node);
+
+// console.log({
+//   node: node.node,
+//   children: node.children,
+//   tag: node.tag,
+//   props: node.props,
+//   innerHTML: node.innerHTML,
+// 
+//   shouldRenderInnerHTML: shouldRenderInnerHTML(node),
+//   shouldRenderNode: shouldRenderNode(node),
+//   shouldRenderTag: shouldRenderTag(node),
+//   shouldRenderChildren: shouldRenderChildren(node),
+// })
+
+---
+
+{
+  shouldRenderInnerHTML(node) ? (
+    <Fragment set:html={node.innerHTML}></Fragment>
+  ) : shouldRenderNode(node) ? (
+    node.node.map((element) => {
+      return <Astro.self content={element} components={components} />;
+    })
+  ) : shouldRenderTag(node) ? (
+    <node.tag {...node.props}>
+      {shouldRenderChildren(node) ? (
+        <Astro.self content={node.children} components={components} />
+      ) : null}
+    </node.tag>
+  ) : null
+}

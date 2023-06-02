@@ -1,0 +1,16 @@
+---
+import Image from '~/components/image/image.astro'
+import * as db from '~/db.js'
+
+type Props = {
+  src: string
+  alt?: string
+  title?: string
+}
+
+const { src: imageId, alt, title } = Astro.props
+
+const image = await db.getImage(imageId)
+---
+
+<Image alt={alt} title={title} image={image} />

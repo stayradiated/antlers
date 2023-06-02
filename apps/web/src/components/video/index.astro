@@ -1,0 +1,21 @@
+---
+import YouTubeVideo from './youtube.astro'
+import Video from './video.astro'
+import { isYouTubeURL } from './utils.js'
+
+type Props = {
+  src: string
+  controls: boolean | undefined
+  autoPlay: boolean | undefined
+  loop: boolean | undefined
+}
+
+const { src, controls, autoPlay, loop } = Astro.props
+
+const srcIsYouTubeURL = isYouTubeURL(src)
+
+---
+
+{srcIsYouTubeURL
+  ? <YouTubeVideo src={src} />
+  : <Video src={src} controls={controls} autoPlay={autoPlay} loop={loop} />

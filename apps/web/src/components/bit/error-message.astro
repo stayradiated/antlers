@@ -1,0 +1,17 @@
+---
+type Props = {
+  message: string
+}
+
+const { message } = Astro.props
+---
+
+<pre class='container'>
+  <code>{message}</code>
+</pre>
+<style>
+.container {
+  white-space: pre-wrap;
+  max-width: 80rem;
+}
+</style>

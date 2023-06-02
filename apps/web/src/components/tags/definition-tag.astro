@@ -1,0 +1,21 @@
+---
+import Definition from '~/components/definition/definition.astro'
+
+type Props = {
+  word: string
+  pronunciation: string
+  category: string
+  children: any
+}
+
+const { word, pronunciation, category } = Astro.props
+
+---
+
+<Definition
+  word={word}
+  pronunciation={pronunciation}
+  category={category}
+>
+  <slot />
+</Definition>

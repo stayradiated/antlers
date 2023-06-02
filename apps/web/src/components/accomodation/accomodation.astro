@@ -1,0 +1,89 @@
+---
+import CircularIcon from '~/components/bit/circular-icon.astro'
+import StarReview from '~/components/bit/star-review.astro'
+import * as icons from '~/icons'
+import Details from './details.astro'
+
+type Props = {
+  title: string
+  review: number
+  nights: number
+  costPerNight: string
+  linkHref: string
+  linkText: string
+  description: string
+  children: any
+}
+
+const {
+  title,
+  review,
+  nights,
+  costPerNight,
+  linkHref,
+  linkText,
+  description,
+} = Astro.props
+
+---
+
+<section class='container'>
+  <CircularIcon icon={icons.home} class='icon' alignV={-5} />
+  <h3 class='title'>{title}</h3>
+  <div class='row'>
+    <StarReview value={review} class='star' />
+    <Details value={String(nights)} description="nights" />
+    <Details value={costPerNight} description="per night" />
+  </div>
+  <p>{description}</p>
+  <a class='link' href={linkHref} target="_blank" rel="noopener">
+    {linkText}
+  </a>
+  <div class='photos'>
+    <slot />
+  </div>
+</section>
+<style>
+.container {
+  margin: 10px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+
+  padding: 1rem;
+}
+
+.row {
+  display: flex;
+}
+
+.star {
+  flex: 1;
+}
+
+
+.icon {
+  margin: 1rem auto;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.link {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 2rem;
+  display: inline-block;
+  margin: 1rem 0;
+  color: #fff;
+}
+.link:hover {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.photos {
+}
+</style>

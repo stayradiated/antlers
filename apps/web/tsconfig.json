@@ -1,0 +1,13 @@
+{
+  "extends": "astro/tsconfigs/strictest",
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "plugins": [
+      { "name": "@astrojs/ts-plugin" }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  }
+}

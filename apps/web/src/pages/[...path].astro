@@ -1,0 +1,97 @@
+---
+import MarkdocRenderer from '~/components/markdoc/MarkdocRenderer.astro'
+import 'photoswipe/style.css'
+
+import AccomodationTag from '~/components/tags/accomodation-tag.astro'
+import DefinitionTag from '~/components/tags/definition-tag.astro'
+import ExtractTag from '~/components/tags/extract-tag.astro'
+import ImageTag from '~/components/tags/image-tag.astro'
+import LocationPartialTag from '~/components/tags/location-partial-tag.astro'
+import MapLegacyTag from '~/components/tags/map-legacy-tag.astro'
+import MapPartialTag from '~/components/tags/map-partial-tag.astro'
+import MapPointPartialTag from '~/components/tags/map-point-partial-tag.astro'
+import MapPointTag from '~/components/tags/map-point-tag.astro'
+import PlaceTag from '~/components/tags/place-tag.astro'
+import RowTag from '~/components/tags/row-tag.astro'
+import SojournPartialTag from '~/components/tags/sojourn-partial-tag.astro'
+import SojournTag from '~/components/tags/sojourn-tag.astro'
+import StoryPartialTag from '~/components/tags/story-partial-tag.astro'
+import StravaTag from '~/components/tags/strava-tag.astro'
+import StyleTag from '~/components/tags/style-tag.astro'
+import TipTag from '~/components/tags/tip-tag.astro'
+import TravelPartialTag from '~/components/tags/travel-partial-tag.astro'
+import TravelTag from '~/components/tags/travel-tag.astro'
+import UpcomingSojournListTag from '~/components/tags/upcoming-sojourn-list-tag.astro'
+import VideoTag from '~/components/tags/video-tag.astro'
+import PhotoStreamTag from '~/components/tags/photo-stream-tag.astro'
+
+import * as db from '~/db.js'
+
+import Layout from '~/layouts/Layout.astro';
+
+const components = {
+  Accomodation: { Component: AccomodationTag, props: {} },
+  Definition: { Component: DefinitionTag, props: {} },
+  Extract: { Component: ExtractTag, props: {} },
+  Image: { Component: ImageTag, props: {} },
+  LocationPartial: { Component: LocationPartialTag, props: {} },
+  MapLegacy: { Component: MapLegacyTag, props: {} },
+  MapPartial: { Component: MapPartialTag, props: {} },
+  MapPoint: { Component: MapPointTag, props: {} },
+  MapPointPartial: { Component: MapPointPartialTag, props: {} },
+  Place: { Component: PlaceTag, props: {} },
+  Row: { Component: RowTag, props: {} },
+  Sojourn: { Component: SojournTag, props: {} },
+  SojournPartial: { Component: SojournPartialTag, props: {} },
+  StoryPartial: { Component: StoryPartialTag, props: {} },
+  Strava: { Component: StravaTag, props: {} },
+  Style: { Component: StyleTag, props: {} },
+  Tip: { Component: TipTag, props: {} },
+  Travel: { Component: TravelTag, props: {} },
+  TravelPartial: { Component: TravelPartialTag, props: {} },
+  UpcomingSojournList: { Component: UpcomingSojournListTag, props: {} },
+  Video: { Component: VideoTag, props: {} },
+  PhotoStream: { Component: PhotoStreamTag, props: {} },
+}
+
+const { path = 'index' } = Astro.params;
+const row = await db.getPage(path)
+const content = JSON.parse(row.content)
+
+export async function getStaticPaths() {
+  const pathList: Array<string|undefined> = await db.getPageIdList()
+  pathList.push(undefined)
+
+  return pathList.map((path) => ({
+    params: { path }
+  }))
+}
+
+---
+
+<Layout title="Welcome to Astro.">
+	<main class='container photo-swipe-gallery'>
+    <MarkdocRenderer content={content} components={components} />
+  </main>
+</Layout>
+<style>
+.container {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+</style>
+
+<script>
+import PhotoSwipe from 'photoswipe'
+import PhotoSwipeLightbox from 'photoswipe/lightbox'
+
+const lightbox = new PhotoSwipeLightbox({
+  gallery: '.photo-swipe-gallery',
+  children: '.photo-swipe-gallery-item',
+  pswpModule: PhotoSwipe,
+})
+
+lightbox.init()
+
+console.log(lightbox)
+</script>

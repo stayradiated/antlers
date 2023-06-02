@@ -1,0 +1,35 @@
+---
+
+type Props = {
+  word: string
+  pronunciation: string
+  category: string
+  children: any
+}
+
+const { word, pronunciation, category } = Astro.props
+
+---
+
+<div class='container'>
+  <strong>{word}</strong> ({pronunciation}) <em>{category}</em>
+  <div class='content'>
+    <slot />
+  </div>
+</div>
+<style>
+.container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 1rem;
+  font-family: 'Bitter', serif;
+}
+
+.content {
+  text-indent: 1rem;
+}
+
+.content p:last-child {
+  margin-bottom: 0;
+}
+</style>

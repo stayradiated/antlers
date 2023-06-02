@@ -1,0 +1,92 @@
+---
+import cc from 'classcat'
+import type { Image } from '~/db.js'
+import { buildRenderableImage } from './utils.js'
+
+type Props = {
+  image: Pick<Image, 'id' | 'width' | 'height'>
+  alt?: string | undefined
+  title?: string | undefined
+}
+
+const { image, alt, title } = Astro.props
+
+const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image)
+---
+
+<div
+  style={{ flex: aspectRatio }}
+  class='main'
+>
+  <a
+    class={cc(['link', 'photo-swipe-gallery-item'])}
+    href={src}
+    data-pswp-width={width}
+    data-pswp-height={height}
+    target="_blank"
+  >
+    <img
+      title={title}
+      class='img'
+      width={width}
+      height={height}
+      src={src}
+      srcset={srcSet.join(', ')}
+    />
+  </a>
+  {alt && <div class='caption'>{alt}</div>}
+</div>
+<style>
+.image_Image-main {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.image_Image-link {
+  display: block;
+  background: rgba(255,255,255,0.1);
+
+  border-radius: 4px;
+  overflow: hidden;
+
+  image-rendering: pixelated;
+  background-size: cover;
+}
+
+.image_Image-img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  background-size: cover;
+  image-rendering: initial;
+
+  transition: opacity 0.3s ease-in;
+}
+.image_Image-main-isLoading .image_Image-img {
+  opacity: 0;
+}
+
+.image_Image-placeholder {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+
+  /* filter: blur(20px); */
+
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-size: cover;
+
+  display: 1;
+  transition: opacity 1s ease-in;
+}
+
+.image_Image-caption {
+  text-align: center;
+  padding: 0.8rem 0 1rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+</style>

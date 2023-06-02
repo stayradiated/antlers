@@ -1,0 +1,190 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator kysely {
+  provider = "prisma-kysely"
+
+  // Optionally provide a destination directory for the generated file
+  // and a filename of your choice
+  output   = "../src/db"
+  fileName = "types.ts"
+
+  // Optionally generate runtime enums to a separate file
+  enumFileName = "enums.ts"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Page {
+  id         String  @id
+  type       String?
+  content    String
+  imageCount Int
+  wordCount  Int
+
+  imageList    PageImageRef[]
+  locationList PageLocationRef[]
+  mapList      PageMapRef[]
+  sojurnList   PageSojournRef[]
+  storyList    PageStoryRef[]
+  travelList   PageTravelRef[]
+
+  @@map("page")
+}
+
+model Location {
+  id             String  @id
+  name           String
+  region         String?
+  country        String
+  latitude       Float?
+  longitude      Float?
+  countryMapFile String?
+
+  countryMap Map? @relation(fields: [countryMapFile], references: [id])
+
+  sojournList Sojourn[]
+  pageList    PageLocationRef[]
+
+  @@map("location")
+}
+
+model PageLocationRef {
+  pageId     String
+  locationId String
+
+  page     Page     @relation(fields: [pageId], references: [id])
+  location Location @relation(fields: [locationId], references: [id])
+
+  @@id([pageId, locationId])
+  @@map("page_location_ref")
+}
+
+model Sojourn {
+  id           String  @id
+  arriveAt     String
+  departAt     String?
+  image        String?
+  locationFile String?
+
+  location Location? @relation(fields: [locationFile], references: [id])
+
+  pageList PageSojournRef[]
+
+  @@map("sojourn")
+}
+
+model PageSojournRef {
+  pageId    String
+  sojournId String
+
+  page    Page    @relation(fields: [pageId], references: [id])
+  sojourn Sojourn @relation(fields: [sojournId], references: [id])
+
+  @@id([pageId, sojournId])
+  @@map("page_sojourn_ref")
+}
+
+model Map {
+  id     String  @id
+  name   String
+  image  String
+  source String?
+
+  coordinatesNorth Float
+  coordinatesEast  Float
+  coordinatesSouth Float
+  coordinatesWest  Float
+
+  locationList Location[]
+  pageList     PageMapRef[]
+
+  @@map("map")
+}
+
+model PageMapRef {
+  pageId String
+  mapId  String
+
+  page Page @relation(fields: [pageId], references: [id])
+  map  Map  @relation(fields: [mapId], references: [id])
+
+  @@id([pageId, mapId])
+  @@map("page_map_ref")
+}
+
+model Story {
+  id    String @id
+  title String
+  date  String
+
+  pageList PageStoryRef[]
+
+  @@map("story")
+}
+
+model PageStoryRef {
+  pageId  String
+  storyId String
+
+  page  Page  @relation(fields: [pageId], references: [id])
+  story Story @relation(fields: [storyId], references: [id])
+
+  @@id([pageId, storyId])
+  @@map("page_story_ref")
+}
+
+model Travel {
+  id          String @id
+  start       String
+  end         String
+  date        String
+  mode        String
+  coordinates String
+
+  pageList PageTravelRef[]
+
+  @@map("travel")
+}
+
+model PageTravelRef {
+  pageId   String
+  travelId String
+
+  page   Page   @relation(fields: [pageId], references: [id])
+  travel Travel @relation(fields: [travelId], references: [id])
+
+  @@id([pageId, travelId])
+  @@map("page_travel_ref")
+}
+
+model Image {
+  id          String  @id
+  width       Int
+  height      Int
+  type        String
+  space       String
+  hasAlpha    Boolean
+  hasProfile  Boolean
+  channels    Int
+  orientation Int
+  exif        String?
+
+  pageList PageImageRef[]
+
+  @@map("image")
+}
+
+model PageImageRef {
+  pageId  String
+  imageId String
+
+  page  Page  @relation(fields: [pageId], references: [id])
+  image Image @relation(fields: [imageId], references: [id])
+
+  @@id([pageId, imageId])
+  @@map("page_image_ref")
+}

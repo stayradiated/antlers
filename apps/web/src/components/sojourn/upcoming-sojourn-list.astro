@@ -1,0 +1,63 @@
+---
+type Props = {
+  children: any
+}
+---
+
+<div class='container'>
+  <h2 class='title'>Upcoming</h2>
+  <slot />
+</div>
+<style>
+.container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.title {
+  text-align: center;
+  padding: 1rem;
+}
+.container .container {
+  background: none;
+  flex-direction: row-reverse;
+  margin-bottom: 0;
+  border-radius: 0;
+  padding: 0 1rem;
+}
+.container .container + .container {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.container .title {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.container .location {
+  font-size: 1.2rem;
+  line-height: 3rem;
+}
+.container .region {
+  display: none;
+}
+.container .country {
+  font-size: 1rem;
+}
+.container .country:before {
+  display: none;
+}
+.container .details {
+  padding-left: 0;
+  padding-right: 0;
+}
+.container .arriveAt {
+  /* display: none; */
+}
+.container .container .nights {
+  display: none;
+}
+.container .container {
+  display: none;
+}
+</style>

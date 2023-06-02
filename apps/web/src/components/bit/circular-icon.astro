@@ -1,0 +1,40 @@
+---
+import cc from 'classcat'
+
+type Props = {
+  icon: string;
+  class?: string;
+  alignV?: number;
+  alignH?: number;
+};
+
+const { icon, class: klass, alignV, alignH } = Astro.props;
+
+---
+
+<div class={cc(["main", klass])}>
+  <div
+    class="icon"
+    style={{
+      backgroundImage: `url(${icon})`,
+      marginTop: alignV ? `${alignV}%` : undefined,
+      marginLeft: alignH ? `${alignH}%` : undefined,
+    }}
+  />
+</div>
+<style>
+.main {
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  width: 75%;
+  height: 75%;
+}
+</style>

@@ -1,0 +1,56 @@
+---
+import SojournCard from '~/components/sojourn/card.astro'
+import ErrorMessage from '~/components/bit/error-message.astro'
+import * as db from '~/db.js'
+
+type Props = {
+  arriveAt: string
+  departAt: string
+  location: string
+  country: string
+  href: string
+  image: string
+}
+
+const {
+  arriveAt,
+  departAt,
+  location,
+  country,
+  href,
+  image: imagePath,
+} = Astro.props
+
+const image = imagePath ? await db.getImage(imagePath) : undefined
+
+let errorMessage: string|undefined = undefined
+
+if (imagePath && !image) {
+  errorMessage = `Could not load image reference ${imagePath}`
+}
+
+if  (typeof arriveAt !== 'string') {
+  errorMessage ='Unknown Arrival Date'
+}
+
+if  (typeof location !== 'string') {
+  errorMessage = 'Unknown Location'
+}
+
+if  (typeof country !== 'string') {
+  errorMessage = 'Unknown Country'
+}
+---
+
+{errorMessage 
+  ? <ErrorMessage message={errorMessage} />
+  : (
+  <SojournCard
+    arriveAt={arriveAt}
+    departAt={departAt}
+    location={location}
+    country={country}
+    href={href}
+    image={image}
+  />
+)

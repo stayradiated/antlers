@@ -1,0 +1,12 @@
+{
+  "name": "@stayradiated/antlers-content",
+  "type": "module",
+  "_main": "./index.js",
+  "main": "./dist/content.db",
+  "scripts": {
+    "build": "antlers --config ./antlers.json"
+  },
+  "dependencies": {
+    "@stayradiated/antlers": "workspace:"
+  }
+}

@@ -1,0 +1,22 @@
+---
+type Props = {
+  children: any
+}
+---
+
+<div class='main'>
+  <slot />
+</div>
+<style>
+.main {
+  display: flex;
+}
+
+.main > :global(*) {
+  margin-right: 8px;
+}
+
+.main > :global(*:last-child) {
+  margin-right: 0;
+}
+</style>

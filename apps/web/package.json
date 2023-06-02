@@ -1,0 +1,32 @@
+{
+  "name": "@stayradiated/antlers-web",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "typecheck": "tsc --noEmit",
+    "astro": "astro",
+    "tidy": "prettier --write ./src"
+  },
+  "dependencies": {
+    "@markdoc/markdoc": "0.3.0",
+    "@stayradiated/antlers-content": "workspace:*",
+    "@stayradiated/antlers-db": "workspace:*",
+    "@stayradiated/error-boundary": "4.1.0",
+    "astro": "2.5.6",
+    "better-sqlite3": "8.4.0",
+    "classcat": "5.0.4",
+    "date-fns": "2.30.0",
+    "photoswipe": "5.3.7",
+    "zod": "3.21.4"
+  },
+  "devDependencies": {
+    "prettier": "2.8.8",
+    "prettier-plugin-astro": "0.10.0",
+    "typescript": "5.1.3"
+  }
+}
