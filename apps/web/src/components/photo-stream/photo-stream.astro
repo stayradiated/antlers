@@ -1,24 +1,21 @@
 ---
-import type { Image } from '~/db.js'
-import PhotoStreamImage from './image.astro'
+import type { Image } from "~/db.js";
+import PhotoStreamImage from "./image.astro";
 
 type Props = {
-  imageList: Pick<Image, 'id' |'width' | 'height'> []
-}
+  imageList: Pick<Image, "id" | "width" | "height">[];
+};
 
-const { imageList } = Astro.props
-
+const { imageList } = Astro.props;
 ---
 
-<div class='container'>
-  {imageList.map((image) => (
-    <PhotoStreamImage image={image} />
-  ))}
+<div class="container">
+  {imageList.map((image) => <PhotoStreamImage image={image} />)}
 </div>
 <style>
-.container {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-gap: 4px;
-}
+  .container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-gap: 4px;
+  }
 </style>

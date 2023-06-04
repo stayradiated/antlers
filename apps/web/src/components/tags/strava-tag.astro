@@ -1,14 +1,14 @@
 ---
 type Props = {
-  embedUrl: string
-}
+  embedUrl: string;
+};
 
-const { embedUrl } = Astro.props
+const { embedUrl } = Astro.props;
 ---
 
-<iframe height="405" width="590" src={embedUrl} />
+<iframe height="405" width="590" src={embedUrl}></iframe>
 <style>
-iframe {
-  border: none;
-}
+  iframe {
+    border: none;
+  }
 </style>

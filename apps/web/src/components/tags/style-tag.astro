@@ -1,24 +1,24 @@
 ---
-import cc from 'classcat'
+import cc from "classcat";
 
 type Props = {
-  children: any
-  fullWidth?: boolean
-}
+  children: any;
+  fullWidth?: boolean;
+};
 
-const { fullWidth } = Astro.props
+const { fullWidth } = Astro.props;
 ---
 
-<div class={cc({container: true, fullWidth })}>
+<div class={cc({ container: true, fullWidth })}>
   <slot />
 </div>
 <style>
-.fullWidth {
-  position: relative;
-  left: 50%;
-  right: 50%;
-  width: 98vw;
-  margin-left: -49vw;
-  margin-right: -49vw;
-}
+  .fullWidth {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    width: 98vw;
+    margin-left: -49vw;
+    margin-right: -49vw;
+  }
 </style>

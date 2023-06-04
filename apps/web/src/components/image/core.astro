@@ -1,19 +1,14 @@
 ---
-import { buildRenderableImage } from './utils.js'
-import type { Image } from '~/db.js'
+import { buildRenderableImage } from "./utils.js";
+import type { Image } from "~/db.js";
 
 type Props = {
-  image: Pick<Image, 'id' | 'width' | 'height'>
-  class?: string | undefined
-}
+  image: Pick<Image, "id" | "width" | "height">;
+  class?: string | undefined;
+};
 
-const { class: klass, image } = Astro.props
-const { src, srcSet } = buildRenderableImage(image)
-
+const { class: klass, image } = Astro.props;
+const { src, srcSet } = buildRenderableImage(image);
 ---
 
-<img
-  class={klass}
-  src={src}
-  srcset={srcSet.join(', ')}
-/>
+<img class={klass} src={src} srcset={srcSet.join(", ")} />

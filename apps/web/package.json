@@ -10,7 +10,7 @@
     "check": "astro check",
     "typecheck": "tsc --noEmit",
     "astro": "astro",
-    "tidy": "prettier --write ./src"
+    "tidy": "prettier --write ./src/**/*.{ts,astro}"
   },
   "dependencies": {
     "@markdoc/markdoc": "0.3.0",

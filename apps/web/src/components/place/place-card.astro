@@ -1,56 +1,55 @@
 ---
 type Props = {
-  title: string
-  category: string
-  href: string
-  children: any
-}
+  title: string;
+  category: string;
+  href: string;
+  children: any;
+};
 
-const { title, category, href } = Astro.props
-
+const { title, category, href } = Astro.props;
 ---
 
-<section class='container'>
-  <header class='header'>
-    <h3 class='title'>
-      <a class='link' href={href} target="_blank" rel="noopener">
+<section class="container">
+  <header class="header">
+    <h3 class="title">
+      <a class="link" href={href} target="_blank" rel="noopener">
         {title}
       </a>
     </h3>
-    <em class='category'>{category}</em>
+    <em class="category">{category}</em>
   </header>
   <main>
     <slot />
   </main>
 </section>
 <style>
-.container {
-  margin: 1rem auto;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  .container {
+    margin: 1rem auto;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
 
-  padding: 1rem;
-  position: relative;
-}
+    padding: 1rem;
+    position: relative;
+  }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 0.5rem;
-}
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+  }
 
-.link {
-  color: inherit;
-}
+  .link {
+    color: inherit;
+  }
 
-.title {
-  line-height: 1.5;
-  margin: 0;
-}
+  .title {
+    line-height: 1.5;
+    margin: 0;
+  }
 
-.category {
-  line-height: 1.5;
-}
+  .category {
+    line-height: 1.5;
+  }
 </style>

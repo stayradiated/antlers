@@ -1,39 +1,40 @@
 ---
-import SojournCard from '~/components/sojourn/card.astro'
-import * as db from '~/db.js'
+import SojournCard from "~/components/sojourn/card.astro";
+import * as db from "~/db.js";
 
 type Props = {
-  file: string
-  link: string
-}
+  file: string;
+  link: string;
+};
 
-const { file: sojournId, link } = Astro.props
+const { file: sojournId, link } = Astro.props;
 
-const sojourn = await db.getSojourn(sojournId)
-const imageList = (await db.getPageImageList(sojournId)).filter((image) => {
-  return image.id !== sojourn.image
-}).slice(0, 3)
+const sojourn = await db.getSojourn(sojournId);
+const imageList = (await db.getPageImageList(sojournId))
+  .filter((image) => {
+    return image.id !== sojourn.image;
+  })
+  .slice(0, 3);
 
 const {
   arriveAt,
   departAt,
   locationFile: locationId,
   image: imageKey,
-} = sojourn
+} = sojourn;
 
-const location = locationId ? await db.getLocation(locationId) : undefined
-const page = await db.getPage(sojournId)
+const location = locationId ? await db.getLocation(locationId) : undefined;
+const page = await db.getPage(sojournId);
 
-const image = imageKey ? await db.getImage(imageKey) : undefined
-
+const image = imageKey ? await db.getImage(imageKey) : undefined;
 ---
 
 <SojournCard
   arriveAt={arriveAt}
   departAt={departAt ?? undefined}
-  location={location?.name ?? ''}
-  region={location?.region ?? ''}
-  country={location?.country ?? ''}
+  location={location?.name ?? ""}
+  region={location?.region ?? ""}
+  country={location?.country ?? ""}
   href={link ? `/${sojournId}` : undefined}
   image={image}
   summary={{

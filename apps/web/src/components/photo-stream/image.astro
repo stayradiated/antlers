@@ -1,48 +1,41 @@
 ---
-import type { Image } from '~/db.js'
-import { getSquareImageUrl, getImageUrl } from '~/photo.js'
-
+import type { Image } from "~/db.js";
+import { getSquareImageUrl, getImageUrl } from "~/photo.js";
 
 type Props = {
-  image: Pick<Image, 'id' |'width' | 'height'>
-}
+  image: Pick<Image, "id" | "width" | "height">;
+};
 
-const { image } = Astro.props
-const { width, height } = image
-const thumbnailSrc = getSquareImageUrl(image.id, 100)
-const fullSrc = getImageUrl(image.id, 2500)
-
+const { image } = Astro.props;
+const { width, height } = image;
+const thumbnailSrc = getSquareImageUrl(image.id, 100);
+const fullSrc = getImageUrl(image.id, 2500);
 ---
 
 <a
-  class='container photo-swipe-gallery-item'
+  class="container photo-swipe-gallery-item"
   href={fullSrc}
   data-pswp-width={width}
   data-pswp-height={height}
   target="_blank"
 >
-  <img
-    class='placeholder'
-    width={width}
-    height={height}
-    src={thumbnailSrc}
-  />
+  <img class="placeholder" width={width} height={height} src={thumbnailSrc} />
 </a>
 <style>
-.container {
-  flex: 1;
-  display: block;
-  overflow: hidden;
-  height: 0;
-  padding-bottom: 100%;
-  position: relative;
-}
+  .container {
+    flex: 1;
+    display: block;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+  }
 
-.placeholder {
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  .placeholder {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>

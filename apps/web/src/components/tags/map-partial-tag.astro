@@ -1,82 +1,87 @@
 ---
-import assert from 'node:assert'
-import Map from '~/components/map/map.astro'
-import type { Point, Line, ViewPort } from '~/components/map/types.js'
-import * as db from '~/db.js'
+import assert from "node:assert";
+import Map from "~/components/map/map.astro";
+import type { Point, Line, ViewPort } from "~/components/map/types.js";
+import * as db from "~/db.js";
 
 // TODO: add proper types
 type Node = {
-  $$mdtype: string
-  name: string
-  attributes: any
-}
+  $$mdtype: string;
+  name: string;
+  attributes: any;
+};
 
 type Props = {
-  file: string
-  children: Node[]
-  viewPort?: ViewPort | undefined
-}
+  file: string;
+  children: Node[];
+  viewPort?: ViewPort | undefined;
+};
 
-const { file: mapFilename, children, viewPort } = Astro.props
+const { file: mapFilename, children, viewPort } = Astro.props;
 
-const map = await db.getMap(mapFilename)
-const image = await db.getImage(map.image)
-const lines = [] as Line[]
-const points = [] as Point[]
+const map = await db.getMap(mapFilename);
+const image = await db.getImage(map.image);
+const lines = [] as Line[];
+const points = [] as Point[];
 
 for (const node of children) {
-  if (node.$$mdtype !== 'Tag') {
-    continue
+  if (node.$$mdtype !== "Tag") {
+    continue;
   }
 
   switch (node.name) {
-    case 'MapPointPartial': {
-      const { file: locationId, style } = node.attributes
+    case "MapPointPartial": {
+      const { file: locationId, style } = node.attributes;
 
-      const location = await db.getLocation(locationId)
-      assert(typeof location.latitude === 'number', `Location ${locationId} has no latitude`)
-      assert(typeof location.longitude === 'number', `Location ${locationId} has no longitude`)
+      const location = await db.getLocation(locationId);
+      assert(
+        typeof location.latitude === "number",
+        `Location ${locationId} has no latitude`
+      );
+      assert(
+        typeof location.longitude === "number",
+        `Location ${locationId} has no longitude`
+      );
 
       points.push({
         coordinates: [location.latitude, location.longitude],
         label: location.name,
         style,
-        href: locationId
-      })
-      break
+        href: locationId,
+      });
+      break;
     }
 
-    case 'TravelPartial': {
+    case "TravelPartial": {
       const {
         file: filepath,
         animated,
         strokeWidth,
         strokeLength,
-      } = node.attributes
+      } = node.attributes;
 
-      const file = await db.getTravel(filepath)
-      assert(file.coordinates)
+      const file = await db.getTravel(filepath);
+      assert(file.coordinates);
 
       lines.push({
         coordinates: JSON.parse(file.coordinates),
         animated,
         strokeWidth,
         strokeLength,
-      })
-      break
+      });
+      break;
     }
 
-    case 'MapPoint': {
-      points.push(node.attributes)
-      break
+    case "MapPoint": {
+      points.push(node.attributes);
+      break;
     }
 
     default: {
-      break
+      break;
     }
   }
 }
-
 ---
 
 <Map

@@ -1,17 +1,17 @@
 ---
 type Props = {
-  message: string
-}
+  message: string;
+};
 
-const { message } = Astro.props
+const { message } = Astro.props;
 ---
 
-<pre class='container'>
+<pre class="container">
   <code>{message}</code>
 </pre>
 <style>
-.container {
-  white-space: pre-wrap;
-  max-width: 80rem;
-}
+  .container {
+    white-space: pre-wrap;
+    max-width: 80rem;
+  }
 </style>

@@ -1,27 +1,19 @@
 ---
-import Accomodation from '~/components/accomodation/accomodation.astro'
+import Accomodation from "~/components/accomodation/accomodation.astro";
 
 type Props = {
-  title: string
-  review: number
-  nights: number
-  costPerNight: string
-  linkHref: string
-  linkText: string
-  description: string
-  children: any
-}
+  title: string;
+  review: number;
+  nights: number;
+  costPerNight: string;
+  linkHref: string;
+  linkText: string;
+  description: string;
+  children: any;
+};
 
-const {
-  title,
-  review,
-  nights,
-  costPerNight,
-  linkHref,
-  linkText,
-  description,
-} = Astro.props
-
+const { title, review, nights, costPerNight, linkHref, linkText, description } =
+  Astro.props;
 ---
 
 <Accomodation

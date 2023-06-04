@@ -1,88 +1,88 @@
 ---
-import cc from 'classcat'
-import type { Point, CardinalCoordinates, Dimensions } from './types.js'
-import { localisePointPercent } from './utils.js'
+import cc from "classcat";
+import type { Point, CardinalCoordinates, Dimensions } from "./types.js";
+import { localisePointPercent } from "./utils.js";
 
 type Props = {
-  point: Point
-  viewPortCoordinates: CardinalCoordinates
-  viewPortSize: Dimensions
-}
+  point: Point;
+  viewPortCoordinates: CardinalCoordinates;
+  viewPortSize: Dimensions;
+};
 
-const { point, viewPortCoordinates, viewPortSize } = Astro.props
-const { coordinates, label, style, href } = point
+const { point, viewPortCoordinates, viewPortSize } = Astro.props;
+const { coordinates, label, style, href } = point;
 const { x: left, y: top } = localisePointPercent(
   coordinates,
   viewPortCoordinates,
-  viewPortSize,
-)
+  viewPortSize
+);
 ---
 
 <a href={href}>
   <div
-    class={cc(['container', style && `style-${style}`])}
+    class={cc(["container", style && `style-${style}`])}
     style={{ top: `${top}%`, left: `${left}%` }}
   >
-    <span class='label'>{label}</span>
+    <span class="label">{label}</span>
   </div>
 </a>
 <style>
-.container {
-  position: absolute;
-}
-
-.label {
-  position: relative;
-  z-index: 1;
-  display: block;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  padding: 4px 10px;
-  margin-top: -28px;
-}
-
-.container:before {
-  content: '';
-  display: block;
-  position: absolute;
-  z-index: 2;
-  width: 10px;
-  height: 10px;
-  top: -5px;
-  left: -5px;
-  background: #ff4d4d;
-  border-radius: 50%;
-  animation: pulse 1.0s alternate infinite running;
-}
-.style-start:before {
-  background: rgba(113, 88, 226, 0.9);
-  animation: none;
-}
-
-.style-dot:before {
-  animation: none;
-}
-.style-dot .label {
-  opacity: 0.5;
-  transition: all 0.3s ease-in-out;
-  background: none;
-  top: 30px;
-  left: -50%;
-  font-size: 14px;
-}
-.style-dot:hover .label {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(.7);
+  .container {
+    position: absolute;
   }
 
-  100% {
-    transform: scale(1.5);
+  .label {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    padding: 4px 10px;
+    margin-top: -28px;
   }
-}
+
+  .container:before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 2;
+    width: 10px;
+    height: 10px;
+    top: -5px;
+    left: -5px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    animation: pulse 1s alternate infinite running;
+  }
+  .style-start:before {
+    background: rgba(113, 88, 226, 0.9);
+    animation: none;
+  }
+
+  .style-dot:before {
+    animation: none;
+  }
+  .style-dot .label {
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+    background: none;
+    top: 30px;
+    left: -50%;
+    font-size: 14px;
+  }
+  .style-dot:hover .label {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.7);
+    }
+
+    100% {
+      transform: scale(1.5);
+    }
+  }
 </style>

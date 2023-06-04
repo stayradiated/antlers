@@ -1,29 +1,29 @@
 ---
-import MapPoint from './map-point.astro'
-import SVGLine from './svg-line.astro'
-import type { CardinalCoordinates, ViewPort, Point, Line } from './types.js'
-import { useViewPort } from './use-view-port.js'
-import type { Image } from '~/db.js'
+import MapPoint from "./map-point.astro";
+import SVGLine from "./svg-line.astro";
+import type { CardinalCoordinates, ViewPort, Point, Line } from "./types.js";
+import { useViewPort } from "./use-view-port.js";
+import type { Image } from "~/db.js";
 
 type Props = {
-  viewPort?: ViewPort | undefined
+  viewPort?: ViewPort | undefined;
 
-  image: Image
-  mapCoordinates: CardinalCoordinates
+  image: Image;
+  mapCoordinates: CardinalCoordinates;
 
-  points?: Point[] | undefined
-  lines?: Line[] | undefined
-}
+  points?: Point[] | undefined;
+  lines?: Line[] | undefined;
+};
 
-const { mapCoordinates, image, points = [], lines = [] } = Astro.props
+const { mapCoordinates, image, points = [], lines = [] } = Astro.props;
 const viewPort = Astro.props.viewPort ?? {
   aspectRatio: image.height / image.width,
   translate: [0, 0],
   scale: 1,
-}
+};
 
-const srcWidth = image.width
-const srcHeight = image.height
+const srcWidth = image.width;
+const srcHeight = image.height;
 
 const {
   height,
@@ -36,65 +36,69 @@ const {
   srcWidth,
   srcHeight,
   viewPort,
-})
+});
 
-const viewPortSize = { width, height }
+const viewPortSize = { width, height };
 ---
 
-<div class='container'>
-  <div class='zimg-container' style={outerStyle}>
-    <div class='zimg-portal' style={innerStyle}>
-      <img class='zimg-image' src={image.id} />
+<div class="container">
+  <div class="zimg-container" style={outerStyle}>
+    <div class="zimg-portal" style={innerStyle}>
+      <img class="zimg-image" src={image.id} />
     </div>
   </div>
 
-  {points.map((point) => (
-    <MapPoint
-      point={point}
-      viewPortCoordinates={viewPortCoordinates}
-      viewPortSize={viewPortSize}
-    />
-  ))}
+  {
+    points.map((point) => (
+      <MapPoint
+        point={point}
+        viewPortCoordinates={viewPortCoordinates}
+        viewPortSize={viewPortSize}
+      />
+    ))
+  }
 
-  <div class='lines'>
-    {lines.map((line) => {
-      const { coordinates, animated, strokeWidth, strokeLength } = line
-      return (
-        <SVGLine
-          lineCoordinates={coordinates}
-          mapCoordinates={viewPortCoordinates}
-          size={viewPortSize}
-          animated={animated}
-          strokeWidth={strokeWidth}
-          strokeLength={strokeLength}
-        />
-      )
-    })}
+  <div class="lines">
+    {
+      lines.map((line) => {
+        const { coordinates, animated, strokeWidth, strokeLength } = line;
+        return (
+          <SVGLine
+            lineCoordinates={coordinates}
+            mapCoordinates={viewPortCoordinates}
+            size={viewPortSize}
+            animated={animated}
+            strokeWidth={strokeWidth}
+            strokeLength={strokeLength}
+          />
+        );
+      })
+    }
   </div>
 </div>
 <style>
-.container {
-  position: relative;
-}
+  .container {
+    position: relative;
+  }
 
-.image {
-}
+  .image {
+  }
 
-.lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.zimg-container {
-  overflow: hidden;
-  position: relative;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
+  .lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .zimg-container {
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
 
-.zimg-portal {
-  position: absolute;
-}
+  .zimg-portal {
+    position: absolute;
+  }
 </style>

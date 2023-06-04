@@ -1,14 +1,14 @@
 ---
 type Props = {
-  src: string
-  controls: boolean | undefined
-  autoPlay: boolean | undefined
-  loop: boolean | undefined
-}
+  src: string;
+  controls: boolean | undefined;
+  autoPlay: boolean | undefined;
+  loop: boolean | undefined;
+};
 
-import Video from '~/components/video/index.astro'
+import Video from "~/components/video/index.astro";
 
-const { src, controls, autoPlay, loop } = Astro.props
+const { src, controls, autoPlay, loop } = Astro.props;
 ---
 
 <Video src={src} controls={controls} autoPlay={autoPlay} loop={loop} />

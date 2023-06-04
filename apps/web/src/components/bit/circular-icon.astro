@@ -1,5 +1,5 @@
 ---
-import cc from 'classcat'
+import cc from "classcat";
 
 type Props = {
   icon: string;
@@ -9,7 +9,6 @@ type Props = {
 };
 
 const { icon, class: klass, alignV, alignH } = Astro.props;
-
 ---
 
 <div class={cc(["main", klass])}>
@@ -20,21 +19,22 @@ const { icon, class: klass, alignV, alignH } = Astro.props;
       marginTop: alignV ? `${alignV}%` : undefined,
       marginLeft: alignH ? `${alignH}%` : undefined,
     }}
-  />
+  >
+  </div>
 </div>
 <style>
-.main {
-  width: 4rem;
-  height: 4rem;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .main {
+    width: 4rem;
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.icon {
-  width: 75%;
-  height: 75%;
-}
+  .icon {
+    width: 75%;
+    height: 75%;
+  }
 </style>

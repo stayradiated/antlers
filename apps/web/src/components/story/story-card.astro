@@ -1,71 +1,71 @@
 ---
-import * as dF from 'date-fns'
+import * as dF from "date-fns";
 
 type Props = {
-  title: string
-  date: string
-  href: string
-  wordCount: number
-}
+  title: string;
+  date: string;
+  href: string;
+  wordCount: number;
+};
 
-const { title, date: dateString, href, wordCount } = Astro.props
+const { title, date: dateString, href, wordCount } = Astro.props;
 
-const date = dF.parseISO(dateString)
-const dateFormatted = dF.format(date, 'dd MMM yyyy')
+const date = dF.parseISO(dateString);
+const dateFormatted = dF.format(date, "dd MMM yyyy");
 ---
 
-<div class='container'>
-  <h1 class='title'>
-    <a class='link' href={href}>
+<div class="container">
+  <h1 class="title">
+    <a class="link" href={href}>
       {title}
     </a>
   </h1>
-  <div class='details'>
-    <p class='date'>{dateFormatted}</p>
-    <p class='wordCount'>{wordCount.toLocaleString()} words</p>
+  <div class="details">
+    <p class="date">{dateFormatted}</p>
+    <p class="wordCount">{wordCount.toLocaleString()} words</p>
   </div>
 </div>
 <style>
-.container {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
+  .container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
 
-.link {
-  color: inherit;
-}
+  .link {
+    color: inherit;
+  }
 
-.title {
-  text-align: center;
-}
+  .title {
+    text-align: center;
+  }
 
-.details {
-  justify-content: space-between;
-  flex-wrap: wrap;
+  .details {
+    justify-content: space-between;
+    flex-wrap: wrap;
 
-  padding: 1rem;
-  padding-bottom: 0;
+    padding: 1rem;
+    padding-bottom: 0;
 
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 
-  height: 1rem;
-  line-height: 1rem;
-  text-transform: uppercase;
+    height: 1rem;
+    line-height: 1rem;
+    text-transform: uppercase;
 
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
-}
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+  }
 
-.date {
-  margin: 0;
-  display: block;
-}
+  .date {
+    margin: 0;
+    display: block;
+  }
 
-.wordCount {
-  margin: 0;
-  display: block;
-}
+  .wordCount {
+    margin: 0;
+    display: block;
+  }
 </style>

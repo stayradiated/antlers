@@ -1,42 +1,40 @@
 ---
 type Props = {
-  src: string
-  controls: boolean | undefined
-  autoPlay: boolean | undefined
-  loop: boolean | undefined
-}
+  src: string;
+  controls: boolean | undefined;
+  autoPlay: boolean | undefined;
+  loop: boolean | undefined;
+};
 
-const { src, controls, autoPlay, loop } = Astro.props
+const { src, controls, autoPlay, loop } = Astro.props;
 ---
 
-<div class='container'>
+<div class="container">
   <video
-    class='video'
+    class="video"
     src={src}
     controls={controls}
     autoplay={autoPlay}
     loop={loop}
     muted
-    preload="metadata"
-  />
+    preload="metadata"></video>
 </div>
 <style>
-.container {
-  position: relative;
-  margin-bottom: 8px;
+  .container {
+    position: relative;
+    margin-bottom: 8px;
 
-  left: 50%;
-  right: 50%;
-  width: 98vw;
-  margin-left: -49vw;
-  margin-right: -49vw;
-}
+    left: 50%;
+    right: 50%;
+    width: 98vw;
+    margin-left: -49vw;
+    margin-right: -49vw;
+  }
 
-.video {
-  width: 100%;
-  height: auto;
-  vertical-align: middle;
-  border-radius: 4px;
-}
-
+  .video {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-radius: 4px;
+  }
 </style>

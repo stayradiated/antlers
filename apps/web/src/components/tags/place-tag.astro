@@ -1,14 +1,14 @@
 ---
-import PlaceCard from '~/components/place/place-card.astro'
+import PlaceCard from "~/components/place/place-card.astro";
 
 type Props = {
-  title: string
-  category: string
-  href: string
-  children: any
-}
+  title: string;
+  category: string;
+  href: string;
+  children: any;
+};
 
-const { title, category, href } = Astro.props
+const { title, category, href } = Astro.props;
 ---
 
 <PlaceCard title={title} category={category} href={href}>

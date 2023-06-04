@@ -1,24 +1,26 @@
 ---
-import * as dF from 'date-fns'
-import Summary from './summary.astro'
-import cc from 'classcat'
-import type { Image } from '~/db.js'
-import CoreImage from '~/components/image/core.astro'
+import * as dF from "date-fns";
+import Summary from "./summary.astro";
+import cc from "classcat";
+import type { Image } from "~/db.js";
+import CoreImage from "~/components/image/core.astro";
 
 type Props = {
-  arriveAt: string
-  departAt?: string | undefined
-  location: string
-  region?: string | undefined
-  country: string
-  href?: string | undefined
-  image?: Image | undefined
-  summary?: {
-    wordCount: number
-    imageCount: number
-    images: Image[]
-  }| undefined
-}
+  arriveAt: string;
+  departAt?: string | undefined;
+  location: string;
+  region?: string | undefined;
+  country: string;
+  href?: string | undefined;
+  image?: Image | undefined;
+  summary?:
+    | {
+        wordCount: number;
+        imageCount: number;
+        images: Image[];
+      }
+    | undefined;
+};
 
 const {
   arriveAt: arriveAtString,
@@ -29,32 +31,31 @@ const {
   href,
   image,
   summary,
-} = Astro.props
+} = Astro.props;
 
-const arriveAt = dF.parseISO(arriveAtString)
-const departAt = departAtString ? dF.parseISO(departAtString) : new Date()
-const arriveAtFormatted = dF.format(arriveAt, 'dd MMM yyyy')
-const nights = dF.differenceInDays(departAt, arriveAt)
-
+const arriveAt = dF.parseISO(arriveAtString);
+const departAt = departAtString ? dF.parseISO(departAtString) : new Date();
+const arriveAtFormatted = dF.format(arriveAt, "dd MMM yyyy");
+const nights = dF.differenceInDays(departAt, arriveAt);
 ---
 
-<a href={href} class='link'>
-  <section
-    class={cc(['container', Boolean(image) && 'container-has-image'])}
-  >
+<a href={href} class="link">
+  <section class={cc(["container", Boolean(image) && "container-has-image"])}>
     {image && <CoreImage image={image} class="image" />}
 
-    <div class='title'>
-      <h1 class='location'>{location}</h1>
-      {region && <h2 class='region'>{region}</h2>}
-      {country && <h2 class='country'>{country}</h2>}
+    <div class="title">
+      <h1 class="location">{location}</h1>
+      {region && <h2 class="region">{region}</h2>}{
+        country && <h2 class="country">{country}</h2>
+      }
     </div>
 
-    <div class='details'>
-      <p class='datetime'>
-        <span class='arriveAt'>{arriveAtFormatted}</span>
-        <span class='nights'>
-          {nights} {nights === 1 ? 'night' : 'nights'}
+    <div class="details">
+      <p class="datetime">
+        <span class="arriveAt">{arriveAtFormatted}</span>
+        <span class="nights">
+          {nights}
+          {nights === 1 ? "night" : "nights"}
         </span>
       </p>
       {summary && <Summary {...summary} />}
@@ -62,116 +63,120 @@ const nights = dF.differenceInDays(departAt, arriveAt)
   </section>
 </a>
 <style>
-.link {
-  color: inherit;
-}
-.link:hover {
-  text-decoration: none;
-}
+  .link {
+    color: inherit;
+  }
+  .link:hover {
+    text-decoration: none;
+  }
 
-.container {
-  position: relative;
+  .container {
+    position: relative;
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  gap: 1rem;
-  margin-bottom: 1rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
 
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 
-  overflow: hidden;
-}
+    overflow: hidden;
+  }
 
-.container-has-image:before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5));
-}
+  .container-has-image:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.5)
+    );
+  }
 
-/* .container:after { */
-/*   content: ''; */
-/*   display: block; */
-/*   height: 0; */
-/*   padding-bottom: 60%; */
-/* } */
+  /* .container:after { */
+  /*   content: ''; */
+  /*   display: block; */
+  /*   height: 0; */
+  /*   padding-bottom: 60%; */
+  /* } */
 
-.image {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
-  transition: transform 0.3s linear;
-}
+  .image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    transition: transform 0.3s linear;
+  }
 
-.link:hover .image {
-  transform: scale(1.05);
-}
+  .link:hover .image {
+    transform: scale(1.05);
+  }
 
-.container-has-image .title:before {
-  content: '';
-  display: block;
-  height: 0;
-  padding-top: 30%;
-}
+  .container-has-image .title:before {
+    content: "";
+    display: block;
+    height: 0;
+    padding-top: 30%;
+  }
 
-.title {
-  text-align: center;
-  padding-top: 4rem;
-}
+  .title {
+    text-align: center;
+    padding-top: 4rem;
+  }
 
-.location {
-  margin: 0;
-  font-size: 2.5rem;
-  line-height: 2rem;
-}
+  .location {
+    margin: 0;
+    font-size: 2.5rem;
+    line-height: 2rem;
+  }
 
-.region,
-.country {
-  display: inline-block;
+  .region,
+  .country {
+    display: inline-block;
 
-  margin: 0;
+    margin: 0;
 
-  height: 3rem;
-  line-height: 3rem;
+    height: 3rem;
+    line-height: 3rem;
 
-  font-size: 1.3rem;
-  letter-spacing: 0.05rem;
-  text-transform: uppercase;
-  text-align: center;
-  font-weight: 200;
-}
-.region + .country:before {
-  content: ', '
-}
+    font-size: 1.3rem;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 200;
+  }
+  .region + .country:before {
+    content: ", ";
+  }
 
-.details {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 1rem;
+  .details {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1rem;
 
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 
-  height: 1rem;
-  line-height: 1rem;
-  text-transform: uppercase;
+    height: 1rem;
+    line-height: 1rem;
+    text-transform: uppercase;
 
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1rem;
-}
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+  }
 
-.datetime {
-  margin: 0;
-  white-space: nowrap;
-}
-.nights:before {
-  content: ' • '
-}
+  .datetime {
+    margin: 0;
+    white-space: nowrap;
+  }
+  .nights:before {
+    content: " • ";
+  }
 </style>

@@ -1,9 +1,8 @@
 ---
-import PhotoStream from '~/components/photo-stream/photo-stream.astro'
-import * as db from '~/db.js'
+import PhotoStream from "~/components/photo-stream/photo-stream.astro";
+import * as db from "~/db.js";
 
-const imageList = await db.getImageList()
-
+const imageList = await db.getImageList();
 ---
 
 <PhotoStream imageList={imageList} />

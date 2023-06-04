@@ -1,39 +1,35 @@
 ---
-import { getSquareImageUrl } from '~/photo.js'
-import type { Image } from '~/db.js'
+import { getSquareImageUrl } from "~/photo.js";
+import type { Image } from "~/db.js";
 
 type Props = {
-  wordCount: number
-  imageCount: number
-  images: Image[]
-}
+  wordCount: number;
+  imageCount: number;
+  images: Image[];
+};
 
-const { images } = Astro.props
+const { images } = Astro.props;
 
 const imageUrlList = images.slice(0, 3).map((image) => {
-  return getSquareImageUrl(image.id, 32)
-})
-
+  return getSquareImageUrl(image.id, 32);
+});
 ---
 
-<div class='container'>
-  {imageUrlList.map((imageUrl) => (
-    <img class='image' src={imageUrl} />
-  ))}
+<div class="container">
+  {imageUrlList.map((imageUrl) => <img class="image" src={imageUrl} />)}
 </div>
 <style>
-.container {
-  display: flex;
-  margin-top: -1rem;
-  justify-content: flex-end;
-  margin-right: 1rem;
-}
-.image {
-  border-radius: 32px;
-  margin-right: -16px;
-  border: 2px solid #fff;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
-  transition: margin  0.3s ease-in-out;
-}
+  .container {
+    display: flex;
+    margin-top: -1rem;
+    justify-content: flex-end;
+    margin-right: 1rem;
+  }
+  .image {
+    border-radius: 32px;
+    margin-right: -16px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    transition: margin 0.3s ease-in-out;
+  }
 </style>
-

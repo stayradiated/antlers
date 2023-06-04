@@ -1,16 +1,16 @@
 ---
-import cc from 'classcat'
-import { localiseLine } from './utils.js'
-import type { Coordinate, CardinalCoordinates, Dimensions } from './types.js'
+import cc from "classcat";
+import { localiseLine } from "./utils.js";
+import type { Coordinate, CardinalCoordinates, Dimensions } from "./types.js";
 
 type Props = {
-  lineCoordinates: Coordinate[]
-  mapCoordinates: CardinalCoordinates
-  size: Dimensions
-  animated?: boolean | undefined
-  strokeWidth?: number | undefined
-  strokeLength?: number | undefined
-}
+  lineCoordinates: Coordinate[];
+  mapCoordinates: CardinalCoordinates;
+  size: Dimensions;
+  animated?: boolean | undefined;
+  strokeWidth?: number | undefined;
+  strokeLength?: number | undefined;
+};
 
 const {
   lineCoordinates,
@@ -19,13 +19,12 @@ const {
   animated = false,
   strokeWidth = 2,
   strokeLength = 1000,
-} = Astro.props
+} = Astro.props;
 
-const xyList = localiseLine(lineCoordinates, mapCoordinates, size)
+const xyList = localiseLine(lineCoordinates, mapCoordinates, size);
 const path =
-  'M ' +
-  xyList.map(({ x, y }) => `${Math.round(x)} ${Math.round(y)}`).join(' L ')
-
+  "M " +
+  xyList.map(({ x, y }) => `${Math.round(x)} ${Math.round(y)}`).join(" L ");
 ---
 
 <svg
@@ -33,39 +32,39 @@ const path =
   height="100%"
   viewBox={`0 0 ${size.width} ${size.height}`}
   xmlns="http://www.w3.org/2000/svg"
-  class='container'
+  class="container"
   style={{
-    '--stroke-width': strokeWidth,
-    '--stroke-length': strokeLength,
+    "--stroke-width": strokeWidth,
+    "--stroke-length": strokeLength,
   }}
 >
-  <path class={cc(['path', animated && 'path-animated'])} d={path} />
+  <path class={cc(["path", animated && "path-animated"])} d={path}></path>
 </svg>
 <style>
-.container {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.path {
-  fill: transparent;
-  stroke: rgba(255, 255, 255, 0.7);
-  stroke-width: var(--stroke-width);
-  stroke-linecap: round;
-  pointer-events: none;
-  stroke-dasharray: 3 5;
-}
-
-.path-animated {
-  stroke-dasharray: var(--stroke-length);
-  stroke-dashoffset: var(--stroke-length);
-  animation: path-animation 10s linear forwards 1;
-}
-
-@keyframes path-animation {
-  to {
-    stroke-dashoffset: 0;
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-}
+
+  .path {
+    fill: transparent;
+    stroke: rgba(255, 255, 255, 0.7);
+    stroke-width: var(--stroke-width);
+    stroke-linecap: round;
+    pointer-events: none;
+    stroke-dasharray: 3 5;
+  }
+
+  .path-animated {
+    stroke-dasharray: var(--stroke-length);
+    stroke-dashoffset: var(--stroke-length);
+    animation: path-animation 10s linear forwards 1;
+  }
+
+  @keyframes path-animation {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
 </style>
