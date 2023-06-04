@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         name: sqlite-cache
         with:
-          path: ./packages/content/dist/
+          path: "./packages/content/dist/content.db"
           key: ${{ runner.os }}-sqlite-cache
           restore-keys: |
             ${{ runner.os }}-sqlite-cache
