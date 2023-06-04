@@ -277,10 +277,17 @@ const upsertImage = async (
       exif: info.exif ? JSON.stringify(info.exif) : null,
     }
 
-    db.insertInto('image')
-      .values(data)
-      .onConflict((oc) => oc.column('id').doUpdateSet(data))
-      .execute()
+    const result = await errorBoundary(async () =>
+      db
+        .insertInto('image')
+        .values(data)
+        .onConflict((oc) => oc.column('id').doUpdateSet(data))
+        .execute(),
+    )
+    if (result instanceof Error) {
+      console.error('Could not upsert image!', data, result)
+      return result
+    }
   }
 }
 
@@ -303,13 +310,21 @@ const upsertPage = async (
     .filter((ref) => ref.type === 'image')
     .map((ref) => ref.id)
 
-  await pMap(
-    imageList,
-    async (source) => upsertImage(db, source, imaginaryConfig),
-    {
-      concurrency: 1,
-    },
+  const imageUpsertResult = await errorListBoundary(async () =>
+    pMap(
+      imageList,
+      async (source) => upsertImage(db, source, imaginaryConfig),
+      {
+        concurrency: 1,
+      },
+    ),
   )
+  if (imageUpsertResult instanceof Error) {
+    console.error(`Could not upsert images: ${filePath}`)
+    console.dir(imageList, { depth: null })
+    console.error(imageUpsertResult)
+    return imageUpsertResult
+  }
 
   const id = filePathToId(filePath)
 
@@ -341,16 +356,24 @@ const upsertPage = async (
       pageId: id,
       imageId: ref.id,
     }))
-  await pMap(
-    pageRefImageList,
-    async (ref) => {
-      db.insertInto('page_image_ref')
-        .values(ref)
-        .onConflict((oc) => oc.columns(['pageId', 'imageId']).doNothing())
-        .execute()
-    },
-    { concurrency: 1 },
+  const pageRefImageListResult = await errorListBoundary(async () =>
+    pMap(
+      pageRefImageList,
+      async (ref) => {
+        db.insertInto('page_image_ref')
+          .values(ref)
+          .onConflict((oc) => oc.columns(['pageId', 'imageId']).doNothing())
+          .execute()
+      },
+      { concurrency: 1 },
+    ),
   )
+  if (pageRefImageListResult instanceof Error) {
+    console.error(`Could not upsert page image refs: ${filePath}`)
+    console.dir(pageRefImageList, { depth: null })
+    console.error(pageRefImageListResult)
+    return pageRefImageListResult
+  }
 
   const pageRefLocationList = referenceKeyList
     .filter((ref) => ref.type === 'location')
@@ -358,16 +381,24 @@ const upsertPage = async (
       pageId: id,
       locationId: filePathToId(ref.id),
     }))
-  await pMap(
-    pageRefLocationList,
-    async (ref) => {
-      db.insertInto('page_location_ref')
-        .values(ref)
-        .onConflict((oc) => oc.columns(['pageId', 'locationId']).doNothing())
-        .execute()
-    },
-    { concurrency: 1 },
+  const pageRefLocationListResult = await errorListBoundary(async () =>
+    pMap(
+      pageRefLocationList,
+      async (ref) => {
+        db.insertInto('page_location_ref')
+          .values(ref)
+          .onConflict((oc) => oc.columns(['pageId', 'locationId']).doNothing())
+          .execute()
+      },
+      { concurrency: 1 },
+    ),
   )
+  if (pageRefLocationListResult instanceof Error) {
+    console.error(`Could not upsert page location refs: ${filePath}`)
+    console.dir(pageRefLocationList, { depth: null })
+    console.error(pageRefLocationListResult)
+    return pageRefLocationListResult
+  }
 
   const pageRefMapList = referenceKeyList
     .filter((ref) => ref.type === 'map')
@@ -375,16 +406,24 @@ const upsertPage = async (
       pageId: id,
       mapId: filePathToId(ref.id),
     }))
-  await pMap(
-    pageRefMapList,
-    async (ref) => {
-      db.insertInto('page_map_ref')
-        .values(ref)
-        .onConflict((oc) => oc.columns(['pageId', 'mapId']).doNothing())
-        .execute()
-    },
-    { concurrency: 1 },
+  const pageRefMapListResult = await errorListBoundary(async () =>
+    pMap(
+      pageRefMapList,
+      async (ref) => {
+        db.insertInto('page_map_ref')
+          .values(ref)
+          .onConflict((oc) => oc.columns(['pageId', 'mapId']).doNothing())
+          .execute()
+      },
+      { concurrency: 1 },
+    ),
   )
+  if (pageRefMapListResult instanceof Error) {
+    console.error(`Could not upsert page map refs: ${filePath}`)
+    console.dir(pageRefMapList, { depth: null })
+    console.error(pageRefMapListResult)
+    return pageRefMapListResult
+  }
 
   const pageRefTravelList = referenceKeyList
     .filter((ref) => ref.type === 'travel')
@@ -392,16 +431,24 @@ const upsertPage = async (
       pageId: id,
       travelId: filePathToId(ref.id),
     }))
-  await pMap(
-    pageRefTravelList,
-    async (ref) => {
-      db.insertInto('page_travel_ref')
-        .values(ref)
-        .onConflict((oc) => oc.columns(['pageId', 'travelId']).doNothing())
-        .execute()
-    },
-    { concurrency: 1 },
+  const pageRefTravelListResult = await errorListBoundary(async () =>
+    pMap(
+      pageRefTravelList,
+      async (ref) => {
+        db.insertInto('page_travel_ref')
+          .values(ref)
+          .onConflict((oc) => oc.columns(['pageId', 'travelId']).doNothing())
+          .execute()
+      },
+      { concurrency: 1 },
+    ),
   )
+  if (pageRefTravelListResult instanceof Error) {
+    console.error(`Could not upsert page travel refs: ${filePath}`)
+    console.dir(pageRefTravelList, { depth: null })
+    console.error(pageRefTravelListResult)
+    return pageRefTravelListResult
+  }
 
   const pageRefStoryList = referenceKeyList
     .filter((ref) => ref.type === 'story')
@@ -409,16 +456,24 @@ const upsertPage = async (
       pageId: id,
       storyId: filePathToId(ref.id),
     }))
-  await pMap(
-    pageRefStoryList,
-    async (ref) => {
-      db.insertInto('page_story_ref')
-        .values(ref)
-        .onConflict((oc) => oc.columns(['pageId', 'storyId']).doNothing())
-        .execute()
-    },
-    { concurrency: 1 },
+  const pageRefStoryListResult = await errorListBoundary(async () =>
+    pMap(
+      pageRefStoryList,
+      async (ref) => {
+        db.insertInto('page_story_ref')
+          .values(ref)
+          .onConflict((oc) => oc.columns(['pageId', 'storyId']).doNothing())
+          .execute()
+      },
+      { concurrency: 1 },
+    ),
   )
+  if (pageRefStoryListResult instanceof Error) {
+    console.error(`Could not upsert page story refs: ${filePath}`)
+    console.dir(pageRefStoryList, { depth: null })
+    console.error(pageRefStoryListResult)
+    return pageRefStoryListResult
+  }
 }
 
 type BakeDataOptions = {
@@ -430,45 +485,37 @@ type BakeDataOptions = {
   }
 }
 
-const bakeData = async (options: BakeDataOptions) => {
+const bakeData = async (options: BakeDataOptions): Promise<void | Error> => {
   const { dbPath, contentDirPath, imaginaryConfig } = options
 
   const db = createKyselyDb(dbPath)
 
-  console.log('Delete page_image_ref')
-  await db.deleteFrom('page_image_ref').execute()
-  console.log('Delete page_location_ref')
-  await db.deleteFrom('page_location_ref').execute()
-  console.log('Delete page_map_ref')
-  await db.deleteFrom('page_map_ref').execute()
-  console.log('Delete page_travel_ref')
-  await db.deleteFrom('page_travel_ref').execute()
-  console.log('Delete page_story_ref')
-  await db.deleteFrom('page_story_ref').execute()
-  console.log('Delete page_sojourn_ref')
-  await db.deleteFrom('page_sojourn_ref').execute()
-
-  console.log('Delete page')
-  await db.deleteFrom('page').execute()
-
-  console.log('Delete sojourn')
-  await db.deleteFrom('sojourn').execute()
-
-  console.log('Delete travel')
-  await db.deleteFrom('travel').execute()
-
-  console.log('Delete location')
-  await db.deleteFrom('location').execute()
-
-  console.log('Delete map')
-  await db.deleteFrom('map').execute()
-
-  console.log('Delete story')
-  await db.deleteFrom('story').execute()
+  console.log('Wiping existing data from database')
+  const deleteResult = await errorBoundary(async () => {
+    await db.deleteFrom('page_image_ref').execute()
+    await db.deleteFrom('page_location_ref').execute()
+    await db.deleteFrom('page_map_ref').execute()
+    await db.deleteFrom('page_travel_ref').execute()
+    await db.deleteFrom('page_story_ref').execute()
+    await db.deleteFrom('page_sojourn_ref').execute()
+    await db.deleteFrom('page').execute()
+    await db.deleteFrom('sojourn').execute()
+    await db.deleteFrom('travel').execute()
+    await db.deleteFrom('location').execute()
+    await db.deleteFrom('map').execute()
+    await db.deleteFrom('story').execute()
+  })
+  if (deleteResult instanceof Error) {
+    return new Error('Could not wipe existing database', {
+      cause: deleteResult,
+    })
+  }
 
   const markdocFileList = await getMarkdocFileList(contentDirPath)
   if (markdocFileList instanceof Error) {
-    throw markdocFileList
+    return new Error('Could not read markdoc file list', {
+      cause: markdocFileList,
+    })
   }
 
   // Break down files into types
@@ -479,42 +526,68 @@ const bakeData = async (options: BakeDataOptions) => {
     (file) => file.frontmatter.type ?? 'undefined',
   )
 
-  await pMap(
-    markdocFileListByType.story,
-    async (file) => upsertStory(db, file),
-    { concurrency: 1 },
+  const upsertStoryResult = await errorListBoundary(async () =>
+    pMap(markdocFileListByType.story, async (file) => upsertStory(db, file), {
+      concurrency: 1,
+    }),
   )
+  if (upsertStoryResult instanceof Error) {
+    return upsertStoryResult
+  }
 
-  await pMap(markdocFileListByType.map, async (file) => upsertMap(db, file), {
-    concurrency: 1,
-  })
-
-  await pMap(
-    markdocFileListByType.location,
-    async (file) => upsertLocation(db, file),
-    { concurrency: 1 },
+  const upsertMapResult = await errorListBoundary(async () =>
+    pMap(markdocFileListByType.map, async (file) => upsertMap(db, file), {
+      concurrency: 1,
+    }),
   )
+  if (upsertMapResult instanceof Error) {
+    return upsertMapResult
+  }
 
-  await pMap(
-    markdocFileListByType.travel,
-    async (file) => upsertTravel(db, file),
-    { concurrency: 1 },
+  const upsertLocationResult = await errorListBoundary(async () =>
+    pMap(
+      markdocFileListByType.location,
+      async (file) => upsertLocation(db, file),
+      { concurrency: 1 },
+    ),
   )
+  if (upsertLocationResult instanceof Error) {
+    return upsertLocationResult
+  }
 
-  await pMap(
-    markdocFileListByType.sojourn,
-    async (file) => upsertSojourn(db, file),
-    { concurrency: 1 },
+  const upsertTravelResult = await errorListBoundary(async () =>
+    pMap(markdocFileListByType.travel, async (file) => upsertTravel(db, file), {
+      concurrency: 1,
+    }),
   )
+  if (upsertTravelResult instanceof Error) {
+    return upsertTravelResult
+  }
+
+  const upsertSojournResult = await errorListBoundary(async () =>
+    pMap(
+      markdocFileListByType.sojourn,
+      async (file) => upsertSojourn(db, file),
+      { concurrency: 1 },
+    ),
+  )
+  if (upsertSojournResult instanceof Error) {
+    return upsertSojournResult
+  }
 
   // Insert all pages (filePath + renderableTreeNode)
-  await pMap(
-    markdocFileList,
-    async (file) => upsertPage(db, file, imaginaryConfig),
-    {
-      concurrency: 1,
-    },
+  const upsertPageResult = await errorListBoundary(async () =>
+    pMap(
+      markdocFileList,
+      async (file) => upsertPage(db, file, imaginaryConfig),
+      {
+        concurrency: 1,
+      },
+    ),
   )
+  if (upsertPageResult instanceof Error) {
+    return upsertPageResult
+  }
 }
 
 export { bakeData }

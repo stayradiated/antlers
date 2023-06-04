@@ -27,7 +27,7 @@ const fetchImageInfo = withDebugTime(
 
     return content
   },
-  (source) => `forceFetchImageInfo: ${source}`,
+  (source) => `fetchImageInfo: ${source}`,
 )
 
 export { fetchImageInfo }

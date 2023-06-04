@@ -51,4 +51,7 @@ if (!result.success) {
   throw new Error(JSON.stringify(result.error.format(), null, 2))
 }
 
-await bakeData(result.data)
+const bakeDataResult = await bakeData(result.data)
+if (bakeDataResult instanceof Error) {
+  throw bakeDataResult
+}
