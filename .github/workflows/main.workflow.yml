@@ -60,6 +60,15 @@ jobs:
             ${{ runner.os }}-sqlite-cache
 
       -
+        name: Migrate Database
+        run: |
+          cd packages/db
+          pnpm run build
+          pnpm exec prisma migrate deploy
+        env:
+          DATABASE_URL: "file:../dist/content.db"
+
+      -
         name: Build All The Things
         run: |
           pnpm run build
