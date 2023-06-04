@@ -1,26 +1,28 @@
-import { readFile } from 'node:fs/promises'
 import meow from 'meow'
-import { errorBoundary } from '@stayradiated/error-boundary'
 import z from 'zod'
 import { bakeData } from './index.js'
 
 const cli = meow(
   `
 	Usage
-	  $ antlers
+	  $ antlers <src> <db>
 
 	Options
-	  --config, -c  Path to config file
+	  --img-host    Imaginary host URL
+	  --img-key     Imaginary secret key
 
 	Examples
-	  $ antlers -c ./antlers.json
+	  $ antlers ./src ./dist/content.db --img-host $IMG_HOST --img-key $IMG_KEY
 `,
   {
     importMeta: import.meta,
     flags: {
-      config: {
+      imgHost: {
         type: 'string',
-        shortFlag: 'c',
+        isRequired: true,
+      },
+      imgKey: {
+        type: 'string',
         isRequired: true,
       },
     },
@@ -28,27 +30,25 @@ const cli = meow(
 )
 
 const $Config = z.object({
-  contentDirPath: z.string(),
-  dbPath: z.string(),
-})
-type Config = z.infer<typeof $Config>
-
-const config = await errorBoundary(async (): Promise<Config> => {
-  const configJSON = await readFile(cli.flags.config, 'utf8')
-  return $Config.parse(JSON.parse(configJSON))
+  contentDirPath: z.string().nonempty(),
+  dbPath: z.string().nonempty(),
+  imaginaryConfig: z.object({
+    host: z.string().nonempty(),
+    signatureKey: z.string().nonempty(),
+  }),
 })
 
-if (config instanceof Error) {
-  throw config
+const result = $Config.safeParse({
+  contentDirPath: cli.input.at(0),
+  dbPath: cli.input.at(1),
+  imaginaryConfig: {
+    host: cli.flags.imgHost,
+    signatureKey: cli.flags.imgKey,
+  },
+})
+
+if (!result.success) {
+  throw new Error(JSON.stringify(result.error.format(), null, 2))
 }
 
-await bakeData({
-  ...config,
-  imaginaryConfig: z.object({
-    host: z.string(),
-    signatureKey: z.string(),
-  }).parse({
-    host: process.env['IMAGINARY_HOST'],
-    signatureKey: process.env['IMAGINARY_SIGNATURE_KEY']
-  })
-})
+await bakeData(result.data)

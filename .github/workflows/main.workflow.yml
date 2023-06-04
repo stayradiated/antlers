@@ -30,16 +30,16 @@ jobs:
 
       -
         name: Get pnpm store directory
-        id: pnpm-cache
+        id: pnpm-cache-config
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       -
         # https://github.com/actions/cache
         uses: actions/cache@v3
-        name: Setup pnpm cache
+        name: pnpm-cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ steps.pnpm-cache-config.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -50,9 +50,22 @@ jobs:
           pnpm install
 
       -
+        # https://github.com/actions/cache
+        uses: actions/cache@v3
+        name: sqlite-cache
+        with:
+          path: ./packages/content/dist/
+          key: ${{ runner.os }}-sqlite-cache
+          restore-keys: |
+            ${{ runner.os }}-sqlite-cache
+
+      -
         name: Build All The Things
         run: |
           pnpm run build
+        env:
+          IMAGINARY_HOST: https://img.stayradiated.com
+          IMAGINARY_SIGNATURE_KEY: ${{ secrets.IMAGINARY_SIGNATURE_KEY }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
