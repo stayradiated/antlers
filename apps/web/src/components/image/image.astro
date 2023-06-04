@@ -11,7 +11,8 @@ type Props = {
 
 const { image, alt, title } = Astro.props;
 
-const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image);
+const { aspectRatio, width, height, src, srcSet, sizes } =
+  buildRenderableImage(image);
 ---
 
 <div style={{ flex: aspectRatio }} class="main">
@@ -29,6 +30,7 @@ const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image);
       height={height}
       src={src}
       srcset={srcSet.join(", ")}
+      sizes={sizes}
     />
   </a>
   {alt && <div class="caption">{alt}</div>}

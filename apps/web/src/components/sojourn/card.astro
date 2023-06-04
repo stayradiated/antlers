@@ -3,7 +3,7 @@ import * as dF from "date-fns";
 import Summary from "./summary.astro";
 import cc from "classcat";
 import type { Image } from "~/db.js";
-import CoreImage from "~/components/image/core.astro";
+import SojournCardImage from "./image.astro";
 
 type Props = {
   arriveAt: string;
@@ -41,7 +41,7 @@ const nights = dF.differenceInDays(departAt, arriveAt);
 
 <a href={href} class="link">
   <section class={cc(["container", Boolean(image) && "container-has-image"])}>
-    {image && <CoreImage image={image} class="image" />}
+    {image && <SojournCardImage image={image} class="image" />}
 
     <div class="title">
       <h1 class="location">{location}</h1>
