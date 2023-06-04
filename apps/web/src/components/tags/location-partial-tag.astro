@@ -36,8 +36,8 @@ if (showMap && countryMapFile) {
   const points = [] as Point[]
 
   if (
-    typeof location.latitude === 'string' &&
-    typeof location.longitude === 'string'
+    typeof location.latitude === 'number' &&
+    typeof location.longitude === 'number'
   ) {
     points.push({
       label: location.name,
@@ -48,6 +48,7 @@ if (showMap && countryMapFile) {
   const lines: Line[] = []
 
   for (const node of children) {
+
     switch (node.name) {
       case 'MapPoint': {
         const { label, coordinates, icon } = node.attributes
