@@ -37,12 +37,12 @@ const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image)
   {alt && <div class='caption'>{alt}</div>}
 </div>
 <style>
-.image_Image-main {
+.main {
   position: relative;
   margin-bottom: 8px;
 }
 
-.image_Image-link {
+.link {
   display: block;
   background: rgba(255,255,255,0.1);
 
@@ -53,7 +53,7 @@ const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image)
   background-size: cover;
 }
 
-.image_Image-img {
+.img {
   width: 100%;
   height: auto;
   vertical-align: middle;
@@ -62,11 +62,11 @@ const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image)
 
   transition: opacity 0.3s ease-in;
 }
-.image_Image-main-isLoading .image_Image-img {
+.main-isLoading .img {
   opacity: 0;
 }
 
-.image_Image-placeholder {
+.placeholder {
   position: absolute;
   width: 100%;
   height: auto;
@@ -83,7 +83,7 @@ const { aspectRatio, width, height, src, srcSet } = buildRenderableImage(image)
   transition: opacity 1s ease-in;
 }
 
-.image_Image-caption {
+.caption {
   text-align: center;
   padding: 0.8rem 0 1rem;
   font-style: italic;
