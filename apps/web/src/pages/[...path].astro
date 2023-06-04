@@ -55,8 +55,9 @@ const components = {
 }
 
 const { path = 'index' } = Astro.params;
-const row = await db.getPage(path)
-const content = JSON.parse(row.content)
+
+const page = await db.getPage(path)
+const content = JSON.parse(page.content)
 
 export async function getStaticPaths() {
   const pathList: Array<string|undefined> = await db.getPageIdList()
@@ -69,7 +70,7 @@ export async function getStaticPaths() {
 
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Where is George Czabania?">
 	<main class='container photo-swipe-gallery'>
     <MarkdocRenderer content={content} components={components} />
   </main>
