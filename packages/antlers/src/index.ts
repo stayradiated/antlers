@@ -344,7 +344,6 @@ const upsertPage = async (
   await pMap(
     pageRefImageList,
     async (ref) => {
-      console.log('page_image_ref', ref)
       db.insertInto('page_image_ref')
         .values(ref)
         .onConflict((oc) => oc.columns(['pageId', 'imageId']).doNothing())
@@ -362,7 +361,6 @@ const upsertPage = async (
   await pMap(
     pageRefLocationList,
     async (ref) => {
-      console.log('page_location_ref', ref)
       db.insertInto('page_location_ref')
         .values(ref)
         .onConflict((oc) => oc.columns(['pageId', 'locationId']).doNothing())
@@ -380,7 +378,6 @@ const upsertPage = async (
   await pMap(
     pageRefMapList,
     async (ref) => {
-      console.log('page_map_ref', ref)
       db.insertInto('page_map_ref')
         .values(ref)
         .onConflict((oc) => oc.columns(['pageId', 'mapId']).doNothing())
@@ -398,7 +395,6 @@ const upsertPage = async (
   await pMap(
     pageRefTravelList,
     async (ref) => {
-      console.log('page_travel_ref', ref)
       db.insertInto('page_travel_ref')
         .values(ref)
         .onConflict((oc) => oc.columns(['pageId', 'travelId']).doNothing())
@@ -416,7 +412,6 @@ const upsertPage = async (
   await pMap(
     pageRefStoryList,
     async (ref) => {
-      console.log('page_story_ref', ref)
       db.insertInto('page_story_ref')
         .values(ref)
         .onConflict((oc) => oc.columns(['pageId', 'storyId']).doNothing())

@@ -4,7 +4,8 @@
   "_main": "./index.js",
   "main": "./dist/content.db",
   "scripts": {
-    "build": "env-cmd -x antlers ./src ./dist/content.db --img-host=\\$IMAGINARY_HOST https://img.stayradiated.com --img-key=\\$IMAGINARY_SIGNATURE_KEY"
+    "antlers": "antlers ./src ./dist/content.db --img-host=$IMAGINARY_HOST https://img.stayradiated.com --img-key=$IMAGINARY_SIGNATURE_KEY",
+    "build": "env-cmd --silent $npm_execpath run antlers"
   },
   "dependencies": {
     "@stayradiated/antlers": "workspace:"
