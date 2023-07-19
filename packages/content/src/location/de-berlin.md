@@ -4,7 +4,7 @@ name = "Berlin"
 region = "Berlin"
 country = "Deutschland"
 coordinates = [52.520900, 13.409699]
-countryMapFile="map/belgium.md"
+countryMapFile="map/deutschland.md"
 ---
 
 # {% $name %}
