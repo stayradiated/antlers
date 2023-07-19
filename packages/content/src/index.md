@@ -1,5 +1,7 @@
 [Photostream](/photostream) • [Locations](/location/index)
 
+{% sojournPartial file="2023-07-18-goteborg.md" /%}
+{% sojournPartial file="2023-07-04-berlin.md" /%}
 {% sojournPartial file="2023-05-24-bordeaux.md" /%}
 {% sojournPartial file="2023-05-21-sete.md" /%}
 {% sojournPartial file="2023-05-20-portiragnes.md" /%}
