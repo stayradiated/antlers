@@ -3,6 +3,7 @@ type         = "sojourn"
 arriveAt     = "2023-04-17"
 departAt     = "2023-04-19"
 locationFile = "location/en-ambleside.md"
+image        = "2023/04/18/20230418-065631983.jpg"
 ---
 
 # Ambleside (April 2023)
@@ -16,8 +17,17 @@ locationFile = "location/en-ambleside.md"
 
 ![Parking Tango outside the YHA Ambleside, after a short cycle from the Windermere train station](2023/04/17/20230417-174609238.jpg)
 
-![](2023/04/18/20230418-065631983.jpg)
-![](2023/04/18/20230418-065739563.jpg)
+{% style fullWidth=true %}
+
+{% row %}
+![Windermere on a crisp morning, with Loughrigg Fell in the background](2023/04/18/20230418-065631983.jpg)
+![On the pier, looking back at the hostel waterfront](2023/04/18/20230418-065739563.jpg)
+{% /row %}
+
+{% /style %}
+
+### The Old Man of Coniston
+
 ![](2023/04/18/20230418-090300663.jpg)
 ![](2023/04/18/20230418-101626258.jpg)
 ![](2023/04/18/20230418-103016148.jpg)
