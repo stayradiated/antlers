@@ -1,5 +1,10 @@
 [Photostream](/photostream) • [Locations](/location/index)
 
+{% upcomingSojournList %}
+    {% sojournPartial file="2023-08-15-ambleside.md" /%}
+{% /upcomingSojournList %}
+
+{% sojournPartial file="2023-08-01-lancaster.md" /%}
 {% sojournPartial file="2023-07-25-edinburgh.md" /%}
 {% sojournPartial file="2023-07-18-goteborg.md" /%}
 {% sojournPartial file="2023-07-04-berlin.md" /%}
