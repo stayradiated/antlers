@@ -9,7 +9,9 @@ const fetchImageInfo = withDebugTime(
     source: string,
     imaginaryConfig: ImaginaryConfig,
   ): Promise<FetchImageInfoResult | Error> => {
-    const url = imaginary.sign('/info', source, {}, imaginaryConfig)
+    const url = imaginary.sign('/info', source, {
+      cache_nonce: Date.now().toString()
+    }, imaginaryConfig)
     console.log(url)
 
     const content = await errorBoundary(async () => {
