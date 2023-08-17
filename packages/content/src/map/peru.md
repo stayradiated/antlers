@@ -8,5 +8,5 @@ source = "https://commons.wikimedia.org/wiki/File:Peru_location_map.svg"
 north = 0.73
 south = -19.36
 west = -83.25
-east = 66.75
+east = -66.75
 ---
