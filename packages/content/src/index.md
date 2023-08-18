@@ -3,15 +3,15 @@
 {% upcomingSojournList %}
     {% sojournPartial file="2023-09-16-cusco.md" /%}
     {% sojournPartial file="2023-09-03-lima.md" /%}
-    {% sojournPartial file="2023-08-18-coniston.md" /%}
 {% /upcomingSojournList %}
 
 ## Current Location
 
-{% sojournPartial file="2023-08-15-ambleside.md" /%}
+{% sojournPartial file="2023-08-18-coniston.md" /%}
 
 ## Travel History
 
+{% sojournPartial file="2023-08-15-ambleside.md" /%}
 {% sojournPartial file="2023-08-01-lancaster.md" /%}
 {% sojournPartial file="2023-07-25-edinburgh.md" /%}
 {% sojournPartial file="2023-07-18-goteborg.md" /%}

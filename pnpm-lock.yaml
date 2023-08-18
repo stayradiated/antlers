@@ -41,6 +41,9 @@ importers:
       date-fns:
         specifier: 2.30.0
         version: 2.30.0
+      lazysizes:
+        specifier: 5.3.2
+        version: 5.3.2
       photoswipe:
         specifier: 5.3.8
         version: 5.3.8
@@ -4925,6 +4928,10 @@ packages:
     dependencies:
       package-json: 8.1.1
     dev: true
+
+  /lazysizes@5.3.2:
+    resolution: {integrity: sha512-22UzWP+Vedi/sMeOr8O7FWimRVtiNJV2HCa+V8+peZOw6QbswN9k58VUhd7i6iK5bw5QkYrF01LJbeJe0PV8jg==}
+    dev: false
 
   /lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}

@@ -2,6 +2,7 @@
 import cc from "classcat";
 import type { Image } from "~/db.js";
 import { buildRenderableImage } from "./utils.js";
+import { getImageUrl } from "~/photo.js";
 
 type Props = {
   image: Pick<Image, "id" | "width" | "height">;
@@ -25,12 +26,13 @@ const { aspectRatio, width, height, src, srcSet, sizes } =
   >
     <img
       title={title}
-      class="img"
+      class="img lazyload"
       width={width}
       height={height}
-      src={src}
-      srcset={srcSet.join(", ")}
-      sizes={sizes}
+      src={getImageUrl(image.id, 16)}
+      data-src={src}
+      data-srcset={srcSet.join(", ")}
+      data-sizes="auto"
     />
   </a>
   {alt && <div class="caption">{alt}</div>}
@@ -59,27 +61,11 @@ const { aspectRatio, width, height, src, srcSet, sizes } =
     background-size: cover;
     image-rendering: initial;
 
-    transition: opacity 0.3s ease-in;
+    filter: blur(20px);
+    transition: filter 400ms;
   }
-  .main-isLoading .img {
-    opacity: 0;
-  }
-
-  .placeholder {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    vertical-align: middle;
-
-    /* filter: blur(20px); */
-
-    top: 0;
-    left: 0;
-    z-index: -1;
-    background-size: cover;
-
-    display: 1;
-    transition: opacity 1s ease-in;
+  .img.lazyloaded {
+    filter: blur(0);
   }
 
   .caption {

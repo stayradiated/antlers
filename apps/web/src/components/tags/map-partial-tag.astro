@@ -36,11 +36,11 @@ for (const node of children) {
       const location = await db.getLocation(locationId);
       assert(
         typeof location.latitude === "number",
-        `Location ${locationId} has no latitude`
+        `Location ${locationId} has no latitude`,
       );
       assert(
         typeof location.longitude === "number",
-        `Location ${locationId} has no longitude`
+        `Location ${locationId} has no longitude`,
       );
 
       points.push({

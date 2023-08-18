@@ -20,7 +20,7 @@ const getImageList = (): Promise<Pick<Image, "id" | "width" | "height">[]> => {
     .innerJoin("page_image_ref", "page_image_ref.imageId", "image.id")
     .innerJoin("page", "page.id", "page_image_ref.pageId")
     .where(({ or, cmpr }) =>
-      or([cmpr("page.type", "=", "sojourn"), cmpr("page.type", "=", "story")])
+      or([cmpr("page.type", "=", "sojourn"), cmpr("page.type", "=", "story")]),
     )
     .orderBy("page.id", "desc")
     .execute();
@@ -37,7 +37,7 @@ const getImage = async (id: string): Promise<Image> => {
       .selectFrom("image")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -52,7 +52,7 @@ const getLocation = async (id: string): Promise<Location> => {
       .selectFrom("location")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -69,7 +69,7 @@ const getMap = async (id: string): Promise<Map> => {
       .selectFrom("map")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -85,7 +85,7 @@ const getPage = async (id: string): Promise<Page> => {
       .selectFrom("page")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -100,7 +100,7 @@ const getSojourn = async (id: string): Promise<Sojourn> => {
       .selectFrom("sojourn")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -117,7 +117,7 @@ const getStory = async (id: string): Promise<Story> => {
       .selectFrom("story")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {
@@ -132,7 +132,7 @@ const getTravel = async (id: string): Promise<Travel> => {
       .selectFrom("travel")
       .selectAll()
       .where("id", "=", id)
-      .executeTakeFirstOrThrow()
+      .executeTakeFirstOrThrow(),
   );
 
   if (result instanceof Error) {

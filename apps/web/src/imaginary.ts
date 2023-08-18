@@ -4,7 +4,7 @@ import { env } from "./env.js";
 const sign = (
   path: string,
   source: string,
-  inputParameters: Record<string, string>
+  inputParameters: Record<string, string>,
 ) => {
   const isUrl = source.startsWith("http://") || source.startsWith("https://");
   const parameters = isUrl
@@ -14,7 +14,7 @@ const sign = (
   const queryString = new URLSearchParams(
     [...Object.entries(parameters)].sort((a, b) => {
       return a[0].localeCompare(b[0]);
-    })
+    }),
   ).toString();
 
   const signature = crypto

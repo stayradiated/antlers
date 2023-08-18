@@ -10,7 +10,7 @@ const createKyselyDb = (databaseUrl: string): KyselyDb => {
   fs.mkdirSync(path.dirname(databaseUrl), { recursive: true })
 
   const sqliteDb = createSqliteDb(databaseUrl)
-  sqliteDb.pragma('journal_mode = WAL');
+  sqliteDb.pragma('journal_mode = WAL')
 
   const db = new Kysely<DB>({
     dialect: new SqliteDialect({

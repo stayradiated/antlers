@@ -25,7 +25,7 @@ type Node = {
 
 const createNode = (
   content: RenderableTreeNodes,
-  components?: Components
+  components?: Components,
 ): Node => {
   if (content === undefined) {
     throw new Error("Missing arg: content");
@@ -112,25 +112,25 @@ const assertValidNode = (node: Node): void => {
 };
 
 const shouldRenderInnerHTML = (
-  node: Node
+  node: Node,
 ): node is Omit<Node, "innerHTML"> & { innerHTML: string } => {
   return typeof node.innerHTML !== "undefined";
 };
 
 const shouldRenderNode = (
-  node: Node
+  node: Node,
 ): node is Omit<Node, "node"> & { node: RenderableTreeNode[] } => {
   return Array.isArray(node.node);
 };
 
 const shouldRenderTag = (
-  node: Node
+  node: Node,
 ): node is Omit<Node, "tag"> & { tag: string } => {
   return typeof node.tag !== "undefined";
 };
 
 const shouldRenderChildren = (
-  node: Node
+  node: Node,
 ): node is Omit<Node, "children"> & { children: RenderableTreeNode[] } =>
   Array.isArray(node.children);
 

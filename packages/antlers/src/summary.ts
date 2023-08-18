@@ -1,8 +1,8 @@
 const calcWordCount = (input: string): number => {
   // TODO: there must be a faster algorithm for counting words
   const sanitized = input
-    .replace(/[^\dA-z\s]/g, '')
-    .replace(/\s\s+/g, ' ')
+    .replaceAll(/[^\dA-z\s]/g, '')
+    .replaceAll(/\s\s+/g, ' ')
     .trim()
   if (sanitized.length === 0) {
     return 0

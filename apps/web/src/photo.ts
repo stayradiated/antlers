@@ -1,6 +1,6 @@
 import * as imaginary from "./imaginary.js";
 
-const getImageUrl = (source: string, width: number) => {
+const getImageUrl = (source: string, width: number): string => {
   return imaginary.sign("/resize", source, {
     width: String(width),
     type: "webp",
@@ -20,7 +20,7 @@ const getSquareImageUrl = (source: string, size: number) => {
   });
 };
 
-const getImageUrlList = (source: string, widthList: number[]) => {
+const getImageUrlList = (source: string, widthList: number[]): string[] => {
   return widthList.map((width) => getImageUrl(source, width));
 };
 

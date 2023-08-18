@@ -8,7 +8,7 @@ import type {
 
 const getGlobalDimensions = (
   imageCoordinates: CardinalCoordinates,
-  imageDimensions: Dimensions
+  imageDimensions: Dimensions,
 ): Dimensions => {
   const imageWidthPercent =
     Math.abs(imageCoordinates.west - imageCoordinates.east) / 360;
@@ -21,7 +21,7 @@ const getGlobalDimensions = (
 
 const getPixelAsCoordinate = (
   xy: XY,
-  globalDimensions: Dimensions
+  globalDimensions: Dimensions,
 ): Coordinate => {
   const { x, y } = xy;
   const { width, height } = globalDimensions;
@@ -32,7 +32,7 @@ const getPixelAsCoordinate = (
 
 const getCoordinateAsPixel = (
   coordinate: Coordinate,
-  globalDimensions: Dimensions
+  globalDimensions: Dimensions,
 ): XY => {
   const [latitude, longitude] = coordinate;
   const { width, height } = globalDimensions;
@@ -43,11 +43,11 @@ const getCoordinateAsPixel = (
 
 const getImagePosition = (
   imageCoordinates: CardinalCoordinates,
-  globalDimensions: Dimensions
+  globalDimensions: Dimensions,
 ): ImagePosition => {
   const { x: left, y: top } = getCoordinateAsPixel(
     [imageCoordinates.north, imageCoordinates.west],
-    globalDimensions
+    globalDimensions,
   );
   return { left, top };
 };
@@ -55,11 +55,11 @@ const getImagePosition = (
 const localisePoint = (
   point: Coordinate,
   imageCoordinates: CardinalCoordinates,
-  imageDimensions: Dimensions
+  imageDimensions: Dimensions,
 ): XY => {
   const globalDimensions = getGlobalDimensions(
     imageCoordinates,
-    imageDimensions
+    imageDimensions,
   );
   const xy = getCoordinateAsPixel(point, globalDimensions);
   const imagePosition = getImagePosition(imageCoordinates, globalDimensions);
@@ -72,7 +72,7 @@ const localisePoint = (
 const localisePointPercent = (
   point: Coordinate,
   imageCoordinates: CardinalCoordinates,
-  imageDimensions: Dimensions
+  imageDimensions: Dimensions,
 ): XY => {
   const { x, y } = localisePoint(point, imageCoordinates, imageDimensions);
   return {
@@ -84,11 +84,11 @@ const localisePointPercent = (
 const localiseLine = (
   line: Coordinate[],
   imageCoordinates: CardinalCoordinates,
-  imageDimensions: Dimensions
+  imageDimensions: Dimensions,
 ): XY[] => {
   const globalDimensions = getGlobalDimensions(
     imageCoordinates,
-    imageDimensions
+    imageDimensions,
   );
   const imagePosition = getImagePosition(imageCoordinates, globalDimensions);
 
@@ -105,11 +105,11 @@ const localiseLine = (
 const getPortalCoordinates = (
   portalRelativeToImage: CardinalCoordinates,
   imageCoordinates: CardinalCoordinates,
-  imageDimensions: Dimensions
+  imageDimensions: Dimensions,
 ): CardinalCoordinates => {
   const globalDimensions = getGlobalDimensions(
     imageCoordinates,
-    imageDimensions
+    imageDimensions,
   );
 
   const imagePosition = getImagePosition(imageCoordinates, globalDimensions);
@@ -119,14 +119,14 @@ const getPortalCoordinates = (
       y: imagePosition.top + portalRelativeToImage.north,
       x: imagePosition.left + portalRelativeToImage.west,
     },
-    globalDimensions
+    globalDimensions,
   );
   const southEast = getPixelAsCoordinate(
     {
       y: imagePosition.top + portalRelativeToImage.south,
       x: imagePosition.left + portalRelativeToImage.east,
     },
-    globalDimensions
+    globalDimensions,
   );
 
   return {
