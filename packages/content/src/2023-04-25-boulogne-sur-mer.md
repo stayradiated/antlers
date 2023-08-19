@@ -3,6 +3,7 @@ type         = "sojourn"
 arriveAt     = "2023-04-25"
 departAt     = "2023-04-29"
 locationFile = "location/fr-boulogne-sur-mer.md"
+image        = "2023/04/25/20230425-190637353.jpg"
 ---
 
 # Boulogne-sur-Mer (April 2023)
@@ -10,6 +11,8 @@ locationFile = "location/fr-boulogne-sur-mer.md"
 {% locationPartial file=$locationFile /%} 
 
 ### Crossing the Channel
+
+25th April 2023
 
 {% style fullWidth=true %}
 
@@ -38,6 +41,8 @@ locationFile = "location/fr-boulogne-sur-mer.md"
 
 ### First Day in Boulogne-sur-Mer
 
+25th April 2023
+
 {% style fullWidth=true %}
 
 {% row %}
@@ -59,5 +64,35 @@ locationFile = "location/fr-boulogne-sur-mer.md"
 ![](2023/04/25/20230425-193317829.jpg)
 ![](2023/04/25/20230425-200001461.jpg)
 {% /row %}
+
+{% row %}
+![](2023/04/26/20230426-140551459.jpg)
+![](2023/04/26/20230426-155115479.jpg)
+![](2023/04/26/20230426-160317575.jpg)
+![](2023/04/26/20230426-160848997.jpg)
+{% /row %}
+
+{% row %}
+![](2023/04/26/20230426-161806202.jpg)
+![](2023/04/26/20230426-162705628.jpg)
+![](2023/04/26/20230426-162831483.jpg)
+{% /row %}
+
+![](2023/04/26/20230426-215640796.jpg)
+
+{% /style %}
+
+### Marika arrives in Boulogne-sur-Mer!
+
+{% style fullWidth=true %}
+
+{% row %}
+![](2023/04/27/20230427-111745306.jpg)
+![](2023/04/27/20230427-124852693.jpg)
+![](2023/04/27/20230427-130331561.jpg)
+![](2023/04/27/20230427-144816526-2.jpg)
+{% /row %}
+
+![](2023/04/27/20230427-131104858.jpg)
 
 {% /style %}
