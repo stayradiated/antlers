@@ -19,19 +19,19 @@
   "license": "ISC",
   "dependencies": {
     "@ltd/j-toml": "1.38.0",
-    "@markdoc/markdoc": "0.3.0",
+    "@markdoc/markdoc": "0.3.2",
     "@stayradiated/antlers-db": "workspace:*",
-    "@stayradiated/error-boundary": "4.1.0",
-    "meow": "12.1.0",
+    "@stayradiated/error-boundary": "4.2.1",
+    "meow": "12.1.1",
     "p-map": "6.0.0",
     "ts-pattern": "5.0.5",
     "walk-it": "3.0.0",
-    "zod": "3.22.1"
+    "zod": "3.22.4"
   },
   "devDependencies": {
-    "@types/node": "20.5.0",
-    "typescript": "5.1.6",
-    "vitest": "0.34.2",
+    "@types/node": "20.8.4",
+    "typescript": "5.2.2",
+    "vitest": "0.34.6",
     "xo": "0.56.0"
   },
   "__comment": "The following configs are managed by `@stayradiated/jsconfig`",
