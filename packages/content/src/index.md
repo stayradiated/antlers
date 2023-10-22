@@ -4,6 +4,8 @@
     {% sojournPartial file="2023-11-27-lisbon.md" /%}
 {% /upcomingSojournList %}
 
+{% storyPartial file="story/2023-10-22-cabo.md" /%}
+
 ## Current Location
 
 {% sojournPartial file="2023-09-30-pipa.md" /%}
