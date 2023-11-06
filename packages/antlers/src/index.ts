@@ -39,7 +39,7 @@ const getMarkdocFileList = async (
   contentDirPath: string,
 ): Promise<ParseMarkdocResult[] | Error> => {
   const filePathStream = walkFiles(contentDirPath, {
-    includeFile: ({ name }) => name.endsWith('.md'),
+    filterFile: ({ name }) => name.endsWith('.md'),
   })
 
   const markdocFileList = await errorListBoundary(async () =>
