@@ -1,17 +1,22 @@
 [Photostream](/photostream) • [Locations](/location/index)
 
 {% upcomingSojournList %}
-    {% sojournPartial file="2023-11-27-lisbon.md" /%}
+    {% sojournPartial file="2023-12-14-san-carlos-de-bariloche.md" /%}
+    {% sojournPartial file="2023-12-01-berlin.md" /%}
+    {% sojournPartial file="2023-11-27-lisboa.md" /%}
+    {% sojournPartial file="2023-11-23-lavagnac.md" /%}
+    {% sojournPartial file="2023-11-18-kobenhavn.md" /%}
+    {% sojournPartial file="2023-11-10-madeira.md" /%}
 {% /upcomingSojournList %}
-
-{% storyPartial file="story/2023-10-22-cabo.md" /%}
 
 ## Current Location
 
-{% sojournPartial file="2023-09-30-pipa.md" /%}
+{% sojournPartial file="2023-11-06-lisboa.md" /%}
 
 ## Travel History
 
+{% sojournPartial file="2023-09-30-pipa.md" /%}
+{% storyPartial file="story/2023-10-22-cabo.md" /%}
 {% sojournPartial file="2023-09-16-cusco.md" /%}
 {% sojournPartial file="2023-09-03-lima.md" /%}
 {% sojournPartial file="2023-08-31-london.md" /%}

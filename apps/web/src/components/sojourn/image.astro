@@ -7,8 +7,14 @@ type Props = {
   class?: string | undefined;
 };
 
-const { class: klass, image } = Astro.props;
+const { class: className, image, ...rest } = Astro.props;
 const { src, srcSet, sizes } = buildRenderableImage(image);
 ---
 
-<img class={klass} src={src} srcset={srcSet.join(", ")} sizes={sizes} />
+<img
+  class={className}
+  src={src}
+  srcset={srcSet.join(", ")}
+  sizes={sizes}
+  {...rest}
+/>
