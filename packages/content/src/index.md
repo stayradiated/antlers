@@ -1,19 +1,39 @@
 [Photostream](/photostream) • [Locations](/location/index)
 
 {% upcomingSojournList %}
-    {% sojournPartial file="2023-12-14-san-carlos-de-bariloche.md" /%}
-    {% sojournPartial file="2023-12-01-berlin.md" /%}
-    {% sojournPartial file="2023-11-27-lisboa.md" /%}
-    {% sojournPartial file="2023-11-23-lavagnac.md" /%}
-    {% sojournPartial file="2023-11-18-kobenhavn.md" /%}
-    {% sojournPartial file="2023-11-10-madeira.md" /%}
+    {% sojournPartial file="2024-02-04-playa-del-carmen.md" /%}
+    {% sojournPartial file="2024-02-01-ciudad-de-mexico.md" /%}
+    {% sojournPartial file="2024-01-23-santa-marta.md" /%}
 {% /upcomingSojournList %}
 
 ## Current Location
 
-{% sojournPartial file="2023-11-06-lisboa.md" /%}
+{% sojournPartial file="2024-01-08-buenos-aires.md" /%}
 
 ## Travel History
+
+{% sojournPartial file="2024-01-07-montevideo.md" /%}
+{% sojournPartial file="2024-01-04-maldonado.md" /%}
+{% sojournPartial file="2024-01-03-canelones.md" /%}
+{% sojournPartial file="2024-01-01-buenos-aires.md" /%}
+
+{% sojournPartial file="2023-12-30-el-calafate.md" /%}
+{% sojournPartial file="2023-12-27-el-chalten.md" /%}
+{% sojournPartial file="2023-12-26-puerto-natales.md" /%}
+{% sojournPartial file="2023-12-23-punta-arenas.md" /%}
+{% sojournPartial file="2023-12-20-torres-del-paine.md" /%}
+{% sojournPartial file="2023-12-19-puerto-natales.md" /%}
+{% sojournPartial file="2023-12-14-san-carlos-de-bariloche.md" /%}
+{% sojournPartial file="2023-12-12-madrid.md" /%}
+{% sojournPartial file="2023-12-10-bordeaux.md" /%}
+{% sojournPartial file="2023-12-02-berlin.md" /%}
+
+{% sojournPartial file="2023-11-27-lisboa.md" /%}
+{% sojournPartial file="2023-11-23-bordeaux.md" /%}
+{% sojournPartial file="2023-11-18-malmo.md" /%}
+{% sojournPartial file="2023-11-15-punta-del-sol.md" /%}
+{% sojournPartial file="2023-11-10-funchal.md" /%}
+{% sojournPartial file="2023-11-06-lisboa.md" /%}
 
 {% sojournPartial file="2023-09-30-pipa.md" /%}
 {% storyPartial file="story/2023-10-22-cabo.md" /%}

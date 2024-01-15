@@ -1,8 +1,8 @@
 ---
 type = "location"
-name = "Madeira"
+name = "Funchal"
 region = "Madeira"
 country = "Portugal"
-coordinates = [32.6667, -16.9167]
+coordinates = [32.65, -16.916667]
 countryMapFile = "map/portugal.md"
 ---
