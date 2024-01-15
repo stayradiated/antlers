@@ -1,8 +1,8 @@
 ---
 type = "location"
-name = "Canelones"
-region = "Canelones"
-country = "Uruguay"
-coordinates = [-34.52, -56.28]
-countryMapFile = "map/uruguay.md"
+name = "El Calafate"
+region = "Santa Cruz"
+country = "Argentina"
+coordinates = [-50.337778, -72.264722]
+countryMapFile = "map/argentina.md"
 ---
